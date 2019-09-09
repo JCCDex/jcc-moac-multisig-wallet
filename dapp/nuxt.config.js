@@ -17,7 +17,8 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   router: {
-    mode: "hash"
+    mode: "hash",
+    middleware: ["redirect"]
   },
   /*
    ** Customize the progress-bar color
@@ -42,7 +43,6 @@ export default {
   /*
    ** Build configuration
    */
-
   build: {
     /*
      ** You can extend webpack config here
