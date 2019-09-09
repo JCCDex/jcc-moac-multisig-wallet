@@ -1,0 +1,45 @@
+{
+  "name": "jcc-moac-mutisig-wallet",
+  "version": "1.0.0",
+  "description": "MOAC多签名钱包",
+  "author": "JCCDex",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "generate": "nuxt-ts generate",
+    "start": "nuxt-ts start",
+    "test": "jest",
+    "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "@better-scroll/core": "^2.0.0-beta.2",
+    "@nuxt/typescript-runtime": "^0.1.5",
+    "nuxt": "^2.0.0",
+    "vue-i18n": "^8.14.0"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.2.6",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.1.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "husky": "^3.0.5",
+    "jest": "^24.1.0",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.18.2",
+    "sass-loader": "^8.0.0",
+    "vue-jest": "^4.0.0-0"
+  }
+}
