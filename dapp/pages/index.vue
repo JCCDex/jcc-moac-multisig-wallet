@@ -47,14 +47,6 @@ export default {
         }
       ]
     };
-  },
-  methods: {
-    switchTab(item) {
-      if (item.componentId === this.componentId) {
-        return;
-      }
-      this.componentId = item.componentId;
-    }
   }
 };
 </script>
