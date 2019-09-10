@@ -1,5 +1,9 @@
  {
    "home": "首页",
    "vote": "投票",
-   "mine": "我的"
+   "mine": "我的",
+   "help_center": "帮助中心",
+   "copyright": "开发版权",
+   "withdraw_detail": "提现明细",
+   "locked_position_detail": "锁仓明细"
  }

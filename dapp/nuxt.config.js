@@ -27,7 +27,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["~/style/layout.scss"],
+  css: [
+    "flex.css/dist/flex.css",
+    "~/style/layout.scss",
+    "~/style/arrow.scss",
+    "~/style/icon.scss"
+  ],
   /*
    ** Plugins to load before mounting the App
    */

@@ -1,0 +1,27 @@
+.arrow {
+  position: relative;
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: '';
+    border-top: 6px transparent dashed;
+    border-left: 6px transparent dashed;
+    border-right: 6px transparent dashed;
+    border-bottom: 6px #fff solid;
+  }
+
+  &:before {
+    text-align: center;
+    border-bottom: 6px #4c4f54 solid;
+  }
+
+  &:after {
+    top: 1px;
+    border-bottom: 6px #fff solid;
+  }
+
+  &.arrow-right {
+    transform: rotate(90deg);
+  }
+}
