@@ -15,5 +15,6 @@
    "withdraw_amount": "提现数量{colon}",
    "withdraw_percent": "提现比例{colon}",
    "moac": "MOAC",
-   "token_amount": "{amount} {token}"
+   "token_amount": "{amount} {token}",
+   "company": "安徽井畅数字技术有限公司"
  }

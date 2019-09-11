@@ -5,3 +5,17 @@
   fill: currentColor;
   overflow: hidden;
 }
+
+@mixin icon() {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.mutisig-wallet-icon-jingchang {
+  @include icon();
+  height: 40px;
+  width: 40px;
+  background-image: url("../assets/image/jingchang.png");
+}

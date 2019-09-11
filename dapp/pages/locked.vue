@@ -77,6 +77,7 @@
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
 import Pullup from "@better-scroll/pull-up";
+import throttle from "lodash/throttle";
 
 import WalletHeader from "@/components/header";
 BScroll.use(PullDown);
@@ -122,12 +123,12 @@ export default {
           stop: STOP
         },
         pullUpLoad: {
-          threshold: THRESHOLD
+          threshold: 0
         }
       });
 
-      this.bscroll.on("pullingDown", this.pullingDownHandler);
-      this.bscroll.on("pullingUp", this.pullingUpHandler);
+      this.bscroll.on("pullingDown", throttle(this.pullingDownHandler, 1000));
+      this.bscroll.on("pullingUp", throttle(this.pullingUpHandler, 1000));
     },
     async pullingDownHandler() {
       this.beforePullDown = false;
