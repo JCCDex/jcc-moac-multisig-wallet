@@ -38,12 +38,12 @@ export default {
         {
           name: this.$t("locked_position_detail"),
           icon: "#icon-locked-detail",
-          to: "/locked"
+          to: "/locked/list"
         },
         {
           name: this.$t("withdraw_detail"),
           icon: "#icon-withdraw-detail",
-          to: "/withdraw"
+          to: "/withdraw/list"
         },
         {
           name: this.$t("help_center"),
