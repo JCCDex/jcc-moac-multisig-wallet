@@ -14,14 +14,14 @@
             style="background-color: #fff;"
           >
             <div class="mutisig-wallet-tab-bar-item-wrap">
-              <router-link
+              <div
                 v-for="(tab, key) in tabs"
                 :key="key"
                 flex="main:center cross:center"
                 class="mutisig-wallet-tab-bar-item"
-                :to="tab.to"
+                @click="goto(tab)"
               >
-                <svg class="icon" aria-hidden="true">
+                <svg class="mutisig-wallet-icon" aria-hidden="true">
                   <use
                     :xlink:href="
                       tab.to === currentRoute ? tab.activeIcon : tab.icon
@@ -29,12 +29,12 @@
                   />
                 </svg>
                 <div
-                  style="margin-top: 3px;"
+                  style="margin-top: 3px;font-size: 12px;"
                   :style="{ color: tab.to === currentRoute ? '#0B1F5D' : '' }"
                 >
                   {{ $t(tab.name) }}
                 </div>
-              </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -73,6 +73,11 @@ export default {
   computed: {
     currentRoute() {
       return this.$route.path;
+    }
+  },
+  methods: {
+    goto(cell) {
+      this.$router.push(cell.to);
     }
   }
 };

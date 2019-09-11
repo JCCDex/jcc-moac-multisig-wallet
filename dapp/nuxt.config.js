@@ -14,6 +14,7 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
+    script: [],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   router: {
@@ -32,7 +33,8 @@ export default {
     "flex.css/dist/flex.css",
     "~/style/layout.scss",
     "~/style/arrow.scss",
-    "~/style/icon.scss"
+    "~/style/icon.scss",
+    "~/style/scroll.scss"
   ],
   /*
    ** Plugins to load before mounting the App

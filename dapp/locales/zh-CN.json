@@ -5,5 +5,12 @@
    "help_center": "帮助中心",
    "copyright": "开发版权",
    "withdraw_detail": "提现明细",
-   "locked_position_detail": "锁仓明细"
+   "locked_position_detail": "锁仓明细",
+   "pull_down_refresh": "下拉刷新",
+   "loading": "加载中...",
+   "pull_down_refresh_success": "刷新成功",
+   "locked_amount": "锁仓数量{colon}",
+   "locked_percent": "锁仓比例{colon}",
+   "moac": "MOAC",
+   "token_amount": "{amount} {token}"
  }
