@@ -28,6 +28,7 @@ export default {
    ** Global CSS
    */
   css: [
+    "~/assets/iconfont/index.js",
     "flex.css/dist/flex.css",
     "~/style/layout.scss",
     "~/style/arrow.scss",

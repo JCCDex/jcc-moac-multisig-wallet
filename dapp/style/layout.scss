@@ -48,11 +48,9 @@
       position: relative;
       box-sizing: border-box;
       height: 50px;
-      border-top: 1px solid #ddd;
       width: 100%;
       display: flex;
       transition-duration: 0.2s;
-      transition-property: height bottom;
       z-index: 100;
       justify-content: space-around;
       align-items: center;

@@ -9,7 +9,10 @@
         @click="goto(cell)"
       >
         <div flex="main:justify cross:center">
-          <i :class="cell.icon" style="margin-right: 14px;" /> {{ cell.name }}
+          <svg class="icon" aria-hidden="true" style="margin-right: 15px;">
+            <use :xlink:href="cell.icon" />
+          </svg>
+          {{ cell.name }}
         </div>
         <i class="arrow arrow-right" style="bottom: 6px;" />
       </div>
@@ -27,26 +30,22 @@ export default {
       return [
         {
           name: this.$t("locked_position_detail"),
-          route: "/locked",
-          icon: "locked-icon",
+          icon: "#icon-locked-detail",
           to: "/locked"
         },
         {
           name: this.$t("withdraw_detail"),
-          route: "/withdraw",
-          icon: "withdraw-icon",
+          icon: "#icon-withdraw-detail",
           to: "/withdraw"
         },
         {
           name: this.$t("help_center"),
-          route: "/help",
-          icon: "help-icon",
+          icon: "#icon-help",
           to: "/help"
         },
         {
           name: this.$t("copyright"),
-          route: "/copyright",
-          icon: "copyright-icon",
+          icon: "#icon-copyright",
           to: "/copyright"
         }
       ];

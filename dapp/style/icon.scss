@@ -1,28 +1,7 @@
-@mixin icon() {
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  width: 22px;
-  height: 22px;
-}
-
-.withdraw-icon {
-  @include icon();
-  background-image: url('../assets/image/withdraw.png');
-}
-
-.help-icon {
-  @include icon();
-  background-image: url('../assets/image/help.png');
-}
-
-.copyright-icon {
-  @include icon();
-  background-image: url('../assets/image/copyright.png');
-}
-
-.locked-icon {
-  @include icon();
-  background-image: url('../assets/image/locked.png');
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }

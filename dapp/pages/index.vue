@@ -7,17 +7,33 @@
             class="mutisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;"
           >
-            <nuxt-child />
+            <nuxt-child keep-alive />
           </div>
-          <div class="mutisig-wallet-tab-bar-wrap">
+          <div
+            class="mutisig-wallet-tab-bar-wrap"
+            style="background-color: #fff;"
+          >
             <div class="mutisig-wallet-tab-bar-item-wrap">
               <router-link
-                v-for="(item, key) in tabs"
+                v-for="(tab, key) in tabs"
                 :key="key"
+                flex="main:center cross:center"
                 class="mutisig-wallet-tab-bar-item"
-                :to="item.componentId"
+                :to="tab.to"
               >
-                {{ $t(item.tab) }}
+                <svg class="icon" aria-hidden="true">
+                  <use
+                    :xlink:href="
+                      tab.to === currentRoute ? tab.activeIcon : tab.icon
+                    "
+                  />
+                </svg>
+                <div
+                  style="margin-top: 3px;"
+                  :style="{ color: tab.to === currentRoute ? '#0B1F5D' : '' }"
+                >
+                  {{ $t(tab.name) }}
+                </div>
               </router-link>
             </div>
           </div>
@@ -34,19 +50,30 @@ export default {
     return {
       tabs: [
         {
-          componentId: "/home",
-          tab: "home"
+          to: "/home",
+          name: "home",
+          activeIcon: "#icon-home-selected",
+          icon: "#icon-home"
         },
         {
-          componentId: "/vote",
-          tab: "vote"
+          to: "/vote",
+          name: "vote",
+          activeIcon: "#icon-vote-selected",
+          icon: "#icon-vote"
         },
         {
-          componentId: "/mine",
-          tab: "mine"
+          to: "/mine",
+          name: "mine",
+          activeIcon: "#icon-mine-selected",
+          icon: "#icon-mine"
         }
       ]
     };
+  },
+  computed: {
+    currentRoute() {
+      return this.$route.path;
+    }
   }
 };
 </script>
