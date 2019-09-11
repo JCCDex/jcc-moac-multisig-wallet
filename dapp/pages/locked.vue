@@ -30,31 +30,28 @@
                     </div>
                   </div>
                 </div>
+
                 <div
                   v-for="(item, index) in dataList"
                   :key="index"
-                  class="mutisig-wallet-withdraw-cell"
+                  class="mutisig-wallet-locked-cell"
+                  flex="main:center dir:top"
                 >
-                  <div
-                    class="mutisig-wallet-withdraw-cell"
-                    flex="main:center dir:top"
-                  >
-                    <div class="mutisig-wallet-withdraw-cell-time" flex>
-                      {{ item }}
+                  <div class="mutisig-wallet-locked-cell-time" flex>
+                    {{ item }}
+                  </div>
+                  <div flex="main:justify cross:center">
+                    <div>
+                      {{ $t("locked_amount", { colon: "：" })
+                      }}{{
+                        $t("token_amount", {
+                          amount: item,
+                          token: $t("moac")
+                        })
+                      }}
                     </div>
-                    <div flex="main:justify cross:center">
-                      <div>
-                        {{ $t("locked_amount", { colon: "：" })
-                        }}{{
-                          $t("token_amount", {
-                            amount: item,
-                            token: $t("moac")
-                          })
-                        }}
-                      </div>
-                      <div>
-                        {{ $t("locked_percent", { colon: "：" }) }}{{ item }}%
-                      </div>
+                    <div>
+                      {{ $t("locked_percent", { colon: "：" }) }}{{ item }}%
                     </div>
                   </div>
                 </div>
@@ -157,7 +154,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-withdraw-cell {
+.mutisig-wallet-locked-cell {
   height: 60px;
   font-size: 12px;
   border-bottom: 1px solid #e2e6f1;
@@ -166,7 +163,7 @@ export default {
   //   border-bottom: 1px solid #e2e6f1;
   // }
 
-  .mutisig-wallet-withdraw-cell-time {
+  .mutisig-wallet-locked-cell-time {
     margin-bottom: 4px;
   }
 }
