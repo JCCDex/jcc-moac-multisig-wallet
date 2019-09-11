@@ -34,12 +34,13 @@ export default {
     "~/style/layout.scss",
     "~/style/arrow.scss",
     "~/style/icon.scss",
-    "~/style/scroll.scss"
+    "~/style/scroll.scss",
+    "~/style/override-vant.scss"
   ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/i18n.js"],
+  plugins: ["~/plugins/vant.js", "~/plugins/i18n.js"],
   /*
    ** Nuxt.js dev-modules
    */
