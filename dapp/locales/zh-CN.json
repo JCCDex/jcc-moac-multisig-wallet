@@ -8,6 +8,7 @@
    "locked_position_detail": "锁仓明细",
    "pull_down_refresh": "下拉刷新",
    "loading": "加载中...",
+   "pull_up_more": "上拉加载更多",
    "pull_down_refresh_success": "刷新成功",
    "locked_amount": "锁仓数量{colon}",
    "locked_percent": "锁仓比例{colon}",

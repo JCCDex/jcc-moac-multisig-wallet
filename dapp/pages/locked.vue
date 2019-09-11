@@ -55,6 +55,15 @@
                     </div>
                   </div>
                 </div>
+
+                <div v-if="!beforePullUp" class="pullup-wrapper">
+                  <div v-if="!isPullUpLoad" class="before-trigger">
+                    <span>{{ $t("pull_up_more") }}</span>
+                  </div>
+                  <div v-else class="after-trigger">
+                    <span>{{ $t("loading") }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -67,9 +76,11 @@
 <script>
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
+import Pullup from "@better-scroll/pull-up";
 
 import WalletHeader from "@/components/header";
 BScroll.use(PullDown);
+BScroll.use(Pullup);
 
 function getOneRandomList(step = 0) {
   const arr = Array.apply(null, { length: step }).map((...args) => args[1]);
@@ -80,7 +91,7 @@ const TIME_BOUNCE = 800;
 const TIME_STOP = 600;
 const THRESHOLD = 70;
 const STOP = 56;
-let STEP = 10;
+let STEP = 1;
 
 export default {
   components: {
@@ -88,6 +99,8 @@ export default {
   },
   data() {
     return {
+      beforePullUp: true,
+      isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
       dataList: getOneRandomList(STEP)
@@ -107,10 +120,14 @@ export default {
         pullDownRefresh: {
           threshold: THRESHOLD,
           stop: STOP
+        },
+        pullUpLoad: {
+          threshold: THRESHOLD
         }
       });
 
       this.bscroll.on("pullingDown", this.pullingDownHandler);
+      this.bscroll.on("pullingUp", this.pullingUpHandler);
     },
     async pullingDownHandler() {
       this.beforePullDown = false;
@@ -119,6 +136,18 @@ export default {
 
       this.isPullingDown = false;
       this.finishPullDown();
+    },
+    async pullingUpHandler() {
+      this.beforePullUp = false;
+      this.isPullUpLoad = true;
+      STEP += 1;
+      await this.requestData();
+
+      this.bscroll.finishPullUp();
+      this.bscroll.refresh();
+
+      this.isPullUpLoad = false;
+      this.beforePullUp = true;
     },
     async finishPullDown() {
       const stopTime = TIME_STOP;
