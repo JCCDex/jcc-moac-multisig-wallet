@@ -1,0 +1,10 @@
+@import "./mixin.scss";
+
+.mutisig-wallet-small-font-size {
+  @include px2px("font-size", 12);
+
+}
+
+.mutisig-wallet-large-font-size {
+  @include px2px("font-size", 15);
+}

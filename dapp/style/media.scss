@@ -1,0 +1,48 @@
+@charset "utf-8";
+/*
+1、写入CSS的尺寸/屏幕宽度 = UI图标注的尺寸/UI图宽度
+即：写入CSS的尺寸 = (UI图标注的尺寸*屏幕宽度)/UI图宽度
+2、我们将根元素设置为100px，则1rem=100px
+然而为了不失真要计算出对应的比例，于是1rem = 屏幕宽度/UI设计图宽度*100px
+即：屏幕640px，给的设计稿宽640px，那么这种情况下1rem就表示100px
+如果屏幕320px，给的设计稿宽640px，那么这种情况下1rem就表示50px
+要想做成响应式，只需要配合@media计算好对应屏幕下html font-size的值。
+当然为了好计算，我们全部以100px为基准
+3、于是：写入CSS的尺寸 = UI图标注的尺寸/100px*1rem
+*/
+// 计算rem的基准字体
+$rem-base-font-size: 100px;
+// UI设计图的分辨率宽度
+$UI-width: 750px;
+// 需要适配的屏幕宽度
+$device-widths: 240px,
+320px,
+360px,
+375px,
+384px,
+411px,
+414px,
+424px,
+480px,
+540px,
+640px,
+720px,
+750px,
+768px,
+800px,
+980px,
+1024px,
+1080px,
+1152px,
+1366px,
+1440px,
+2160px;
+
+//根据不同设备的屏幕宽度，定义<html>的基准font-size
+@each $current-width in $device-widths {
+  @media (min-width: $current-width) {
+    html {
+      font-size: $current-width * $rem-base-font-size/$UI-width;
+    }
+  }
+}

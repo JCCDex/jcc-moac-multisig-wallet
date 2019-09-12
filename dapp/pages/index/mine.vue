@@ -10,9 +10,9 @@
       >
         <div flex="main:justify cross:center">
           <svg
-            class="mutisig-wallet-icon"
+            class="mutisig-wallet-icon mutisig-wallet-icon-large"
             aria-hidden="true"
-            style="margin-right: 15px;"
+            style="margin-right: 0.15rem;"
           >
             <use :xlink:href="cell.icon" />
           </svg>
@@ -20,7 +20,7 @@
         </div>
         <i
           class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
-          style="bottom: 6px;"
+          style="bottom: 0.06rem;"
         />
       </div>
     </div>
@@ -68,14 +68,14 @@ export default {
 <style lang="scss">
 .mutisig-wallet-mine-wrap {
   background-color: #fff;
-  margin-top: 10px;
-  padding: 0 15px;
+  margin-top: 0.2rem;
+  padding: 0 0.15rem;
 
   .mutisig-wallet-mine-cell {
-    height: 60px;
+    height: 1.2rem;
 
     &:not(:first-of-type) {
-      border-top: 1px solid #e2e6f1;
+      border-top: 0.01rem solid #e2e6f1;
     }
   }
 }

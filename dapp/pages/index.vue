@@ -1,6 +1,6 @@
 <template>
   <div class="mutisig-wallet-container">
-    <div style="position: fixed; height: 100%; width: 100%; top: 0px;">
+    <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="mutisig-wallet-tab-bar">
         <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
           <div
@@ -29,7 +29,8 @@
                   />
                 </svg>
                 <div
-                  style="margin-top: 3px;font-size: 12px;"
+                  style="margin-top: 0.05rem;"
+                  class="mutisig-wallet-small-font-size"
                   :style="{ color: tab.to === currentRoute ? '#0B1F5D' : '' }"
                 >
                   {{ $t(tab.name) }}

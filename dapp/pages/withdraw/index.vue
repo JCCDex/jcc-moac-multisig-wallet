@@ -1,5 +1,5 @@
 <template>
   <div>
-    <nuxt />
+    提现页面
   </div>
 </template>

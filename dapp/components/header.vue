@@ -1,5 +1,8 @@
 <template>
-  <header class="mutisig-wallet-header" flex="main:center cross:center">
+  <header
+    class="mutisig-wallet-header mutisig-wallet-large-font-size"
+    flex="main:center cross:center"
+  >
     {{ title }}
   </header>
 </template>
@@ -16,10 +19,9 @@ export default {
 <style lang="scss">
 .mutisig-wallet-header {
   position: relative;
-  height: 40px;
+  height: 0.8rem;
   width: 100%;
-  line-height: 40px;
+  line-height: 0.8rem;
   background-color: #fff;
-  font-size: 16px;
 }
 </style>

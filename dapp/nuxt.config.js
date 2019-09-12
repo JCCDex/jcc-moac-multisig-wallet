@@ -7,7 +7,6 @@ export default {
     title: "MOAC多签名钱包",
     meta: [
       { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         hid: "description",
         name: "description",
@@ -29,18 +28,22 @@ export default {
    ** Global CSS
    */
   css: [
+    "~/style/media.scss",
+    "~/style/default.scss",
+    "~/style/base.scss",
     "~/assets/iconfont/index.js",
     "flex.css/dist/flex.css",
     "~/style/layout.scss",
     "~/style/arrow.scss",
     "~/style/icon.scss",
     "~/style/scroll.scss",
-    "~/style/override-vant.scss"
+    "~/style/override-vant.scss",
+    "~/style/animation.scss"
   ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/vant.js", "~/plugins/i18n.js"],
+  plugins: ["~/plugins/dpr.js", "~/plugins/vant.js", "~/plugins/i18n.js"],
   /*
    ** Nuxt.js dev-modules
    */

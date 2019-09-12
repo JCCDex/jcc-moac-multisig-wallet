@@ -1,0 +1,31 @@
+//定义一个mixin 根据不同dpr将px值转化成相应的dpr的px值。
+/*
+  @params $name 是css属性 比如width,top,font-size等
+  @params $px 像素值
+*/
+@mixin px2px($name, $px) {
+  #{$name}: round($px)*1px;
+
+  [data-dpr='2'] & {
+    #{$name}: $px*2px;
+  }
+
+  // for mx3
+  [data-dpr="2.5"] & {
+    #{$name}: round($px * 2.5) * 1px;
+  }
+
+  // for 小米note
+  [data-dpr="2.75"] & {
+    #{$name}: round($px * 2.75) * 1px;
+  }
+
+  [data-dpr="3"] & {
+    #{$name}: round($px * 3) * 1px
+  }
+
+  // for 三星note4
+  [data-dpr="4"] & {
+    #{$name}: $px * 2px;
+  }
+}

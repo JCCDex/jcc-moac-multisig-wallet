@@ -1,5 +1,5 @@
 <template>
   <div>
-    <nuxt />
+    锁仓页面
   </div>
 </template>

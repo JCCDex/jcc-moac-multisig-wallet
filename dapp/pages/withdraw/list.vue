@@ -1,6 +1,6 @@
 <template>
   <div class="mutisig-wallet-container">
-    <div style="position: fixed; height: 100%; width: 100%; top: 0px;">
+    <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="mutisig-wallet-tab-bar">
         <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
           <div
@@ -11,13 +11,13 @@
             <div
               ref="scroll"
               class="scroll-wrapper"
-              style="margin-top: 10px; background-color: #fff;height: calc(100% - 50px);"
+              style="margin-top: 0.1rem; background-color: #fff;height: calc(100% - 0.9rem);"
             >
               <div
                 class="scroll-content"
-                style="padding:0 14px 5px 14px; min-height: calc(100% + 1px)"
+                style="min-height: calc(100% + 0.01rem);position: relative;"
               >
-                <div class="pulldown-wrapper">
+                <div class="pulldown-wrapper mutisig-wallet-small-font-size">
                   <div v-show="beforePullDown">
                     <span>{{ $t("pull_down_refresh") }}</span>
                   </div>
@@ -30,28 +30,29 @@
                     </div>
                   </div>
                 </div>
-
-                <div
-                  v-for="(item, index) in dataList"
-                  :key="index"
-                  class="mutisig-wallet-withdraw-cell"
-                  flex="main:center dir:top"
-                >
-                  <div class="mutisig-wallet-withdraw-cell-time" flex>
-                    {{ item }}
-                  </div>
-                  <div flex="main:justify cross:center">
-                    <div>
-                      {{ $t("withdraw_amount", { colon: "：" })
-                      }}{{
-                        $t("token_amount", {
-                          amount: item,
-                          token: $t("moac")
-                        })
-                      }}
+                <div style="padding:0 0.28rem 0.05rem 0.28rem;">
+                  <div
+                    v-for="(item, index) in dataList"
+                    :key="index"
+                    class="mutisig-wallet-withdraw-cell"
+                    flex="main:center dir:top"
+                  >
+                    <div class="mutisig-wallet-withdraw-cell-time" flex>
+                      {{ item }}
                     </div>
-                    <div>
-                      {{ $t("withdraw_percent", { colon: "：" }) }}{{ item }}%
+                    <div flex="main:justify cross:center">
+                      <div>
+                        {{ $t("withdraw_amount", { colon: "：" })
+                        }}{{
+                          $t("token_amount", {
+                            amount: item,
+                            token: $t("moac")
+                          })
+                        }}
+                      </div>
+                      <div>
+                        {{ $t("withdraw_percent", { colon: "：" }) }}{{ item }}%
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -154,17 +155,15 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-withdraw-cell {
-  height: 60px;
-  font-size: 12px;
-  border-bottom: 1px solid #e2e6f1;
+@import "@/style/mixin.scss";
 
-  // &:not(:last-of-type) {
-  //   border-bottom: 1px solid #e2e6f1;
-  // }
+.mutisig-wallet-withdraw-cell {
+  height: 1.2rem;
+  @include px2px("font-size", 12);
+  border-bottom: 0.01rem solid #e2e6f1;
 
   .mutisig-wallet-withdraw-cell-time {
-    margin-bottom: 4px;
+    margin-bottom: 0.08rem;
   }
 }
 </style>

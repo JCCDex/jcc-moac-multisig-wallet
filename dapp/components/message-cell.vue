@@ -1,5 +1,5 @@
 <template>
   <div>
-    <nuxt />
+    message item
   </div>
 </template>

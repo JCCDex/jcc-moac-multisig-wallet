@@ -5,20 +5,20 @@
   &:after {
     position: absolute;
     content: '';
-    border-top: 6px transparent dashed;
-    border-left: 6px transparent dashed;
-    border-right: 6px transparent dashed;
-    border-bottom: 6px #fff solid;
+    border-top: 0.12rem transparent dashed;
+    border-left: 0.12rem transparent dashed;
+    border-right: 0.12rem transparent dashed;
+    border-bottom: 0.12rem #fff solid;
   }
 
   &:before {
     text-align: center;
-    border-bottom: 6px #4c4f54 solid;
+    border-bottom: 0.12rem #4c4f54 solid;
   }
 
   &:after {
-    top: 1px;
-    border-bottom: 6px #fff solid;
+    top: 0.02rem;
+    border-bottom: 0.12rem #fff solid;
   }
 
   &.mutisig-wallet-arrow-right {
