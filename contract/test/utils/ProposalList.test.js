@@ -9,7 +9,7 @@ contract('ProposalList', (accounts) => {
   // 配置变动:投票通过百分比
   let TYPE_CONFIG_PERCENT = 2;
   // 提现
-  let TYPE_WITHDRAW = 3;
+  // let TYPE_WITHDRAW = 3;
   // 选举投票人
   let TYPE_VOTE = 4;
   // 罢免投票人

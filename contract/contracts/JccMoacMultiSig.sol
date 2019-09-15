@@ -115,6 +115,9 @@ contract JccMoacMultiSig is Administrative {
     return _percent;
   }
 
+  function getVoters() public view returns (address[]) {
+    return _voters.getAddress(0, _voters.count());
+  }
   event CreateProposal(uint indexed topicId, uint indexed voteType, uint indexed value, address target);
 
   // 发起变更投票人数百分比配置的提案,只有投票人才能发起这个提议
@@ -151,7 +154,7 @@ contract JccMoacMultiSig is Administrative {
   // 发起罢免投票人提案,只有投票人才能发起这个提议
   function createRecallProposal(uint topicId, uint timestamp, uint endtime, address target) public returns (bool) {
     require(!_onlyonce, "admin does not configure yet");
-    require(_voters.count() > 3, "at least 3 voter");
+    require(_voters.count() >= 3, "at least 3 voter");
     require(_voters.exist(target), "must recall exist voter");
     require(_voters.exist(msg.sender), "only voter can commit");
 
@@ -165,6 +168,7 @@ contract JccMoacMultiSig is Administrative {
   // 发起提现提案,只有充值人才能发起这个提议
   function createWithdrawProposal(uint topicId, uint timestamp, uint endtime, uint amount) public returns (bool) {
     require(!_onlyonce, "admin does not configure yet");
+    require(_stopDeposit, "only withdraw after set stop deposit flag");
 
     uint _bd = _balanceOfDeposit.balance(msg.sender);
     uint _bw = _balanceOfWithdraw.balance(msg.sender);
@@ -196,11 +200,18 @@ contract JccMoacMultiSig is Administrative {
     return _proposals.getTopic(topicId);
   }
 
+  event Vote(uint indexed topicId, uint indexed timestamp, bool indexed confirm);
   // 对提案进行投票
   function voteTopic(uint topicId, uint timestamp, bool confirm) public returns (bool) {
     require(!_onlyonce, "admin does not configure yet");
     require(_voters.exist(msg.sender), "only voter can commit");
-    return _proposals.voteTopic(topicId, timestamp, msg.sender, confirm);
+
+    if (_proposals.voteTopic(topicId, timestamp, msg.sender, confirm)) {
+      emit Vote(topicId, timestamp, confirm);
+      return true;
+    }
+
+    return false;
   }
 
   function getDetailIdxs(uint topicId) public view returns (bytes32[]) {
@@ -227,22 +238,23 @@ contract JccMoacMultiSig is Administrative {
     uint len = 0;
     for (uint i = 0; i < _voting.length; i++) {
       Proposal.topic memory t = _proposals.getTopic(_voting[i]);
+      // 提案已经超时
+      if (t.endtime <= endtime && block.timestamp >= endtime.div(1000)) {
+        ret[len] = t;
+        len = len.add(1);
+        continue;
+      }
+
       uint _totalVote = t.yesCount.add(t.noCount);
       // 如果有投票的，那么按照规则计算投票是否通过
       if (_totalVote > 0) {
         uint _resultYes = t.yesCount.mul(100).div(_voters.count());
         uint _resultNo = t.noCount.mul(100).div(_voters.count());
         // 投票结果符合规则
-        if (_resultYes >= _percent || _resultNo >= _percent) {
+        if (_resultYes > _percent || _resultNo > _percent) {
           ret[len] = t;
           len = len.add(1);
         }
-        continue;
-      }
-      // 提案已经超时
-      if (t.endtime <= endtime) {
-        ret[len] = t;
-        len = len.add(1);
       }
     }
 
@@ -404,5 +416,13 @@ contract JccMoacMultiSig is Administrative {
   function getWithdrawBalance(address _addr) public view returns (uint)
   {
     return _balanceOfWithdraw.balance(_addr);
+  }
+  // 不接受匿名的资金转账
+  function() public payable {
+    require(false, "never receive funds in fallback function");
+  }
+  // 自杀时的资金转移
+  function kill() public onlyAdministrator {
+    selfdestruct(msg.sender);
   }
 }
