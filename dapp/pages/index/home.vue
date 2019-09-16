@@ -17,7 +17,11 @@
           >
             {{ $t("latest_message") }}
           </div>
-          <div class="mutisig-wallet-small-font-size" style="color: #A6A8B2;">
+          <div
+            class="mutisig-wallet-small-font-size"
+            style="color: #A6A8B2;"
+            @click="goto('/message')"
+          >
             {{ $t("more_messages") }}
           </div>
         </div>
@@ -62,6 +66,9 @@ export default {
         scrollY: true,
         click: true
       });
+    },
+    goto(route) {
+      this.$router.push(route);
     }
   }
 };
