@@ -28,9 +28,9 @@
 
 <script>
 import BScroll from "@better-scroll/core";
-import HomeHeader from "@/components/home-header";
-import HomeMiddle from "@/components/home-middle";
-import HomeMessage from "@/components/home-message";
+import HomeHeader from "@/components/home/home-header";
+import HomeMiddle from "@/components/home/home-middle";
+import HomeMessage from "@/components/home/home-message";
 
 export default {
   name: "Home",

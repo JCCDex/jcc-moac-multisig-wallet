@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import MessageCell from "./message-cell";
+import MessageCell from "@/components/message/message-cell";
 export default {
   components: {
     MessageCell
@@ -18,7 +18,13 @@ export default {
     messages: {
       type: Array,
       default() {
-        return [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+        return [
+          { type: 0 },
+          { type: 1 },
+          { type: 2 },
+          { type: 3 },
+          { type: 4 }
+        ];
       }
     }
   }

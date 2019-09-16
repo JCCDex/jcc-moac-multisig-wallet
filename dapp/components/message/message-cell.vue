@@ -4,17 +4,7 @@
     flex="main:justify cross:center"
   >
     <div flex="cross:center">
-      <div
-        flex="main:center cross:center"
-        style="height: 0.8rem; width:0.8rem;background-color: #F2F5FF;border-radius:0.4rem;"
-      >
-        <svg
-          class="mutisig-wallet-icon mutisig-wallet-icon-large"
-          aria-hidden="true"
-        >
-          <use xlink:href="#icon-withdraw" />
-        </svg>
-      </div>
+      <component :is="componentId" />
       <div style="margin-left:0.19rem;">
         <div>
           <span class="mutisig-wallet-large-font-size" style="color: #0B1F5D;">
@@ -39,13 +29,38 @@
   </div>
 </template>
 <script>
+import LockIcon from "./locked-icon";
+import ModifyVotePercentIcon from "./modify-vote-percent-icon";
+import RecallVoterIcon from "./recall-voter-icon";
+import VoteApplyIcon from "./vote-apply-icon";
+import WithdrawApplyIcon from "./withdraw-apply-icon";
+
 export default {
+  components: {
+    LockIcon,
+    ModifyVotePercentIcon,
+    RecallVoterIcon,
+    VoteApplyIcon,
+    WithdrawApplyIcon
+  },
   props: {
     message: {
       type: Object,
       default() {
         return {};
       }
+    }
+  },
+  computed: {
+    componentId() {
+      let maps = new Map([
+        [0, "LockIcon"],
+        [1, "ModifyVotePercentIcon"],
+        [2, "RecallVoterIcon"],
+        [3, "VoteApplyIcon"],
+        [4, "WithdrawApplyIcon"]
+      ]);
+      return maps.get(this.message.type);
     }
   }
 };
