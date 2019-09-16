@@ -2,9 +2,16 @@
 
 .mutisig-wallet-small-font-size {
   @include px2px("font-size", 12);
+}
 
+.mutisig-wallet-normal-font-size {
+  @include px2px("font-size", 13);
 }
 
 .mutisig-wallet-large-font-size {
   @include px2px("font-size", 15);
+}
+
+.mutisig-wallet-larger-font-size {
+  @include px2px("font-size", 16);
 }

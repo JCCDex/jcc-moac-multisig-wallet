@@ -16,5 +16,12 @@
    "withdraw_percent": "提现比例{colon}",
    "moac": "MOAC",
    "token_amount": "{amount} {token}",
-   "company": "安徽井畅数字技术有限公司"
+   "company": "安徽井畅数字技术有限公司",
+   "to_lock": "我要锁仓",
+   "to_withdraw": "我要提现",
+   "moac_wallet": "MOAC钱包",
+   "lock_amount": "锁仓：{amount}个",
+   "vote_amount": "带投票事项：{amount}个",
+   "more_messages": "更多消息",
+   "latest_message": "最新消息"
  }

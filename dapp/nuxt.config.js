@@ -29,6 +29,7 @@ export default {
    */
   css: [
     "~/style/media.scss",
+    "~/style/button.scss",
     "~/style/default.scss",
     "~/style/base.scss",
     "~/assets/iconfont/index.js",
