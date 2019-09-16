@@ -2,6 +2,7 @@
   <div
     class="multisig-wallet-message-cell-container"
     flex="main:justify cross:center"
+    @click="goto('/message/detail')"
   >
     <div flex="cross:center">
       <component :is="componentId" />
@@ -61,6 +62,11 @@ export default {
         [4, "WithdrawApplyIcon"]
       ]);
       return maps.get(this.message.type);
+    }
+  },
+  methods: {
+    goto(route) {
+      this.$router.push(route);
     }
   }
 };

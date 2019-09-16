@@ -98,6 +98,7 @@ export default {
     initBscroll() {
       this.bscroll = new BScroll(this.$refs.scroll, {
         scrollY: true,
+        click: true,
         bounceTime: TIME_BOUNCE,
         pullDownRefresh: {
           threshold: THRESHOLD,
