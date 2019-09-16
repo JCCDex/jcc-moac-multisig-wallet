@@ -43,5 +43,7 @@
    "max_withdraw": "可提数量：{amount} {token}",
    "locked_amount_tip": "必须为1000的倍数",
    "withdraw": "提现",
-   "lock": "锁仓"
+   "lock": "锁仓",
+   "recall-voter": "罢免投票人",
+   "vote_percent": "投票通过百分比"
  }
