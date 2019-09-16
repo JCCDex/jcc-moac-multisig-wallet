@@ -39,7 +39,8 @@ export default {
     "~/style/icon.scss",
     "~/style/scroll.scss",
     "~/style/override-vant.scss",
-    "~/style/animation.scss"
+    "~/style/animation.scss",
+    "~/style/input.scss"
   ],
   /*
    ** Plugins to load before mounting the App

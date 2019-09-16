@@ -91,3 +91,5 @@ sw.*
 *.swp
 
 test
+
+components/input.vue

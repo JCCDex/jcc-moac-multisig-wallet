@@ -23,5 +23,25 @@
    "lock_amount": "锁仓：{amount}个",
    "vote_amount": "带投票事项：{amount}个",
    "more_messages": "更多消息",
-   "latest_message": "最新消息"
+   "latest_message": "最新消息",
+   "lock_declare": "锁仓说明",
+   "withdraw_declare": "提现说明",
+   "locked_tips": [
+     "1.最低锁仓数量为10000MOAC，必须为1000的倍数",
+     "2.锁仓的即可以是投票人，也可以不是投票人，参与签名的都是投票人",
+     "3.锁仓和投票权不一定重合，锁仓人只有提议发起权力，是否调动资金看投票结果",
+     "4.锁仓成功后，将在未来按比例释放提现"
+   ],
+   "withdraw_tips": [
+     "1.检查该钱包锁仓余额，提现金额不能超过锁仓余额",
+     "2.提现请求提交后，不是立即提现，而是发起了一个提现的提案，让投票者进行投票，按照比例投票",
+     "3.一旦触发投票规则，最后一个有效票同时发起转账",
+     "4.提现和充值必须是同一个钱包"
+   ],
+   "accept_agreement": "我已认真阅读，同意上述条款",
+   "max_locked": "最多可锁仓：{amount} {token}",
+   "max_withdraw": "可提数量：{amount} {token}",
+   "locked_amount_tip": "必须为1000的倍数",
+   "withdraw": "提现",
+   "lock": "锁仓"
  }

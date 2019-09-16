@@ -68,6 +68,7 @@ export default {
   .multisig-wallet-home-header-wallet-container {
     height: 0.38rem;
     background-color: #5777da;
+    border-radius: 0.06rem;
     min-width: 170px;
     width: 1.7rem;
     color: #edf2ff;
