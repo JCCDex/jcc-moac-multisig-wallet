@@ -16,13 +16,13 @@
 
     <div>
       <button
-        class="multisig-wallet-button"
+        class="mutisig-wallet-button"
         style="width: 1.4rem;border-radius: 0.4rem;background-color: #476EEA;height:0.7rem;line-height:0.7rem"
       >
         赞成
       </button>
       <button
-        class="multisig-wallet-button"
+        class="mutisig-wallet-button"
         style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem"
       >
         反对

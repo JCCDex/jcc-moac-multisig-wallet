@@ -1,6 +1,6 @@
 <template>
   <div
-    class="multisig-wallet-message-cell-container"
+    class="mutisig-wallet-message-cell-container"
     flex="main:justify cross:center"
     @click="goto('/message/detail')"
   >
@@ -72,7 +72,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-message-cell-container {
+.mutisig-wallet-message-cell-container {
   height: 1.4rem;
   margin: 0 0.29rem 0 0.31rem;
 

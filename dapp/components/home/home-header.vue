@@ -1,8 +1,8 @@
 <template>
-  <div class="multisig-wallet-home-header-container">
+  <div class="mutisig-wallet-home-header-container">
     <div
       flex="main:center cross:center"
-      class="multisig-wallet-home-header-wallet-container mutisig-wallet-small-font-size"
+      class="mutisig-wallet-home-header-wallet-container mutisig-wallet-small-font-size"
     >
       <svg
         class="mutisig-wallet-icon mutisig-wallet-icon-small"
@@ -59,13 +59,13 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-home-header-container {
+.mutisig-wallet-home-header-container {
   height: 2.32rem;
   background-color: #0b1f5d;
   border-radius: 0 0 0.12rem 0.12rem;
   padding: 0.2rem 0.27rem;
 
-  .multisig-wallet-home-header-wallet-container {
+  .mutisig-wallet-home-header-wallet-container {
     height: 0.38rem;
     background-color: #5777da;
     border-radius: 0.06rem;

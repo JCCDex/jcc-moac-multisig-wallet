@@ -12,7 +12,7 @@
               class="scroll-wrapper"
               style="margin-top:0.1rem; height: calc(100% - 0.1rem);"
             >
-              <div class="multisig-wallet-message-detail-container">
+              <div class="mutisig-wallet-message-detail-container">
                 <p
                   class="mutisig-wallet-large-font-size"
                   style="color: #0B1F5D"
@@ -65,7 +65,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-message-detail-container {
+.mutisig-wallet-message-detail-container {
   background-color: #fff;
   padding: 0.23rem;
   color: #6b6e73;

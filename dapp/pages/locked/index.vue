@@ -14,7 +14,7 @@
               style="height: calc(100% - 0.8rem);background-color: #fff;"
             >
               <div>
-                <div class="multisig-wallet-lock-tip-container">
+                <div class="mutisig-wallet-lock-tip-container">
                   <p v-for="(tip, index) in $t('locked_tips')" :key="index">
                     {{ tip }}
                   </p>
@@ -30,7 +30,7 @@
                     {{ $t("accept_agreement") }}
                   </div>
                 </div>
-                <div class="multisig-wallet-lock-bottom-container">
+                <div class="mutisig-wallet-lock-bottom-container">
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
                   <wallet-input ref="input">
                     <span
@@ -50,7 +50,7 @@
                   </div>
 
                   <button
-                    class="multisig-wallet-button multisig-wallet-lock-button"
+                    class="mutisig-wallet-button mutisig-wallet-lock-button"
                     style="width: 100%;margin-top:1.24rem;"
                   >
                     {{ $t("lock") }}
@@ -99,7 +99,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-lock-tip-container {
+.mutisig-wallet-lock-tip-container {
   padding: 0.24rem 0.24rem 0.45rem 0.3rem;
   color: #4c4f54;
   background-color: #f2f4fb;
@@ -113,7 +113,7 @@ export default {
   }
 }
 
-.multisig-wallet-lock-bottom-container {
+.mutisig-wallet-lock-bottom-container {
   padding: 0.3rem;
 
   > p {

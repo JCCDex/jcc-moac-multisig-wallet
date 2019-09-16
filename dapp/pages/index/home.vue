@@ -10,7 +10,7 @@
       <home-message>
         <div
           flex="main:justify cross:center"
-          class="multisig-wallet-message-header"
+          class="mutisig-wallet-message-header"
         >
           <div
             style="border-left: 0.04rem solid #0B1F5D; padding-left: 0.08rem;color: #242D3D"
@@ -74,7 +74,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-message-header {
+.mutisig-wallet-message-header {
   height: 0.8rem;
   margin: 0 0.3rem;
   border-bottom: 0.01rem solid #e2e6f1;

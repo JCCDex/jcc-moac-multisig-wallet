@@ -14,7 +14,7 @@
               style="height: calc(100% - 0.8rem);  background-color: #fff;"
             >
               <div>
-                <div class="multisig-wallet-withdraw-tip-container">
+                <div class="mutisig-wallet-withdraw-tip-container">
                   <p v-for="(tip, index) in $t('withdraw_tips')" :key="index">
                     {{ tip }}
                   </p>
@@ -30,7 +30,7 @@
                     {{ $t("accept_agreement") }}
                   </div>
                 </div>
-                <div class="multisig-wallet-withdraw-bottom-container">
+                <div class="mutisig-wallet-withdraw-bottom-container">
                   <p>{{ $t("withdraw_amount", { colon: "：" }) }}</p>
                   <wallet-input ref="input">
                     <span
@@ -49,7 +49,7 @@
                   </div>
 
                   <button
-                    class="multisig-wallet-button multisig-wallet-withdraw-button"
+                    class="mutisig-wallet-button mutisig-wallet-withdraw-button"
                     style="width: 100%;margin-top:1.24rem;"
                   >
                     {{ $t("withdraw") }}
@@ -98,7 +98,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.multisig-wallet-withdraw-tip-container {
+.mutisig-wallet-withdraw-tip-container {
   padding: 0.24rem 0.24rem 0.45rem 0.3rem;
   color: #4c4f54;
   background-color: #f2f4fb;
@@ -112,7 +112,7 @@ export default {
   }
 }
 
-.multisig-wallet-withdraw-bottom-container {
+.mutisig-wallet-withdraw-bottom-container {
   padding: 0.3rem;
 
   > p {

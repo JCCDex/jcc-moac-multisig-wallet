@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <input v-model="value" type="number" class="multisig-wallet-input" />
+    <input v-model="value" type="number" class="mutisig-wallet-input" />
     <slot />
   </div>
 </template>

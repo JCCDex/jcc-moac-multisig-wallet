@@ -2,7 +2,7 @@
   <div style="padding:0.26rem 0 0.1rem 0;">
     <div flex="main:justify cross:center" style="padding:0 0.5rem;">
       <button
-        class="multisig-wallet-button multisig-wallet-recall-button"
+        class="mutisig-wallet-button mutisig-wallet-recall-button"
         style="width: 3rem;"
         flex="main:center cross:center"
       >
@@ -19,7 +19,7 @@
       </button>
 
       <button
-        class="multisig-wallet-button multisig-wallet-vote-button"
+        class="mutisig-wallet-button mutisig-wallet-vote-button"
         style="width: 3rem;min-width: 300px;"
         flex="main:center cross:center"
       >
