@@ -37,13 +37,13 @@
                   flex="dir:top cross: center"
                 >
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
-                  <wallet-input ref="input">
-                    <span
-                      style="position:absolute; top:0.2rem; right: 0.2rem;bottom:0.2rem;"
-                    >
-                      MOAC
-                    </span>
-                  </wallet-input>
+                  <van-cell-group>
+                    <van-field center type="number">
+                      <span slot="button" size="small" type="primary">
+                        MOAC
+                      </span>
+                    </van-field>
+                  </van-cell-group>
                   <div
                     flex="main:justify cross:center"
                     style="margin-top: 0.24rem;"
@@ -74,12 +74,10 @@
 <script>
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
-import WalletInput from "@/components/input";
 export default {
   name: "Withdraw",
   components: {
-    WalletHeader,
-    WalletInput
+    WalletHeader
   },
   data() {
     return {

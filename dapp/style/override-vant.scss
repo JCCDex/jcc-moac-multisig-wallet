@@ -1,8 +1,24 @@
+@import "./mixin.scss";
+
+
 .van-icon-close:before {
   content: "\F042" !important;
   color: #CAD1E8;
 }
 
 .van-action-sheet {
+  color: #4C4F54 !important;
+}
+
+.van-cell {
+  height: 0.8rem !important;
+  border: 0.01rem solid #C3C4CB !important;
+  border-radius: 0.08rem;
+  color: #4C4F54;
+  @include px2px("font-size", 14);
+}
+
+.van-field__control,
+.van-cell__value--alone {
   color: #4C4F54 !important;
 }
