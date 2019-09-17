@@ -6,12 +6,9 @@
   >
     <div
       class="scroll-content"
-      style="min-height: calc(100% + 0.01rem);position: relative;"
+      style="min-height: calc(100vh - 4.35rem);position: relative;"
     >
-      <div
-        class="pulldown-wrapper mutisig-wallet-small-font-size"
-        style="padding-bottom:0.2rem;"
-      >
+      <div class="pulldown-wrapper mutisig-wallet-small-font-size">
         <div v-show="beforePullDown">
           <span>{{ $t("pull_down_refresh") }}</span>
         </div>

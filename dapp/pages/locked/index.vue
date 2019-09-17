@@ -10,10 +10,11 @@
             <wallet-header :title="$t('lock_declare')" />
             <div
               ref="lockScroll"
+              flex
               class="scroll-wrapper"
               style="height: calc(100% - 0.8rem);background-color: #fff;"
             >
-              <div>
+              <div flex="dir:top cross: center">
                 <div class="mutisig-wallet-lock-tip-container">
                   <p v-for="(tip, index) in $t('locked_tips')" :key="index">
                     {{ tip }}
@@ -30,7 +31,11 @@
                     {{ $t("accept_agreement") }}
                   </div>
                 </div>
-                <div class="mutisig-wallet-lock-bottom-container">
+                <div
+                  class="mutisig-wallet-lock-bottom-container"
+                  flex-box="1"
+                  flex="dir:top cross: center"
+                >
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
                   <wallet-input ref="input">
                     <span
@@ -49,12 +54,14 @@
                     <span>{{ $t("locked_amount_tip") }}</span>
                   </div>
 
-                  <button
-                    class="mutisig-wallet-button mutisig-wallet-lock-button"
-                    style="width: 100%;margin-top:1.24rem;"
-                  >
-                    {{ $t("lock") }}
-                  </button>
+                  <div flex-box="1" flex="cross:bottom">
+                    <button
+                      class="mutisig-wallet-button mutisig-wallet-lock-button"
+                      style="width: 100%;"
+                    >
+                      {{ $t("lock") }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

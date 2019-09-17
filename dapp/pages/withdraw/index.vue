@@ -10,10 +10,11 @@
             <wallet-header :title="$t('withdraw_declare')" />
             <div
               ref="scroll"
+              flex
               class="scroll-wrapper"
               style="height: calc(100% - 0.8rem);  background-color: #fff;"
             >
-              <div>
+              <div flex="dir:top cross: center">
                 <div class="mutisig-wallet-withdraw-tip-container">
                   <p v-for="(tip, index) in $t('withdraw_tips')" :key="index">
                     {{ tip }}
@@ -30,7 +31,11 @@
                     {{ $t("accept_agreement") }}
                   </div>
                 </div>
-                <div class="mutisig-wallet-withdraw-bottom-container">
+                <div
+                  class="mutisig-wallet-withdraw-bottom-container"
+                  flex-box="1"
+                  flex="dir:top cross: center"
+                >
                   <p>{{ $t("withdraw_amount", { colon: "：" }) }}</p>
                   <wallet-input ref="input">
                     <span
@@ -48,12 +53,14 @@
                     }}</span>
                   </div>
 
-                  <button
-                    class="mutisig-wallet-button mutisig-wallet-withdraw-button"
-                    style="width: 100%;margin-top:1.24rem;"
-                  >
-                    {{ $t("withdraw") }}
-                  </button>
+                  <div flex-box="1" flex="cross:bottom">
+                    <button
+                      class="mutisig-wallet-button mutisig-wallet-withdraw-button"
+                      style="width: 100%;margin-top:1.24rem;"
+                    >
+                      {{ $t("withdraw") }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
