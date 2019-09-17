@@ -1,5 +1,5 @@
 <template>
-  <div ref="scroll" class="mutisig-wallet-container">
+  <div class="mutisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="mutisig-wallet-tab-bar">
         <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
@@ -14,10 +14,17 @@
               {{ $t("click_to_recall") }}
             </div>
             <div
-              flex="dir:top cross: center"
-              class="mutisig-wallet-recall-container"
+              ref="scroll"
+              class="scroll-wrapper"
+              style="background-color: #fff;height: calc(100% - 1.66rem);"
             >
-              <voter-cell v-for="(item, key) in 3" :key="key" />
+              <div
+                flex="dir:top cross: center"
+                class="mutisig-wallet-recall-container"
+                style="min-height: calc(100% + 0.01rem)"
+              >
+                <voter-cell v-for="(item, key) in 15" :key="key" />
+              </div>
             </div>
           </div>
         </div>
