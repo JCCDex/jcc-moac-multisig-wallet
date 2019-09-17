@@ -41,7 +41,7 @@
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 export default {
-  name: "Withdraw",
+  name: "ModifyPercent",
   components: {
     WalletHeader
   },

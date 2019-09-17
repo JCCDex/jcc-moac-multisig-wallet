@@ -5,6 +5,7 @@
         class="mutisig-wallet-button mutisig-wallet-recall-button"
         style="width: 3rem;"
         flex="main:center cross:center"
+        @click="goto('/proposal/recall')"
       >
         <div
           class="mutisig-wallet-icon-circle"
@@ -15,7 +16,7 @@
             <use xlink:href="#icon-recall-voter" />
           </svg>
         </div>
-        {{ $t("recall-voter") }}
+        {{ $t("recall_voter") }}
       </button>
 
       <button

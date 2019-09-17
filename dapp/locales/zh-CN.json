@@ -44,9 +44,10 @@
    "locked_amount_tip": "必须为1000的倍数",
    "withdraw": "提现",
    "lock": "锁仓",
-   "recall-voter": "罢免投票人",
+   "recall_voter": "罢免投票人",
    "vote_percent": "投票通过百分比",
    "modify_confirm": "确定修改",
    "current_percent": "当前比例：{percent}",
-   "modify_percent": "修改比例："
+   "modify_percent": "修改比例：",
+   "click_to_recall": "点击选择要罢免的投票人："
  }
