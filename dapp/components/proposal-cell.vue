@@ -2,6 +2,7 @@
   <div
     class="mutisig-wallet-proposal-cell-container"
     flex="main:justify cross:center"
+    @click="goto('/proposal/detail')"
   >
     <div flex="cross:center">
       <svg class="mutisig-wallet-icon" aria-hidden="true">

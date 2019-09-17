@@ -34,6 +34,11 @@
     background-color: #877DE7;
   }
 
+  &.mutisig-wallet-small-button {
+    height: 0.6rem;
+    line-height: 0.6rem;
+  }
+
   &::before {
     position: absolute;
     top: 50%;
