@@ -22,6 +22,7 @@
         class="mutisig-wallet-button mutisig-wallet-vote-button"
         style="width: 3rem;min-width: 300px;"
         flex="main:center cross:center"
+        @click="goto('/proposal/modifyPercent')"
       >
         <div
           class="mutisig-wallet-icon-circle"

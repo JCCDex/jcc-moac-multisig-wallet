@@ -37,13 +37,11 @@
                   flex="dir:top cross: center"
                 >
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
-                  <van-cell-group>
-                    <van-field center type="number">
-                      <span slot="button" size="small" type="primary">
-                        MOAC
-                      </span>
-                    </van-field>
-                  </van-cell-group>
+                  <van-field center type="number">
+                    <span slot="button" size="small" type="primary">
+                      MOAC
+                    </span>
+                  </van-field>
                   <div
                     flex="main:justify cross:center"
                     style="margin-top: 0.24rem;"

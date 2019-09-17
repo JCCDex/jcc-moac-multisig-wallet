@@ -38,13 +38,11 @@
                 >
                   <p>{{ $t("withdraw_amount", { colon: "：" }) }}</p>
 
-                  <van-cell-group>
-                    <van-field center type="number">
-                      <span slot="button" size="small" type="primary">
-                        MOAC
-                      </span>
-                    </van-field>
-                  </van-cell-group>
+                  <van-field center type="number">
+                    <span slot="button" size="small" type="primary">
+                      MOAC
+                    </span>
+                  </van-field>
 
                   <div
                     flex="main: justify cross:center"
@@ -58,7 +56,7 @@
                   <div flex-box="1" flex="cross:bottom">
                     <button
                       class="mutisig-wallet-button mutisig-wallet-withdraw-button"
-                      style="width: 100%;margin-top:1.24rem;"
+                      style="width: 100%;"
                     >
                       {{ $t("withdraw") }}
                     </button>
