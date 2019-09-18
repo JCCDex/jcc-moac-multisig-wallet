@@ -102,7 +102,7 @@
 import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
-import { isValidLockedAmount } from "@/js/util";
+import { isValidAmount } from "@/js/util";
 export default {
   name: "Withdraw",
   components: {
@@ -121,7 +121,9 @@ export default {
       const value = parseFloat(this.value);
       return (
         this.agree &&
-        isValidLockedAmount(value) &&
+        isValidAmount(value) &&
+        value % 1000 === 0 &&
+        new BigNumber(value).isGreaterThanOrEqualTo(10000) &&
         new BigNumber(value).isLessThan(this.amount)
       );
     },

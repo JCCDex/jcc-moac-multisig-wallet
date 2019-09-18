@@ -53,8 +53,12 @@
    "proposal_detail": "提案明细",
    "vote_confirm": "确认投票",
    "lock_confirm": "确认锁仓",
+   "withdraw_confirm": "确认提现",
    "vote_action_sheet_title": "投票确认",
    "lock_action_sheet_title": "锁仓确认",
+   "withdraw_action_sheet_title": "提现确认",
    "lock_action_sheet_amount": "锁仓数量：{amount} {token}",
+   "withdraw_action_sheet_amount": "提现数量：{amount} {token}",
+   "withdraw_action_sheet_percent": "提现比例：{percent}",
    "pls_input_amount": "请输入数量"
  }

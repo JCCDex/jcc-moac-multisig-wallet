@@ -20,13 +20,17 @@
                     {{ tip }}
                   </p>
 
-                  <div flex="cross:center" style="margin-top: 2.35rem;">
+                  <div
+                    flex="cross:center"
+                    style="margin-top: 1.35rem;"
+                    @click="acceptAgreement"
+                  >
                     <svg
                       class="mutisig-wallet-icon mutisig-wallet-icon-small"
                       aria-hidden="true"
                       style="margin-right: 0.1rem;"
                     >
-                      <use xlink:href="#icon-unselected" />
+                      <use :xlink:href="icon" />
                     </svg>
                     {{ $t("accept_agreement") }}
                   </div>
@@ -38,9 +42,14 @@
                 >
                   <p>{{ $t("withdraw_amount", { colon: "：" }) }}</p>
 
-                  <van-field center type="number">
+                  <van-field
+                    v-model="value"
+                    center
+                    type="number"
+                    :placeholder="$t('pls_input_amount')"
+                  >
                     <span slot="button" size="small" type="primary">
-                      MOAC
+                      {{ $t("moac") }}
                     </span>
                   </van-field>
 
@@ -55,8 +64,10 @@
 
                   <div flex-box="1" flex="cross:bottom">
                     <button
+                      :disabled="!withdrawEnable"
                       class="mutisig-wallet-button mutisig-wallet-withdraw-button"
                       style="width: 100%;"
+                      @click="show = true"
                     >
                       {{ $t("withdraw") }}
                     </button>
@@ -68,11 +79,38 @@
         </div>
       </div>
     </div>
+    <van-action-sheet v-model="show" :title="$t('withdraw_action_sheet_title')">
+      <p style="text-align:left;margin-top:0.45rem;">
+        {{
+          $t("withdraw_action_sheet_amount", {
+            amount: value,
+            token: $t("moac")
+          })
+        }}
+      </p>
+      <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
+        {{
+          $t("withdraw_action_sheet_percent", {
+            percent
+          })
+        }}
+      </p>
+
+      <button
+        class="mutisig-wallet-button mutisig-wallet-confirm-button"
+        style="width:100%;"
+      >
+        {{ $t("withdraw_confirm") }}
+      </button>
+    </van-action-sheet>
   </div>
 </template>
 <script>
+import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
+import { isValidAmount } from "@/js/util";
+
 export default {
   name: "Withdraw",
   components: {
@@ -80,8 +118,29 @@ export default {
   },
   data() {
     return {
-      amount: "1000"
+      amount: "1000",
+      value: "",
+      agree: false,
+      show: false
     };
+  },
+  computed: {
+    withdrawEnable() {
+      const value = parseFloat(this.value);
+      return (
+        this.agree &&
+        isValidAmount(value) &&
+        value > 0 &&
+        new BigNumber(value).isLessThanOrEqualTo(this.amount)
+      );
+    },
+    icon() {
+      return this.agree ? "#icon-selected" : "#icon-unselected";
+    },
+    percent() {
+      const percent = (this.value / this.amount) * 100;
+      return percent.toFixed(2) + "%";
+    }
   },
   mounted() {
     this.init();
@@ -98,6 +157,9 @@ export default {
         scrollY: true,
         click: true
       });
+    },
+    acceptAgreement() {
+      this.agree = !this.agree;
     }
   }
 };
