@@ -4,9 +4,11 @@
     flex="main:justify cross:center"
     @click="goto('/message/detail')"
   >
-    <div flex="cross:center">
+    <div flex="cross:center" style="width: calc(100% - 0.4rem)">
       <component :is="componentId" />
-      <div style="margin-left:0.19rem;">
+      <div
+        style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)"
+      >
         <div>
           <span class="mutisig-wallet-large-font-size" style="color: #0B1F5D;">
             {{ `提现申请` }}
@@ -18,8 +20,13 @@
             {{ `3分钟前` }}
           </span>
         </div>
-        <div style="color: #6B6E73;text-align:left;margin-top:0.04rem;">
-          {{ `xxx申请提现` }}
+        <div
+          class="van-ellipsis"
+          style="color: #6B6E73;text-align:left;margin-top:0.04rem;"
+        >
+          {{
+            `xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现`
+          }}
         </div>
       </div>
     </div>

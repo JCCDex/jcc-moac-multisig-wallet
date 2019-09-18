@@ -4,12 +4,14 @@
     flex="main:justify cross:center"
     @click="goto('/proposal/detail')"
   >
-    <div flex="cross:center">
+    <div flex="cross:center" style="width:calc(100% - 0.4rem)">
       <svg class="mutisig-wallet-icon" aria-hidden="true">
         >
         <use xlink:href="#icon-unselected" />
       </svg>
-      <div style="margin-left:0.19rem;">
+      <div
+        style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 0.8rem)"
+      >
         <div>
           <span class="mutisig-wallet-large-font-size" style="color: #181C24;">
             {{ `提现申请` }}
@@ -21,8 +23,13 @@
             {{ `3分钟前` }}
           </span>
         </div>
-        <div style="color: #6B6E73;text-align:left;margin-top:0.04rem;">
-          {{ `xxx申请提现` }}
+        <div
+          class="van-ellipsis"
+          style="color: #6B6E73;text-align:left;margin-top:0.04rem;"
+        >
+          {{
+            `xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现`
+          }}
         </div>
       </div>
     </div>
