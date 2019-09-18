@@ -42,19 +42,44 @@
       flex="main:center cross:center"
       class="mutisig-wallet-proposal-choose-container mutisig-wallet-large-font-size"
     >
-      <p class="active" style="margin-right: 1.5rem">
+      <p
+        :class="{ active: !isProposed }"
+        style="margin-right: 1.5rem"
+        @click="changeProposalType('toPropose')"
+      >
         待决提案
       </p>
-      <p>已决提案</p>
+      <p
+        :class="{ active: isProposed }"
+        @click="changeProposalType('proposed')"
+      >
+        已决提案
+      </p>
     </div>
   </div>
 </template>
 <script>
+import bus from "@/js/bus";
+
 export default {
   name: "VoteHeader",
+  data() {
+    return {
+      type: "toPropose"
+    };
+  },
+  computed: {
+    isProposed() {
+      return this.type === "proposed";
+    }
+  },
   methods: {
     goto(route) {
       this.$router.push(route);
+    },
+    changeProposalType(type) {
+      this.type = type;
+      bus.$emit("changeProposalType", type);
     }
   }
 };

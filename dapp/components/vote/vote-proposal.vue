@@ -22,7 +22,11 @@
         </div>
       </div>
       <div style="background-color: #fff">
-        <proposal-cell v-for="(item, index) in dataList" :key="index" />
+        <proposal-cell
+          v-for="(item, index) in dataList"
+          :key="index"
+          :proposal="item"
+        />
       </div>
 
       <div
@@ -46,19 +50,19 @@ import PullDown from "@better-scroll/pull-down";
 import Pullup from "@better-scroll/pull-up";
 import throttle from "lodash/throttle";
 import ProposalCell from "@/components/proposal-cell";
+import bus from "@/js/bus";
 BScroll.use(PullDown);
 BScroll.use(Pullup);
 
-function getOneRandomList(step = 0) {
-  const arr = Array.apply(null, { length: step }).map((...args) => args[1]);
-  return arr.sort(() => Math.random() - 0.5);
+function getOneRandomList(type) {
+  const proposal = { type: type, checked: true };
+  return proposal;
 }
 
 const TIME_BOUNCE = 800;
 const TIME_STOP = 600;
 const THRESHOLD = 70;
 const STOP = 56;
-let STEP = 5;
 
 export default {
   components: {
@@ -70,11 +74,16 @@ export default {
       isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
-      dataList: getOneRandomList(STEP)
+      type: "toPropose",
+      dataList: [getOneRandomList("toPropose")]
     };
   },
   created() {
     this.bscroll = null;
+    bus.$on("changeProposalType", this.refresh);
+  },
+  beforeDestroy() {
+    bus.$off("changeProposalType", this.refresh);
   },
   mounted() {
     this.initBscroll();
@@ -97,6 +106,16 @@ export default {
       this.bscroll.on("pullingDown", throttle(this.pullingDownHandler, 1000));
       this.bscroll.on("pullingUp", throttle(this.pullingUpHandler, 1000));
     },
+    async refresh(type) {
+      this.type = type;
+      this.dataList = [];
+      this.bscroll.closePullUp();
+      this.bscroll.scrollTo(0, 0);
+      await this.pullingDownHandler();
+      this.bscroll.openPullUp({
+        threshold: 500
+      });
+    },
     async pullingDownHandler() {
       this.beforePullDown = false;
       this.isPullingDown = true;
@@ -108,7 +127,6 @@ export default {
     async pullingUpHandler() {
       this.beforePullUp = false;
       this.isPullUpLoad = true;
-      STEP += 1;
       await this.requestData();
 
       this.bscroll.finishPullUp();
@@ -133,7 +151,7 @@ export default {
     async requestData() {
       try {
         const newData = await this.ajaxGet(/* url */);
-        this.dataList = newData;
+        this.dataList = [...this.dataList, newData];
       } catch (err) {
         // handle err
         console.log(err);
@@ -142,7 +160,7 @@ export default {
     ajaxGet(/* url */) {
       return new Promise(resolve => {
         setTimeout(() => {
-          const dataList = getOneRandomList(STEP);
+          const dataList = getOneRandomList(this.type);
           resolve(dataList);
         }, 1000);
       });

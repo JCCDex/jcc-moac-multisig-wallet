@@ -2,15 +2,21 @@
   <div
     class="mutisig-wallet-proposal-cell-container"
     flex="main:justify cross:center"
-    @click="goto('/proposal/detail')"
   >
     <div flex="cross:center" style="width:calc(100% - 0.4rem)">
-      <svg class="mutisig-wallet-icon" aria-hidden="true">
+      <svg
+        v-if="!isProposed"
+        class="mutisig-wallet-icon"
+        style="margin-right:0.19rem;"
+        aria-hidden="true"
+        @click="proposal.checked = !proposal.checked"
+      >
         >
-        <use xlink:href="#icon-unselected" />
+        <use :xlink:href="icon" />
       </svg>
       <div
-        style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 0.8rem)"
+        style="text-align: left;max-width:calc(100% - 0.8rem)"
+        @click="goto('/proposal/detail')"
       >
         <div>
           <span class="mutisig-wallet-large-font-size" style="color: #181C24;">
@@ -36,17 +42,26 @@
     <i
       class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
       style="bottom: 0.06rem;"
+      @click="goto('/proposal/detail')"
     />
   </div>
 </template>
 <script>
 export default {
   props: {
-    message: {
+    proposal: {
       type: Object,
       default() {
         return {};
       }
+    }
+  },
+  computed: {
+    isProposed() {
+      return this.proposal.type === "proposed";
+    },
+    icon() {
+      return this.proposal.checked ? "#icon-selected" : "#icon-unselected";
     }
   },
   methods: {
