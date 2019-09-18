@@ -23,13 +23,27 @@
                 class="mutisig-wallet-recall-container"
                 style="min-height: calc(100% + 0.01rem)"
               >
-                <voter-cell v-for="(item, key) in 15" :key="key" />
+                <div v-for="(item, key) in 15" :key="key" @click="showAction">
+                  <voter-cell />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <van-action-sheet v-model="show" :title="$t('vote_action_sheet_title')">
+      <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
+        确定要罢免该投票人吗？
+      </p>
+
+      <button
+        class="mutisig-wallet-button mutisig-wallet-confirm-button"
+        style="width:100%;"
+      >
+        {{ $t("vote_confirm") }}
+      </button>
+    </van-action-sheet>
   </div>
 </template>
 <script>
@@ -43,7 +57,9 @@ export default {
     VoterCell
   },
   data() {
-    return {};
+    return {
+      show: false
+    };
   },
   mounted() {
     this.init();
@@ -60,6 +76,9 @@ export default {
         scrollY: true,
         click: true
       });
+    },
+    showAction() {
+      this.show = true;
     }
   }
 };

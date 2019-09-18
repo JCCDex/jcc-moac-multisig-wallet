@@ -50,5 +50,7 @@
    "current_percent": "当前比例：{percent}",
    "modify_percent": "修改比例：",
    "click_to_recall": "点击选择要罢免的投票人：",
-   "proposal_detail": "提案明细"
+   "proposal_detail": "提案明细",
+   "vote_confirm": "确认投票",
+   "vote_action_sheet_title": "投票确认"
  }

@@ -22,3 +22,17 @@
 .van-cell__value--alone {
   color: #4C4F54 !important;
 }
+
+.van-action-sheet__header {
+  line-height: 0.8rem !important;
+  @include px2px("font-size", 14);
+  border-bottom: 0.01rem solid #CAD1E8;
+
+  .van-action-sheet__close {
+    @include px2px("font-size", 15);
+  }
+}
+
+.van-action-sheet__content {
+  padding: 0.3rem;
+}
