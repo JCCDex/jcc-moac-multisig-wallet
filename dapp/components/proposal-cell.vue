@@ -15,7 +15,8 @@
         <use :xlink:href="icon" />
       </svg>
       <div
-        style="text-align: left;max-width:calc(100% - 0.8rem)"
+        style="text-align: left;"
+        :style="{ 'max-width': isProposed ? '100%' : 'calc(100% - 0.6rem)' }"
         @click="goto('/proposal/detail')"
       >
         <div>

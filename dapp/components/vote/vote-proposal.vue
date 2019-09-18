@@ -112,6 +112,7 @@ export default {
       this.bscroll.closePullUp();
       this.bscroll.scrollTo(0, 0);
       await this.pullingDownHandler();
+      this.bscroll.refresh();
       this.bscroll.openPullUp({
         threshold: 500
       });
