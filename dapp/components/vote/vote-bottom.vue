@@ -14,17 +14,33 @@
       <span>全选</span>
     </div>
 
-    <div>
+    <div flex="main:center cross:center">
       <button
         class="mutisig-wallet-button"
         style="width: 1.4rem;border-radius: 0.4rem;background-color: #476EEA;height:0.7rem;line-height:0.7rem"
+        flex="main:center cross:center"
       >
+        <svg
+          class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+          aria-hidden="true"
+          style="margin-right: 0.05rem;"
+        >
+          <use xlink:href="#icon-agree" />
+        </svg>
         赞成
       </button>
       <button
         class="mutisig-wallet-button"
         style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem"
+        flex="main:center cross:center"
       >
+        <svg
+          class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+          aria-hidden="true"
+          style="margin-right: 0.05rem;margin-top:0.04rem;"
+        >
+          <use xlink:href="#icon-against" />
+        </svg>
         反对
       </button>
     </div>

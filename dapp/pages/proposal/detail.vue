@@ -7,7 +7,7 @@
             class="mutisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
           >
-            <wallet-header :title="$t('withdraw_detail')" />
+            <wallet-header :title="$t('proposal_detail')" />
             <div
               ref="scroll"
               class="scroll-wrapper"
@@ -49,7 +49,15 @@
 
                     <div
                       style="position:absolute;height:0.6rem;top:0;right:0.2rem"
+                      flex="main:center cross:center"
                     >
+                      <svg
+                        class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+                        aria-hidden="true"
+                        style="margin-right: 0.05rem;"
+                      >
+                        <use xlink:href="#icon-agree" />
+                      </svg>
                       5
                     </div>
                   </button>
@@ -60,7 +68,15 @@
                     反对
                     <div
                       style="position:absolute;height:0.6rem;top:0;right:0.2rem"
+                      flex="main:center cross:center"
                     >
+                      <svg
+                        class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+                        aria-hidden="true"
+                        style="margin-right: 0.05rem;margin-top:0.04rem;"
+                      >
+                        <use xlink:href="#icon-against" />
+                      </svg>
                       1
                     </div>
                   </button>
