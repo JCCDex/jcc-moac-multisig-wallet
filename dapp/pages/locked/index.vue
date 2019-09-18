@@ -9,7 +9,7 @@
           >
             <wallet-header :title="$t('lock_declare')" />
             <div
-              ref="lockScroll"
+              ref="scroll"
               flex
               class="scroll-wrapper"
               style="height: calc(100% - 0.8rem);background-color: #fff;"
@@ -20,13 +20,17 @@
                     {{ tip }}
                   </p>
 
-                  <div flex="cross:center" style="margin-top: 2.35rem;">
+                  <div
+                    flex="cross:center"
+                    style="margin-top: 1.35rem;"
+                    @click="acceptAgreement"
+                  >
                     <svg
                       class="mutisig-wallet-icon mutisig-wallet-icon-small"
                       aria-hidden="true"
                       style="margin-right: 0.1rem;"
                     >
-                      <use xlink:href="#icon-unselected" />
+                      <use :xlink:href="icon" />
                     </svg>
                     {{ $t("accept_agreement") }}
                   </div>
@@ -37,9 +41,14 @@
                   flex="dir:top cross: center"
                 >
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
-                  <van-field center type="number">
+                  <van-field
+                    v-model="value"
+                    center
+                    type="number"
+                    :placeholder="$t('pls_input_amount')"
+                  >
                     <span slot="button" size="small" type="primary">
-                      MOAC
+                      {{ $t("moac") }}
                     </span>
                   </van-field>
                   <div
@@ -54,8 +63,10 @@
 
                   <div flex-box="1" flex="cross:bottom">
                     <button
+                      :disabled="!lockEnable"
                       class="mutisig-wallet-button mutisig-wallet-lock-button"
                       style="width: 100%;"
+                      @click="show = true"
                     >
                       {{ $t("lock") }}
                     </button>
@@ -67,11 +78,31 @@
         </div>
       </div>
     </div>
+
+    <van-action-sheet v-model="show" :title="$t('lock_action_sheet_title')">
+      <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
+        {{
+          $t("lock_action_sheet_amount", {
+            amount: value,
+            token: $t("moac")
+          })
+        }}
+      </p>
+
+      <button
+        class="mutisig-wallet-button mutisig-wallet-confirm-button"
+        style="width:100%;"
+      >
+        {{ $t("lock_confirm") }}
+      </button>
+    </van-action-sheet>
   </div>
 </template>
 <script>
+import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
+import { isValidLockedAmount } from "@/js/util";
 export default {
   name: "Withdraw",
   components: {
@@ -79,8 +110,24 @@ export default {
   },
   data() {
     return {
-      amount: "1000"
+      amount: "2000000",
+      value: "",
+      agree: false,
+      show: false
     };
+  },
+  computed: {
+    lockEnable() {
+      const value = parseFloat(this.value);
+      return (
+        this.agree &&
+        isValidLockedAmount(value) &&
+        new BigNumber(value).isLessThan(this.amount)
+      );
+    },
+    icon() {
+      return this.agree ? "#icon-selected" : "#icon-unselected";
+    }
   },
   mounted() {
     this.init();
@@ -93,10 +140,13 @@ export default {
   },
   methods: {
     init() {
-      this.bs = new BScroll(this.$refs.lockScroll, {
+      this.bs = new BScroll(this.$refs.scroll, {
         scrollY: true,
         click: true
       });
+    },
+    acceptAgreement() {
+      this.agree = !this.agree;
     }
   }
 };

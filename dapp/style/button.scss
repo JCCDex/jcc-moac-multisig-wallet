@@ -53,6 +53,10 @@
     content: ' ';
   }
 
+  &:disabled {
+    opacity: 0.6;
+  }
+
   &:active::before {
     opacity: 0.1;
   }
