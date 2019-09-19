@@ -1,4 +1,4 @@
-.mutisig-wallet-button {
+.multisig-wallet-button {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
@@ -13,28 +13,28 @@
   -webkit-appearance: none;
   -webkit-text-size-adjust: 100%;
 
-  &.mutisig-wallet-lock-button {
+  &.multisig-wallet-lock-button {
     background-color: #399C7E;
   }
 
-  &.mutisig-wallet-withdraw-button,
-  &.mutisig-wallet-apply-button {
+  &.multisig-wallet-withdraw-button,
+  &.multisig-wallet-apply-button {
     background-color: #476EEA;
   }
 
-  &.mutisig-wallet-confirm-button {
+  &.multisig-wallet-confirm-button {
     background-color: #0B1F5D;
   }
 
-  &.mutisig-wallet-vote-button {
+  &.multisig-wallet-vote-button {
     background-color: #5272D7;
   }
 
-  &.mutisig-wallet-recall-button {
+  &.multisig-wallet-recall-button {
     background-color: #877DE7;
   }
 
-  &.mutisig-wallet-small-button {
+  &.multisig-wallet-small-button {
     height: 0.6rem;
     line-height: 0.6rem;
   }

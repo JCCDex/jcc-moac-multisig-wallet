@@ -1,16 +1,16 @@
 <template>
   <div class="scroll-wrapper">
-    <div class="mutisig-wallet-mine-wrap">
+    <div class="multisig-wallet-mine-wrap">
       <div
         v-for="(cell, key) in cells"
         :key="key"
         flex="main:justify cross:center"
-        class="mutisig-wallet-mine-cell"
+        class="multisig-wallet-mine-cell"
         @click="goto(cell)"
       >
         <div flex="main:justify cross:center">
           <svg
-            class="mutisig-wallet-icon mutisig-wallet-icon-large"
+            class="multisig-wallet-icon multisig-wallet-icon-large"
             aria-hidden="true"
             style="margin-right: 0.15rem;"
           >
@@ -19,7 +19,7 @@
           {{ cell.name }}
         </div>
         <i
-          class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
+          class="multisig-wallet-arrow multisig-wallet-arrow-right"
           style="bottom: 0.06rem;"
         />
       </div>
@@ -66,12 +66,12 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-mine-wrap {
+.multisig-wallet-mine-wrap {
   background-color: #fff;
   margin-top: 0.2rem;
   padding: 0 0.15rem;
 
-  .mutisig-wallet-mine-cell {
+  .multisig-wallet-mine-cell {
     height: 1.2rem;
 
     &:not(:first-of-type) {

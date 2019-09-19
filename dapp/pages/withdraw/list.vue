@@ -1,10 +1,10 @@
 <template>
-  <div class="mutisig-wallet-container">
+  <div class="multisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
-      <div class="mutisig-wallet-tab-bar">
-        <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
+      <div class="multisig-wallet-tab-bar">
+        <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div
-            class="mutisig-wallet-tabs-content-wrap"
+            class="multisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
           >
             <wallet-header :title="$t('withdraw_detail')" />
@@ -17,7 +17,7 @@
                 class="scroll-content"
                 style="min-height: calc(100% + 0.01rem);position: relative;"
               >
-                <div class="pulldown-wrapper mutisig-wallet-small-font-size">
+                <div class="pulldown-wrapper multisig-wallet-small-font-size">
                   <div v-show="beforePullDown">
                     <span>{{ $t("pull_down_refresh") }}</span>
                   </div>
@@ -34,10 +34,10 @@
                   <div
                     v-for="(item, index) in dataList"
                     :key="index"
-                    class="mutisig-wallet-withdraw-cell"
+                    class="multisig-wallet-withdraw-cell"
                     flex="main:center dir:top"
                   >
-                    <div class="mutisig-wallet-withdraw-cell-time" flex>
+                    <div class="multisig-wallet-withdraw-cell-time" flex>
                       {{ item }}
                     </div>
                     <div flex="main:justify cross:center">
@@ -157,12 +157,12 @@ export default {
 <style lang="scss">
 @import "@/style/mixin.scss";
 
-.mutisig-wallet-withdraw-cell {
+.multisig-wallet-withdraw-cell {
   height: 1.2rem;
   @include px2px("font-size", 12);
   border-bottom: 0.01rem solid #e2e6f1;
 
-  .mutisig-wallet-withdraw-cell-time {
+  .multisig-wallet-withdraw-cell-time {
     margin-bottom: 0.08rem;
   }
 }

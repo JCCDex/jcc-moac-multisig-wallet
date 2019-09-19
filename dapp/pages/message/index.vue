@@ -1,10 +1,10 @@
 <template>
-  <div class="mutisig-wallet-container">
+  <div class="multisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
-      <div class="mutisig-wallet-tab-bar">
-        <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
+      <div class="multisig-wallet-tab-bar">
+        <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div
-            class="mutisig-wallet-tabs-content-wrap"
+            class="multisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
           >
             <div
@@ -16,7 +16,7 @@
                 class="scroll-content"
                 style="min-height: calc(100% + 0.01rem);position: relative;"
               >
-                <div class="pulldown-wrapper mutisig-wallet-small-font-size">
+                <div class="pulldown-wrapper multisig-wallet-small-font-size">
                   <div v-show="beforePullDown">
                     <span>{{ $t("pull_down_refresh") }}</span>
                   </div>
@@ -36,7 +36,7 @@
                 />
                 <div
                   v-if="!beforePullUp"
-                  class="pullup-wrapper mutisig-wallet-small-font-size"
+                  class="pullup-wrapper multisig-wallet-small-font-size"
                 >
                   <div v-if="!isPullUpLoad" class="before-trigger">
                     <span>{{ $t("pull_up_more") }}</span>

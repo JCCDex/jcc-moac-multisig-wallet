@@ -1,11 +1,11 @@
 <template>
   <div
     flex="main:justify cross:center"
-    class="mutisig-wallet-vote-bottom-container"
+    class="multisig-wallet-vote-bottom-container"
   >
     <div flex="main:justify cross:center">
       <svg
-        class="mutisig-wallet-icon"
+        class="multisig-wallet-icon"
         aria-hidden="true"
         style="margin-right: 0.2rem"
       >
@@ -16,12 +16,12 @@
 
     <div flex="main:center cross:center">
       <button
-        class="mutisig-wallet-button"
+        class="multisig-wallet-button"
         style="width: 1.4rem;border-radius: 0.4rem;background-color: #476EEA;height:0.7rem;line-height:0.7rem"
         flex="main:center cross:center"
       >
         <svg
-          class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+          class="multisig-wallet-icon multisig-wallet-icon-smaller"
           aria-hidden="true"
           style="margin-right: 0.05rem;"
         >
@@ -30,12 +30,12 @@
         赞成
       </button>
       <button
-        class="mutisig-wallet-button"
+        class="multisig-wallet-button"
         style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem"
         flex="main:center cross:center"
       >
         <svg
-          class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+          class="multisig-wallet-icon multisig-wallet-icon-smaller"
           aria-hidden="true"
           style="margin-right: 0.05rem;margin-top:0.04rem;"
         >
@@ -50,7 +50,7 @@
 export default {};
 </script>
 <style lang="scss">
-.mutisig-wallet-vote-bottom-container {
+.multisig-wallet-vote-bottom-container {
   background-color: #fff;
   height: 1.2rem;
   padding: 0 0.3rem 0 0.5rem;

@@ -8,7 +8,7 @@
       class="scroll-content"
       style="min-height: calc(100vh - 4.35rem);position: relative;"
     >
-      <div class="pulldown-wrapper mutisig-wallet-small-font-size">
+      <div class="pulldown-wrapper multisig-wallet-small-font-size">
         <div v-show="beforePullDown">
           <span>{{ $t("pull_down_refresh") }}</span>
         </div>
@@ -31,7 +31,7 @@
 
       <div
         v-if="!beforePullUp"
-        class="pullup-wrapper mutisig-wallet-small-font-size"
+        class="pullup-wrapper multisig-wallet-small-font-size"
       >
         <div v-if="!isPullUpLoad" class="before-trigger">
           <span>{{ $t("pull_up_more") }}</span>
@@ -172,12 +172,12 @@ export default {
 <style lang="scss">
 @import "@/style/mixin.scss";
 
-.mutisig-wallet-locked-cell {
+.multisig-wallet-locked-cell {
   height: 1.2rem;
   @include px2px("font-size", 12);
   border-bottom: 0.01rem solid #e2e6f1;
 
-  .mutisig-wallet-locked-cell-time {
+  .multisig-wallet-locked-cell-time {
     margin-bottom: 0.08rem;
   }
 }

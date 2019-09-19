@@ -1,5 +1,5 @@
 <template>
-  <div class="mutisig-wallet-home-message-container">
+  <div class="multisig-wallet-home-message-container">
     <slot />
     <message-cell
       v-for="(message, index) in messages"
@@ -31,7 +31,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-home-message-container {
+.multisig-wallet-home-message-container {
   background-color: #fff;
 }
 </style>

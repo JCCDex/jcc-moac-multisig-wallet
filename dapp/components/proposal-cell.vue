@@ -1,12 +1,12 @@
 <template>
   <div
-    class="mutisig-wallet-proposal-cell-container"
+    class="multisig-wallet-proposal-cell-container"
     flex="main:justify cross:center"
   >
     <div flex="cross:center" style="width:calc(100% - 0.4rem)">
       <svg
         v-if="!isProposed"
-        class="mutisig-wallet-icon"
+        class="multisig-wallet-icon"
         style="margin-right:0.19rem;"
         aria-hidden="true"
         @click="proposal.checked = !proposal.checked"
@@ -20,11 +20,11 @@
         @click="goto('/proposal/detail')"
       >
         <div>
-          <span class="mutisig-wallet-large-font-size" style="color: #181C24;">
+          <span class="multisig-wallet-large-font-size" style="color: #181C24;">
             {{ `提现申请` }}
           </span>
           <span
-            class="mutisig-wallet-small-font-size"
+            class="multisig-wallet-small-font-size"
             style="margin-left:0.28rem;color: #9EA4C4"
           >
             {{ `3分钟前` }}
@@ -41,7 +41,7 @@
       </div>
     </div>
     <i
-      class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
+      class="multisig-wallet-arrow multisig-wallet-arrow-right"
       style="bottom: 0.06rem;"
       @click="goto('/proposal/detail')"
     />
@@ -73,7 +73,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-proposal-cell-container {
+.multisig-wallet-proposal-cell-container {
   height: 1.26rem;
   margin: 0 0.3rem;
 

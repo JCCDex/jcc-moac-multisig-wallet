@@ -1,21 +1,21 @@
-.mutisig-wallet-icon {
+.multisig-wallet-icon {
   width: 0.4rem;
   height: 0.4rem;
   vertical-align: -0.15rem;
   fill: currentColor;
   overflow: hidden;
 
-  &.mutisig-wallet-icon-large {
+  &.multisig-wallet-icon-large {
     width: 0.44rem;
     height: 0.44rem;
   }
 
-  &.mutisig-wallet-icon-small {
+  &.multisig-wallet-icon-small {
     height: 0.28rem;
     width: 0.28rem;
   }
 
-  &.mutisig-wallet-icon-smaller {
+  &.multisig-wallet-icon-smaller {
     height: 0.24rem;
     width: 0.24rem;
   }
@@ -28,14 +28,14 @@
   background-size: 100% 100%;
 }
 
-.mutisig-wallet-icon-jingchang {
+.multisig-wallet-icon-jingchang {
   @include icon();
   height: 0.8rem;
   width: 0.8rem;
   background-image: url("../assets/image/jingchang.png");
 }
 
-.mutisig-wallet-icon-circle {
+.multisig-wallet-icon-circle {
   height: 0.6rem;
   width: 0.6rem;
   border-radius: 0.3rem;

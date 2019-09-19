@@ -1,12 +1,12 @@
 <template>
   <div
-    class="mutisig-wallet-voter-cell-container"
+    class="multisig-wallet-voter-cell-container"
     flex="main:justify cross:center"
   >
     <div flex="cross:center" style="width: calc(100% - 0.4rem)">
       <div style="width:100%">
         <div
-          class="mutisig-wallet-large-font-size"
+          class="multisig-wallet-large-font-size"
           style="color: #0B1F5D;text-align:left;"
         >
           {{ `投票人1` }}
@@ -20,7 +20,7 @@
       </div>
     </div>
     <i
-      class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
+      class="multisig-wallet-arrow multisig-wallet-arrow-right"
       style="bottom: 0.06rem;"
     />
   </div>
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-voter-cell-container {
+.multisig-wallet-voter-cell-container {
   height: 1.26rem;
 
   &:not(:last-child) {

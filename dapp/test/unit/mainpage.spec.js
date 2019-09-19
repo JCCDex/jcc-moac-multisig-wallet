@@ -60,11 +60,11 @@ describe('main page', () => {
         tab: "mine"
       }
     ])
-    expect(wrapper.findAll(".mutisig-wallet-tab-bar-item").length).toBe(3);
+    expect(wrapper.findAll(".multisig-wallet-tab-bar-item").length).toBe(3);
   })
 
   // test("tab item event of click", () => {
-  //   const tabs = wrapper.findAll(".mutisig-wallet-tab-bar-item")
+  //   const tabs = wrapper.findAll(".multisig-wallet-tab-bar-item")
   //   tabs.at(1).trigger("click")
   //   tabs.at(2).trigger("click")
   //   tabs.at(0).trigger("click")

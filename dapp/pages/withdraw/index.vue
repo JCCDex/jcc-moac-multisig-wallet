@@ -1,10 +1,10 @@
 <template>
-  <div class="mutisig-wallet-container">
+  <div class="multisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
-      <div class="mutisig-wallet-tab-bar">
-        <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
+      <div class="multisig-wallet-tab-bar">
+        <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div
-            class="mutisig-wallet-tabs-content-wrap"
+            class="multisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
           >
             <wallet-header :title="$t('withdraw_declare')" />
@@ -15,7 +15,7 @@
               style="height: calc(100% - 0.8rem);  background-color: #fff;"
             >
               <div flex="dir:top cross: center">
-                <div class="mutisig-wallet-withdraw-tip-container">
+                <div class="multisig-wallet-withdraw-tip-container">
                   <p v-for="(tip, index) in $t('withdraw_tips')" :key="index">
                     {{ tip }}
                   </p>
@@ -26,7 +26,7 @@
                     @click="acceptAgreement"
                   >
                     <svg
-                      class="mutisig-wallet-icon mutisig-wallet-icon-small"
+                      class="multisig-wallet-icon multisig-wallet-icon-small"
                       aria-hidden="true"
                       style="margin-right: 0.1rem;"
                     >
@@ -36,7 +36,7 @@
                   </div>
                 </div>
                 <div
-                  class="mutisig-wallet-withdraw-bottom-container"
+                  class="multisig-wallet-withdraw-bottom-container"
                   flex-box="1"
                   flex="dir:top cross: center"
                 >
@@ -65,7 +65,7 @@
                   <div flex-box="1" flex="cross:bottom">
                     <button
                       :disabled="!withdrawEnable"
-                      class="mutisig-wallet-button mutisig-wallet-withdraw-button"
+                      class="multisig-wallet-button multisig-wallet-withdraw-button"
                       style="width: 100%;"
                       @click="show = true"
                     >
@@ -97,7 +97,7 @@
       </p>
 
       <button
-        class="mutisig-wallet-button mutisig-wallet-confirm-button"
+        class="multisig-wallet-button multisig-wallet-confirm-button"
         style="width:100%;"
       >
         {{ $t("withdraw_confirm") }}
@@ -165,7 +165,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-withdraw-tip-container {
+.multisig-wallet-withdraw-tip-container {
   padding: 0.24rem 0.24rem 0.45rem 0.3rem;
   color: #4c4f54;
   background-color: #f2f4fb;
@@ -179,7 +179,7 @@ export default {
   }
 }
 
-.mutisig-wallet-withdraw-bottom-container {
+.multisig-wallet-withdraw-bottom-container {
   padding: 0.3rem;
 
   > p {

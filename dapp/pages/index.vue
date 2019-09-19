@@ -1,27 +1,27 @@
 <template>
-  <div class="mutisig-wallet-container">
+  <div class="multisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
-      <div class="mutisig-wallet-tab-bar">
-        <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
+      <div class="multisig-wallet-tab-bar">
+        <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div
-            class="mutisig-wallet-tabs-content-wrap"
+            class="multisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;"
           >
             <nuxt-child keep-alive />
           </div>
           <div
-            class="mutisig-wallet-tab-bar-wrap"
+            class="multisig-wallet-tab-bar-wrap"
             style="background-color: #fff;"
           >
-            <div class="mutisig-wallet-tab-bar-item-wrap">
+            <div class="multisig-wallet-tab-bar-item-wrap">
               <div
                 v-for="(tab, key) in tabs"
                 :key="key"
                 flex="main:center cross:center"
-                class="mutisig-wallet-tab-bar-item"
+                class="multisig-wallet-tab-bar-item"
                 @click="goto(tab)"
               >
-                <svg class="mutisig-wallet-icon" aria-hidden="true">
+                <svg class="multisig-wallet-icon" aria-hidden="true">
                   <use
                     :xlink:href="
                       tab.to === currentRoute ? tab.activeIcon : tab.icon
@@ -30,7 +30,7 @@
                 </svg>
                 <div
                   style="margin-top: 0.05rem;"
-                  class="mutisig-wallet-small-font-size"
+                  class="multisig-wallet-small-font-size"
                   :style="{ color: tab.to === currentRoute ? '#0B1F5D' : '' }"
                 >
                   {{ $t(tab.name) }}

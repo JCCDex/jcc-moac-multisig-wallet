@@ -10,7 +10,7 @@
       <home-message>
         <div
           flex="main:justify cross:center"
-          class="mutisig-wallet-message-header"
+          class="multisig-wallet-message-header"
         >
           <div
             style="border-left: 0.04rem solid #0B1F5D; padding-left: 0.08rem;color: #242D3D"
@@ -18,7 +18,7 @@
             {{ $t("latest_message") }}
           </div>
           <div
-            class="mutisig-wallet-small-font-size"
+            class="multisig-wallet-small-font-size"
             style="color: #A6A8B2;"
             @click="goto('/message')"
           >
@@ -74,7 +74,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-message-header {
+.multisig-wallet-message-header {
   height: 0.8rem;
   margin: 0 0.3rem;
   border-bottom: 0.01rem solid #e2e6f1;

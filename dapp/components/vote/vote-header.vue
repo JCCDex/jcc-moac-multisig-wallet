@@ -2,17 +2,17 @@
   <div style="padding:0.26rem 0 0.1rem 0;">
     <div flex="main:justify cross:center" style="padding:0 0.5rem;">
       <button
-        class="mutisig-wallet-button mutisig-wallet-recall-button"
+        class="multisig-wallet-button multisig-wallet-recall-button"
         style="width: 3rem;"
         flex="main:center cross:center"
         @click="goto('/proposal/recall')"
       >
         <div
-          class="mutisig-wallet-icon-circle"
+          class="multisig-wallet-icon-circle"
           flex="main:center cross:center"
           style="margin-right: 0.13rem;"
         >
-          <svg class="mutisig-wallet-icon" aria-hidden="true">
+          <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-recall-voter" />
           </svg>
         </div>
@@ -20,17 +20,17 @@
       </button>
 
       <button
-        class="mutisig-wallet-button mutisig-wallet-vote-button"
+        class="multisig-wallet-button multisig-wallet-vote-button"
         style="width: 3rem;min-width: 300px;"
         flex="main:center cross:center"
         @click="goto('/proposal/modifyPercent')"
       >
         <div
-          class="mutisig-wallet-icon-circle"
+          class="multisig-wallet-icon-circle"
           flex="main:center cross:center"
           style="margin-right: 0.13rem;"
         >
-          <svg class="mutisig-wallet-icon" aria-hidden="true">
+          <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-vote-percent" />
           </svg>
         </div>
@@ -40,7 +40,7 @@
 
     <div
       flex="main:center cross:center"
-      class="mutisig-wallet-proposal-choose-container mutisig-wallet-large-font-size"
+      class="multisig-wallet-proposal-choose-container multisig-wallet-large-font-size"
     >
       <p
         :class="{ active: !isProposed }"
@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss">
-.mutisig-wallet-proposal-choose-container {
+.multisig-wallet-proposal-choose-container {
   height: 0.8rem;
   line-height: 0.8rem;
   background-color: #fff;

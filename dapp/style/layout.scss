@@ -1,4 +1,4 @@
-.mutisig-wallet-container {
+.multisig-wallet-container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
@@ -7,16 +7,16 @@
   text-align: center;
   position: relative;
 
-  .mutisig-wallet-tab-bar {
+  .multisig-wallet-tab-bar {
     height: 100%;
     overflow: hidden;
 
-    .mutisig-wallet-tabs-bottom,
-    .mutisig-wallet-tabs-top {
+    .multisig-wallet-tabs-bottom,
+    .multisig-wallet-tabs-top {
       flex-direction: column;
     }
 
-    .mutisig-wallet-tabs {
+    .multisig-wallet-tabs {
       display: flex;
       flex: 1;
       position: relative;
@@ -25,7 +25,7 @@
       width: 100%;
     }
 
-    .mutisig-wallet-tabs-content-wrap {
+    .multisig-wallet-tabs-content-wrap {
       display: flex;
       flex: 1;
       width: 100%;
@@ -40,11 +40,11 @@
       }
     }
 
-    .mutisig-wallet-tab-bar-wrap {
+    .multisig-wallet-tab-bar-wrap {
       flex-shrink: 0;
     }
 
-    .mutisig-wallet-tab-bar-item-wrap {
+    .multisig-wallet-tab-bar-item-wrap {
       position: relative;
       box-sizing: border-box;
       height: 0.98rem;
@@ -56,7 +56,7 @@
       align-items: center;
       bottom: 0;
 
-      .mutisig-wallet-tab-bar-item {
+      .multisig-wallet-tab-bar-item {
         flex: 1;
         display: flex;
         justify-content: center;

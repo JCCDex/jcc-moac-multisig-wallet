@@ -1,10 +1,10 @@
 <template>
-  <div class="mutisig-wallet-container">
+  <div class="multisig-wallet-container">
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
-      <div class="mutisig-wallet-tab-bar">
-        <div class="mutisig-wallet-tabs mutisig-wallet-tabs-bottom">
+      <div class="multisig-wallet-tab-bar">
+        <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div
-            class="mutisig-wallet-tabs-content-wrap"
+            class="multisig-wallet-tabs-content-wrap"
             style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
           >
             <wallet-header :title="$t('proposal_detail')" />
@@ -15,7 +15,7 @@
             >
               <div
                 flex="dir:top cross: center"
-                class="mutisig-wallet-proposal-detail-container"
+                class="multisig-wallet-proposal-detail-container"
               >
                 <p>提案简称：0xdj……wiskd申请成为投票人</p>
                 <p>议题类型：申请投票</p>
@@ -42,7 +42,7 @@
                 </div>
                 <div flex>
                   <button
-                    class="mutisig-wallet-button mutisig-wallet-small-button"
+                    class="multisig-wallet-button multisig-wallet-small-button"
                     style="position:relative; width:50%; background-color: #476EEA;border-radius:0;"
                   >
                     赞成
@@ -52,7 +52,7 @@
                       flex="main:center cross:center"
                     >
                       <svg
-                        class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+                        class="multisig-wallet-icon multisig-wallet-icon-smaller"
                         aria-hidden="true"
                         style="margin-right: 0.05rem;"
                       >
@@ -62,7 +62,7 @@
                     </div>
                   </button>
                   <button
-                    class="mutisig-wallet-button mutisig-wallet-small-button"
+                    class="multisig-wallet-button multisig-wallet-small-button"
                     style="position:relative; width:50%; background-color: #F87272;border-radius:0;"
                   >
                     反对
@@ -71,7 +71,7 @@
                       flex="main:center cross:center"
                     >
                       <svg
-                        class="mutisig-wallet-icon mutisig-wallet-icon-smaller"
+                        class="multisig-wallet-icon multisig-wallet-icon-smaller"
                         aria-hidden="true"
                         style="margin-right: 0.05rem;margin-top:0.04rem;"
                       >
@@ -92,7 +92,7 @@
                       1.ox2sjmdsjim8wksklmvn0wkd1nsjew8nadietwimrl
                     </p>
                     <p
-                      class="mutisig-wallet-small-font-size"
+                      class="multisig-wallet-small-font-size"
                       style="color: #6B6E73;margin-left:0.16rem;"
                     >
                       2019-10-07 10:30:29
@@ -138,7 +138,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-proposal-detail-container {
+.multisig-wallet-proposal-detail-container {
   padding: 0.24rem 0.3rem 0 0.3rem;
 
   p {

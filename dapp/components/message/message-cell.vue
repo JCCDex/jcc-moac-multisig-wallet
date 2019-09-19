@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mutisig-wallet-message-cell-container"
+    class="multisig-wallet-message-cell-container"
     flex="main:justify cross:center"
     @click="goto('/message/detail')"
   >
@@ -10,11 +10,11 @@
         style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)"
       >
         <div>
-          <span class="mutisig-wallet-large-font-size" style="color: #0B1F5D;">
+          <span class="multisig-wallet-large-font-size" style="color: #0B1F5D;">
             {{ `提现申请` }}
           </span>
           <span
-            class="mutisig-wallet-small-font-size"
+            class="multisig-wallet-small-font-size"
             style="margin-left:0.28rem;color: #9EA4C4"
           >
             {{ `3分钟前` }}
@@ -31,7 +31,7 @@
       </div>
     </div>
     <i
-      class="mutisig-wallet-arrow mutisig-wallet-arrow-right"
+      class="multisig-wallet-arrow multisig-wallet-arrow-right"
       style="bottom: 0.06rem;"
     />
   </div>
@@ -79,7 +79,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-message-cell-container {
+.multisig-wallet-message-cell-container {
   height: 1.4rem;
   margin: 0 0.29rem 0 0.31rem;
 

@@ -1,6 +1,6 @@
 # dapp
 
-> mutisig wallet for moac
+> multisig wallet for moac
 
 ## Build Setup
 

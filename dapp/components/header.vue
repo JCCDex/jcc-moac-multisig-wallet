@@ -1,6 +1,6 @@
 <template>
   <header
-    class="mutisig-wallet-header mutisig-wallet-large-font-size"
+    class="multisig-wallet-header multisig-wallet-large-font-size"
     flex="main:center cross:center"
   >
     {{ title }}
@@ -17,7 +17,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.mutisig-wallet-header {
+.multisig-wallet-header {
   position: relative;
   height: 0.8rem;
   width: 100%;
