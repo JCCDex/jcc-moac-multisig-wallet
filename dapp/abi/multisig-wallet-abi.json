@@ -1,0 +1,714 @@
+[{
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{
+      "name": "",
+      "type": "address"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+      "name": "newAdministrator",
+      "type": "address"
+    }],
+    "name": "transferAdministrator",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+      "name": "newOwner",
+      "type": "address"
+    }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "administrator",
+    "outputs": [{
+      "name": "",
+      "type": "address"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "voteType",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "value",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "CreateProposal",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "confirm",
+        "type": "bool"
+      }
+    ],
+    "name": "Vote",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "voteType",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "flag",
+        "type": "bool"
+      }
+    ],
+    "name": "CloseProposal",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "totalWithdraw",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "left",
+        "type": "uint256"
+      }
+    ],
+    "name": "Withdraw",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "total",
+        "type": "uint256"
+      }
+    ],
+    "name": "Deposit",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "count",
+        "type": "uint256"
+      },
+      {
+        "name": "percent",
+        "type": "uint256"
+      },
+      {
+        "name": "voters",
+        "type": "address[]"
+      }
+    ],
+    "name": "configureOnce",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+      "name": "flag",
+      "type": "bool"
+    }],
+    "name": "setStopDeposit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getStopDeposit",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getPercent",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getVoters",
+    "outputs": [{
+      "name": "",
+      "type": "address[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "endtime",
+        "type": "uint256"
+      },
+      {
+        "name": "percent",
+        "type": "uint256"
+      }
+    ],
+    "name": "createPercentProposal",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "endtime",
+        "type": "uint256"
+      },
+      {
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "createVoterProposal",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "endtime",
+        "type": "uint256"
+      },
+      {
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "createRecallProposal",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "endtime",
+        "type": "uint256"
+      },
+      {
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "createWithdrawProposal",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getVotingCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getVotedCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getAllVotingTopicIds",
+    "outputs": [{
+      "name": "",
+      "type": "uint256[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "topicId",
+      "type": "uint256"
+    }],
+    "name": "getTopic",
+    "outputs": [{
+      "components": [{
+          "name": "topicId",
+          "type": "uint256"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "name": "endtime",
+          "type": "uint256"
+        },
+        {
+          "name": "voteType",
+          "type": "uint256"
+        },
+        {
+          "name": "origin",
+          "type": "uint256"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "name": "yesCount",
+          "type": "uint256"
+        },
+        {
+          "name": "noCount",
+          "type": "uint256"
+        },
+        {
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "name": "target",
+          "type": "address"
+        },
+        {
+          "name": "sponsor",
+          "type": "address"
+        },
+        {
+          "name": "flag",
+          "type": "bool"
+        }
+      ],
+      "name": "",
+      "type": "tuple"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "topicId",
+        "type": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "confirm",
+        "type": "bool"
+      }
+    ],
+    "name": "voteTopic",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "topicId",
+      "type": "uint256"
+    }],
+    "name": "getDetailIdxs",
+    "outputs": [{
+      "name": "",
+      "type": "bytes32[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "topicId",
+      "type": "uint256"
+    }],
+    "name": "getVoteDetail",
+    "outputs": [{
+      "components": [{
+          "name": "topicId",
+          "type": "uint256"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "name": "voter",
+          "type": "address"
+        },
+        {
+          "name": "flag",
+          "type": "bool"
+        }
+      ],
+      "name": "",
+      "type": "tuple"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "topicId",
+      "type": "uint256"
+    }],
+    "name": "getVoteDetailsByTopic",
+    "outputs": [{
+      "components": [{
+          "name": "topicId",
+          "type": "uint256"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "name": "voter",
+          "type": "address"
+        },
+        {
+          "name": "flag",
+          "type": "bool"
+        }
+      ],
+      "name": "",
+      "type": "tuple[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "endtime",
+      "type": "uint256"
+    }],
+    "name": "haveExpire",
+    "outputs": [{
+        "components": [{
+            "name": "topicId",
+            "type": "uint256"
+          },
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          },
+          {
+            "name": "endtime",
+            "type": "uint256"
+          },
+          {
+            "name": "voteType",
+            "type": "uint256"
+          },
+          {
+            "name": "origin",
+            "type": "uint256"
+          },
+          {
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "name": "yesCount",
+            "type": "uint256"
+          },
+          {
+            "name": "noCount",
+            "type": "uint256"
+          },
+          {
+            "name": "idx",
+            "type": "uint256"
+          },
+          {
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "name": "sponsor",
+            "type": "address"
+          },
+          {
+            "name": "flag",
+            "type": "bool"
+          }
+        ],
+        "name": "",
+        "type": "tuple[]"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+      "name": "endtime",
+      "type": "uint256"
+    }],
+    "name": "processExpire",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "deposit",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "_addr",
+      "type": "address"
+    }],
+    "name": "getBalance",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "_addr",
+      "type": "address"
+    }],
+    "name": "getDepositBalance",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+      "name": "_addr",
+      "type": "address"
+    }],
+    "name": "getWithdrawBalance",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "kill",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
