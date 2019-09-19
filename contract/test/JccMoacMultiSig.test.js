@@ -71,6 +71,7 @@ contract('JccMoacMultiSig', (accounts) => {
     let votedCount = await multiWallet.getVotedCount();
     assert.equal(votedCount, 0);
     let topic = await multiWallet.getTopic(topicId);
+    console.log(topic);
     assert.equal(topic.value, 66);
     assert.equal(topic.origin, 50);
     assert.equal(topic.sponsor, voter1);
