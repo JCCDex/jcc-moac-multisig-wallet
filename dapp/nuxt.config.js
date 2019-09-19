@@ -13,7 +13,17 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    script: [],
+    script: [
+      {
+        src:
+          process.env.NODE_ENV === "test"
+            ? "https://unpkg.com/vue@2.6.10/dist/vue.js"
+            : "https://unpkg.com/vue@2.6.10/dist/vue.min.js"
+      },
+      {
+        src: "https://unpkg.com/jcc-moac-utils@0.2.2/dist/jcc-moac-utils.min.js"
+      }
+    ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   router: {
@@ -63,6 +73,10 @@ export default {
     publicPath: "/nuxt/",
     extend(config) {
       config.output.publicPath = "./nuxt/";
+      config.externals = {
+        vue: "Vue",
+        "jcc-moac-utils": "jcc_moac_utils"
+      };
       return config;
     }
   }
