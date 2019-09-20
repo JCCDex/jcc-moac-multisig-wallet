@@ -5,9 +5,9 @@
   "author": "JCCDex",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts",
+    "dev": "./dev.sh",
     "build": "nuxt-ts build",
-    "generate": "nuxt-ts generate",
+    "generate": "./generate.sh",
     "start": "nuxt-ts start",
     "test": "jest",
     "e2e": "nightwatch",
