@@ -10,6 +10,7 @@
     ],
     "strictNullChecks": false,
     "noImplicitAny": false,
+    "noImplicitThis": false,
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,

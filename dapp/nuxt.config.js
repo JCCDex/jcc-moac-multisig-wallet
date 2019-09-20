@@ -21,7 +21,7 @@ export default {
             : "https://unpkg.com/vue@2.6.10/dist/vue.min.js"
       },
       {
-        src: "https://unpkg.com/jcc-moac-utils@0.2.2/dist/jcc-moac-utils.min.js"
+        src: "https://unpkg.com/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
@@ -33,7 +33,9 @@ export default {
     MOAC_ADDRESS: "0x5edccedfe9952f5b828937b325bd1f132aa09f60",
     MOAC_SECRET:
       "8fef3bc906ea19f0348cb44bca851f5459b61e32c5cae445220e2f7066db36d8",
-    Contract: process.env.Contract
+    CONTRACT: process.env.Contract,
+    NODE: process.env.Node,
+    MAINNET: process.env.Mainnet
   },
   router: {
     mode: "hash",
