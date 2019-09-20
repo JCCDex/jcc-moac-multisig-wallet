@@ -118,6 +118,10 @@ contract JccMoacMultiSig is Administrative {
   function getVoters() public view returns (address[]) {
     return _voters.getAddress(0, _voters.count());
   }
+
+  function isVoter() public view returns (bool) {
+    return _voters.exist(msg.sender);
+  }
   event CreateProposal(uint indexed topicId, uint indexed voteType, uint indexed value, address target);
 
   // 发起变更投票人数百分比配置的提案,只有投票人才能发起这个提议
@@ -138,11 +142,10 @@ contract JccMoacMultiSig is Administrative {
     return false;
   }
 
-  // 发起选举投票人提案,只有投票人才能发起这个提议
+  // 发起选举投票人提案,任何非投票人能发起这个提议
   function createVoterProposal(uint topicId, uint timestamp, uint endtime, address target) public returns (bool) {
     require(!_onlyonce, "admin does not configure yet");
     require(!_voters.exist(target), "can not vote exist voter");
-    require(_voters.exist(msg.sender), "only voter can commit");
 
     if (_proposals.insertTopic(topicId, timestamp, endtime, TYPE_VOTE, 0, 0, target, msg.sender)) {
       emit CreateProposal(topicId, TYPE_VOTE, 0, target);
@@ -170,6 +173,9 @@ contract JccMoacMultiSig is Administrative {
     require(!_onlyonce, "admin does not configure yet");
     require(_stopDeposit, "only withdraw after set stop deposit flag");
 
+    bool exist = _proposals.votingExist(TYPE_WITHDRAW, msg.sender);
+    require(!exist, "only one withdraw proposal per user in voting.");
+
     uint _bd = _balanceOfDeposit.balance(msg.sender);
     uint _bw = _balanceOfWithdraw.balance(msg.sender);
     uint _amount = _bd.sub(_bw);
@@ -192,8 +198,28 @@ contract JccMoacMultiSig is Administrative {
     return _proposals.getVotedCount();
   }
 
+  function getMyVotingCount() public view returns (uint) {
+    return _proposals.getVotingCountBySponsor(msg.sender);
+  }
+
+  function getMyVotedCount() public view returns (uint) {
+    return _proposals.getVotedCountBySponsor(msg.sender);
+  }
+
   function getAllVotingTopicIds() public view returns (uint[]) {
     return _proposals.getAllVotingTopicIds();
+  }
+
+  function getAllMyVotingTopicIds() public view returns (uint[]) {
+    return _proposals.getAllMyVotingTopicIds(msg.sender);
+  }
+
+  function getVotedTopicIds(uint from, uint to) public view returns (uint[]) {
+    return _proposals.getVotedTopicIds(from, to);
+  }
+
+  function getMyVotedTopicIds(uint from, uint to) public view returns (uint[]) {
+    return _proposals.getMyVotedTopicIds(msg.sender, from, to);
   }
 
   function getTopic(uint topicId) public view returns (Proposal.topic) {
@@ -261,93 +287,88 @@ contract JccMoacMultiSig is Administrative {
     return (ret, len);
   }
 
-  event CloseProposal(uint indexed topicId, uint indexed voteType, bool indexed flag);
+  event CloseProposal(uint indexed topicId, uint indexed yesCount, uint indexed totalCount);
+
+  function processMoveTopic(Proposal.topic memory t) internal returns (bool) {
+    require(_proposals.moveTopic(t.topicId), "must move to voted successful");
+
+    emit CloseProposal(t.topicId, t.yesCount, _voters.count());
+    return true;
+  }
 
   function processPercentExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
+
     uint _resultYes = t.yesCount.mul(100).div(_voters.count());
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
+
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      t.flag = true;
+      processMoveTopic(t);
       _percent = t.value;
-    } else {
-      t.flag = false;
     }
-
-    _proposals.moveTopic(t.topicId);
-
-    emit CloseProposal(t.topicId, t.voteType, t.flag);
-
     return true;
   }
+ 
   function processVoteExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
+
     uint _resultYes = t.yesCount.mul(100).div(_voters.count());
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
+
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      t.flag = true;
+      processMoveTopic(t);
       _voters.insert(t.target);
-    } else {
-      t.flag = false;
     }
-
-    _proposals.moveTopic(t.topicId);
-
-    emit CloseProposal(t.topicId, t.voteType, t.flag);
 
     return true;
   }
+
   function processRecallExpire(uint topicId) internal returns (bool) {
     // 发起投票时人数是够的，形成决议后有可能人数降低到3个以下，必须驳回
     require(_voters.count() > 3, "at least 3 voter");
     Proposal.topic memory t = _proposals.getTopic(topicId);
+
     uint _resultYes = t.yesCount.mul(100).div(_voters.count());
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
+
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      t.flag = true;
+      processMoveTopic(t);
       _voters.remove(t.target);
-    } else {
-      t.flag = false;
     }
-
-    _proposals.moveTopic(t.topicId);
-
-    emit CloseProposal(t.topicId, t.voteType, t.flag);
 
     return true;
   }
+
   event Withdraw(address indexed user, uint indexed amount, uint totalWithdraw, uint indexed left);
-  function withdraw(address dest, uint amount) internal {
-    uint _bd = _balanceOfDeposit.balance(dest);
-    uint _bw = _balanceOfWithdraw.balance(dest);
+
+  function withdraw(Proposal.topic memory t) internal {
+    uint _bd = _balanceOfDeposit.balance(t.target);
+    uint _bw = _balanceOfWithdraw.balance(t.target);
     uint _amount = _bd.sub(_bw);
 
     // 发起提现提案的人必须有足够的提现资金,没有存款的人余额是0，无权发起提案
-    require(_amount > 0 && _amount >= amount, "user must have enough money");
+    require(_amount > 0 && _amount >= t.value, "user must have enough money");
 
     uint all = address(this).balance;
-    require(all >= amount, "contract must have enough money");
+    require(all >= t.value, "contract must have enough money");
 
-    uint totalWithdraw = _balanceOfWithdraw.add(dest, amount);
-    emit Withdraw(dest, amount, totalWithdraw, _bd.sub(totalWithdraw));
+    uint totalWithdraw = _balanceOfWithdraw.add(t.target, t.value);
+    emit Withdraw(t.target, t.value, totalWithdraw, _bd.sub(totalWithdraw));
 
-    dest.transfer(amount);
+    processMoveTopic(t);
+    t.target.transfer(t.value);
   }
+
   function processWithdrawExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
+
     uint _resultYes = t.yesCount.mul(100).div(_voters.count());
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
+
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      t.flag = true;
       // 执行转账
-      withdraw(t.target, t.value);
-    } else {
-      t.flag = false;
+      withdraw(t);
     }
-
-    _proposals.moveTopic(t.topicId);
-
-    emit CloseProposal(t.topicId, t.voteType, t.flag);
 
     return true;
   }

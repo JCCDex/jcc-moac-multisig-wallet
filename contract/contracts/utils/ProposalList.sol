@@ -7,6 +7,15 @@ import "./Proposal.sol";
  */
 library ProposalList {
   using SafeMath for uint256;
+
+  /**
+    提案状态列表
+   */
+  struct stateList {
+    uint[] voting;
+    uint[] voted;
+  }
+
   /**
   所有提案列表
    */
@@ -14,11 +23,12 @@ library ProposalList {
   {
     // 所有提案列表: topic ID是关键字
     mapping(uint => Proposal.topic) _topics;
-    // 待投票提案
-    uint[] _voting;
 
-    // 已投票提案
-    uint[] _voted;
+    // 提案状态
+    stateList _voteList;
+
+    // 提案者相关提案列表
+    mapping(address => stateList) _sponsors;
 
     // 所有提案投票记录
     mapping(bytes32 => Proposal.voteDetail) _voteDetails;
@@ -60,21 +70,34 @@ library ProposalList {
     self._topics[topicId].yesCount = 0;
     self._topics[topicId].noCount = 0;
     self._topics[topicId].flag = false;
-    self._topics[topicId].idx = self._voting.push(topicId).sub(1);
+    self._topics[topicId].idx = self._voteList.voting.push(topicId).sub(1);
+
+    // 建立提案发起者关联数据
+    self._sponsors[sponsor].voting.push(topicId);
 
     return true;
   }
 
   function getVotingCount(proposalMap storage self) internal view returns (uint) {
-    return self._voting.length;
+    return self._voteList.voting.length;
   }
   function getVotedCount(proposalMap storage self) internal view returns (uint) {
-    return self._voted.length;
+    return self._voteList.voted.length;
+  }
+
+  function getVotingCountBySponsor(proposalMap storage self, address sponsor) internal view returns (uint) {
+    return self._sponsors[sponsor].voting.length;
+  }
+  function getVotedCountBySponsor(proposalMap storage self, address sponsor) internal view returns (uint) {
+    return self._sponsors[sponsor].voted.length;
   }
 
   // 获得当前未决投票清单，考虑到未决的投票数量有限，因此直接返回所有
   function getAllVotingTopicIds(proposalMap storage self) internal view returns (uint[]) {
-    return self._voting;
+    return self._voteList.voting;
+  }
+  function getAllMyVotingTopicIds(proposalMap storage self, address sponsor) internal view returns (uint[]) {
+    return self._sponsors[sponsor].voting;
   }
   function getTopic(proposalMap storage self, uint topicId) internal view returns (Proposal.topic) {
     return self._topics[topicId];
@@ -83,12 +106,25 @@ library ProposalList {
   // 获得当前已决提案id，考虑到数量不断增长，因此采用范围获取
   function getVotedTopicIds(proposalMap storage self, uint from, uint to) internal view returns (uint[] memory) {
     require(to > from, "index to must bigger than from");
-    require(to < self._voted.length, "index to must smaller than voted count");
+    require(to < self._voteList.voted.length, "index to must smaller than voted count");
 
     uint len = 0;
     uint[] memory res = new uint[](to.sub(from));
     for (uint i = from; i < to; i++) {
-      res[len] = self._voted[i];
+      res[len] = self._voteList.voted[i];
+      len = len.add(1);
+    }
+    return res;
+  }
+
+  function getMyVotedTopicIds(proposalMap storage self, address sponsor, uint from, uint to) internal view returns (uint[] memory) {
+    require(to > from, "index to must bigger than from");
+    require(to < self._sponsors[sponsor].voted.length, "index to must smaller than voted count");
+
+    uint len = 0;
+    uint[] memory res = new uint[](to.sub(from));
+    for (uint i = from; i < to; i++) {
+      res[len] = self._sponsors[sponsor].voted[i];
       len = len.add(1);
     }
     return res;
@@ -99,16 +135,31 @@ library ProposalList {
     if (!exist(self, topicId)) {
       return false;
     }
+    // 已经被标记为完成的不再处理
+    if (self._topics[topicId].flag) {
+      return false;
+    }
 
+    // 修改全局的议题状态
     uint row2Del = self._topics[topicId].idx;
-    uint key2Move = self._voting[self._voting.length.sub(1)];
-    self._voting[row2Del] = key2Move;
+    uint key2Move = self._voteList.voting[self._voteList.voting.length.sub(1)];
+    self._voteList.voting[row2Del] = key2Move;
     self._topics[key2Move].idx = row2Del;
-    self._voting.length = self._voting.length.sub(1);
+    self._voteList.voting.length = self._voteList.voting.length.sub(1);
+
+    // 修改提案者的议题状态
+    for (uint i = 0; i < self._sponsors[self._topics[topicId].sponsor].voting.length; i++) {
+      if (self._sponsors[self._topics[topicId].sponsor].voting[i] == topicId) {
+        self._sponsors[self._topics[topicId].sponsor].voted.push(topicId);
+        self._sponsors[self._topics[topicId].sponsor].voting[i] = self._sponsors[self._topics[topicId].sponsor].voting[self._sponsors[self._topics[topicId].sponsor].voting.length.sub(1)];
+        self._sponsors[self._topics[topicId].sponsor].voting.length = self._sponsors[self._topics[topicId].sponsor].voting.length.sub(1);
+        break;
+      }
+    }
 
     // 设置议题结束 移动到已决议题索引中
     self._topics[topicId].flag = true;
-    self._topics[topicId].idx = self._voted.push(topicId).sub(1);
+    self._topics[topicId].idx = self._voteList.voted.push(topicId).sub(1);
 
     return true;
   }
@@ -174,34 +225,40 @@ library ProposalList {
 
   // 检查某种类型或者某个用户是否发起过提案
   function votingExist(proposalMap storage self, uint voteType, address sponsor) internal view returns (bool) {
-    if (self._voting.length == 0) {
+    bool noCheckSponsor = (address(0) == sponsor);
+
+    if (noCheckSponsor) {
+      return votingExistType(self, voteType);
+    }
+
+    return votingExistTypeBySponsor(self, voteType, sponsor);
+  }
+  // 只检查有无相同类型提案
+  function votingExistType(proposalMap storage self, uint voteType) internal view returns (bool) {
+    if (self._voteList.voting.length == 0) {
       return false;
     }
-    bool noCheckSponsor = (address(0) == sponsor);
-    for (uint i = 0; i < self._voting.length; i++) {
-      Proposal.topic storage t = self._topics[self._voting[i]];
+    for (uint i = 0; i < self._voteList.voting.length; i++) {
+      Proposal.topic storage t = self._topics[self._voteList.voting[i]];
       if (t.voteType != voteType) {
         continue;
       }
-      if (noCheckSponsor) {
-        return true;
-      }
-      if (t.sponsor == sponsor) {
-        return true;
-      }
+      return true;
     }
     return false;
   }
-  // 扫描并确定投票议题是否关闭，是否生效 TODO:移动到外部
-  // function closeTopic(proposalMap storage self, uint endtime, uint voterCount, uint voterPercent) internal {
-  //   for (uint i = 0; i < self._voting.length; i++) {
-  //     Proposal.topic t = self._voting[i];
-  //     if (t.endtime < endtime) {
-  //       continue;
-  //     }
-  //     // 计算投票人数，计算比例，确定是否通过生效
-  //     // uint percent = t.yesCount.mul(100).div(10);
-  //     // 根据不同生效模式，设置不同参数
-  //   }
-  // }
+  // 检查某个用户有无特定类型的提案
+  function votingExistTypeBySponsor(proposalMap storage self, uint voteType, address sponsor) internal view returns (bool) {
+    if (self._sponsors[sponsor].voting.length == 0) {
+      return false;
+    }
+    for (uint i = 0; i < self._sponsors[sponsor].voting.length; i++) {
+      Proposal.topic storage t = self._topics[self._sponsors[sponsor].voting[i]];
+      if (t.voteType != voteType) {
+        continue;
+      }
+      return true;
+    }
+    return false;
+  }
 }
