@@ -1,8 +1,10 @@
 import tp from "tp-js-sdk";
+import multisigContractInstance from "@/js/contract";
 
 const tpInfo = (() => {
     let address: string = null;
     let isDev = process.env.NODE_ENV === "development";
+    let isVoterState: boolean;
 
     const getAddress = async (): Promise<string> => {
         if (isDev) {
@@ -27,8 +29,26 @@ const tpInfo = (() => {
         address = null;
     }
 
+    const isVoter = async (): Promise<boolean> => {
+        if (isVoterState === undefined) {
+            const mainnet = process.env.MAINNET === "true" ? true : false;
+            const instance = multisigContractInstance.init(process.env.CONTRACT, process.env.NODE, mainnet);
+            try {
+                const voters = await instance.getVoters();
+                const address = await getAddress();
+                isVoterState = voters.includes(address);
+                return isVoterState;
+            } catch (error) {
+
+            }
+
+        }
+        return isVoterState
+    }
+
     return {
         destroy,
+        isVoter,
         getAddress
     }
 })();

@@ -2,15 +2,22 @@ import { smartContract as SmartContract, Moac, SolidityFunction } from "jcc-moac
 const abi = require("@/abi/multisig-wallet-abi");
 const abiCoder = require('ethers/utils/abi-coder').defaultAbiCoder;
 
-
+/** 
+ * hijacking `call` to return origin bytes so that we could decode it by ethers abi coder.
+ * [origin code](https://github.com/MOACChain/chain3/blob/master/lib/chain3/function.js#L130)
+ */
 Object.defineProperty(SolidityFunction.prototype, "call", {
     get() {
         return function () {
-            const args = Array.prototype.slice.call(arguments).filter(function (a) { return a !== undefined; });
-            const defaultBlock = this.extractDefaultBlock(args);
-            const payload = this.toPayload(args);
-            const output = this._mc.call(payload, defaultBlock);
-            return output;
+            return new Promise((resolve, reject) => {
+                const args = Array.prototype.slice.call(arguments).filter(function (a) { return a !== undefined; });
+                const defaultBlock = this.extractDefaultBlock(args);
+                const payload = this.toPayload(args);
+                this._mc.call(payload, defaultBlock, function (error, output) {
+                    if (error) return reject(error);
+                    return resolve(output);
+                });
+            });
         };
     }
 });
