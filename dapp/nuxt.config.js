@@ -16,7 +16,7 @@ export default {
     script: [
       {
         src:
-          process.env.NODE_ENV === "test"
+          process.env.NODE_ENV === "development"
             ? "https://unpkg.com/vue@2.6.10/dist/vue.js"
             : "https://unpkg.com/vue@2.6.10/dist/vue.min.js"
       },
@@ -25,6 +25,14 @@ export default {
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+  },
+  env: {
+    /**
+     * test moac address & secret
+     */
+    MOAC_ADDRESS: "0x5edccedfe9952f5b828937b325bd1f132aa09f60",
+    MOAC_SECRET:
+      "8fef3bc906ea19f0348cb44bca851f5459b61e32c5cae445220e2f7066db36d8"
   },
   router: {
     mode: "hash",
@@ -77,6 +85,7 @@ export default {
         vue: "Vue",
         "jcc-moac-utils": "jcc_moac_utils"
       };
+
       return config;
     }
   }

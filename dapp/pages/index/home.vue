@@ -35,6 +35,7 @@ import BScroll from "@better-scroll/core";
 import HomeHeader from "@/components/home/home-header";
 import HomeMiddle from "@/components/home/home-middle";
 import HomeMessage from "@/components/home/home-message";
+import tpInfo from "@/js/tp";
 
 export default {
   name: "Home",
@@ -48,11 +49,14 @@ export default {
       bs: null,
       lockAmount: 0,
       voteAmount: 8,
-      address: "0xdkwim2swijkdksyw7nuifncxvdrqskd9fkffqsljkwyrtsfkvn4fkwkxmiel"
+      address: ""
     };
   },
   mounted() {
     this.init();
+    tpInfo.getAddress().then(address => {
+      this.address = address || "";
+    });
   },
   updated() {
     this.bs.refresh();

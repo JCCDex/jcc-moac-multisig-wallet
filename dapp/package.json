@@ -5,9 +5,9 @@
   "author": "JCCDex",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=test nuxt-ts",
+    "dev": "nuxt-ts",
     "build": "nuxt-ts build",
-    "generate": "cross-env NODE_ENV=production nuxt-ts generate",
+    "generate": "nuxt-ts generate",
     "start": "nuxt-ts start",
     "test": "jest",
     "e2e": "nightwatch",
