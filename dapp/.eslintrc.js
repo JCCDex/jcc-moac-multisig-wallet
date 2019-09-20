@@ -5,7 +5,7 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser'
   },
   extends: [
     "eslint:recommended",
@@ -16,12 +16,14 @@ module.exports = {
   ],
   // 校验 .vue 文件
   plugins: [
-    'vue'
+    'vue',
+    '@typescript-eslint'
   ],
   // 自定义规则
   rules: {
     "semi": 0,
     "no-console": "off",
+    "require-atomic-updates": "off",
     "vue/max-attributes-per-line": "off",
     "prettier/prettier": ["error", {
       "trailingComma": "none",

@@ -11,8 +11,8 @@
     "start": "nuxt-ts start",
     "test": "jest",
     "e2e": "nightwatch",
-    "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
+    "lint": "eslint --ext .js,.vue,.ts --ignore-path .eslintignore .",
+    "lintfix": "eslint --fix --ext .js,.vue,.ts --ignore-path .eslintignore .",
     "precommit": "npm run lint"
   },
   "dependencies": {
@@ -32,6 +32,8 @@
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.2.6",
+    "@typescript-eslint/eslint-plugin": "^2.3.0",
+    "@typescript-eslint/parser": "^2.3.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.1.0",

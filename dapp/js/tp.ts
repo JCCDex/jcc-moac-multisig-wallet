@@ -2,54 +2,53 @@ import tp from "tp-js-sdk";
 import multisigContractInstance from "@/js/contract";
 
 const tpInfo = (() => {
-    let address: string = null;
-    let isDev = process.env.NODE_ENV === "development";
-    let isVoterState: boolean;
+  let address: string = null;
+  let isDev = process.env.NODE_ENV === "development";
+  let isVoterState: boolean;
 
-    const getAddress = async (): Promise<string> => {
-        if (isDev) {
-            address = process.env.MOAC_ADDRESS;
-            return address;
-        }
-
-        if (address === null) {
-            try {
-                const res = await tp.getCurrentWallet();
-                if (res && res.result) {
-                    address = res.data.address
-                }
-            } catch (error) {
-                address = null;
-            }
-        }
-        return address;
+  const getAddress = async (): Promise<string> => {
+    if (isDev) {
+      address = process.env.MOAC_ADDRESS;
+      return address;
     }
 
-    const destroy = () => {
+    if (address === null) {
+      try {
+        const res = await tp.getCurrentWallet();
+        if (res && res.result) {
+          address = res.data.address;
+        }
+      } catch (error) {
         address = null;
+      }
     }
+    return address;
+  };
 
-    const isVoter = async (): Promise<boolean> => {
-        if (isVoterState === undefined) {
-            const instance = multisigContractInstance.init();
-            try {
-                const voters = await instance.getVoters();
-                const address = await getAddress();
-                isVoterState = voters.includes(address);
-                return isVoterState;
-            } catch (error) {
+  const destroy = () => {
+    address = null;
+  };
 
-            }
-
-        }
-        return isVoterState
+  const isVoter = async (): Promise<boolean> => {
+    if (isVoterState === undefined) {
+      const instance = multisigContractInstance.init();
+      try {
+        const voters = await instance.getVoters();
+        const address = await getAddress();
+        isVoterState = voters.includes(address);
+        return isVoterState;
+      } catch (error) {
+        console.log("request voters error: ", error);
+      }
     }
+    return isVoterState;
+  };
 
-    return {
-        destroy,
-        isVoter,
-        getAddress
-    }
+  return {
+    destroy,
+    isVoter,
+    getAddress
+  };
 })();
 
 export default tpInfo;
