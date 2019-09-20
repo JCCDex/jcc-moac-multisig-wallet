@@ -60,5 +60,9 @@
    "lock_action_sheet_amount": "锁仓数量：{amount} {token}",
    "withdraw_action_sheet_amount": "提现数量：{amount} {token}",
    "withdraw_action_sheet_percent": "提现比例：{percent}",
-   "pls_input_amount": "请输入数量"
+   "pls_input_amount": "请输入数量",
+   "recall_page": {
+     "title": "投票人{index}",
+     "confirm_message": "确定要罢免该投票人{voter}吗？"
+   }
  }

@@ -31,8 +31,7 @@ const tpInfo = (() => {
 
     const isVoter = async (): Promise<boolean> => {
         if (isVoterState === undefined) {
-            const mainnet = process.env.MAINNET === "true" ? true : false;
-            const instance = multisigContractInstance.init(process.env.CONTRACT, process.env.NODE, mainnet);
+            const instance = multisigContractInstance.init();
             try {
                 const voters = await instance.getVoters();
                 const address = await getAddress();
