@@ -4,7 +4,8 @@ import {
   SolidityFunction
 } from "jcc-moac-utils";
 const abi = require("@/abi/multisig-wallet-abi");
-const abiCoder = require("ethers/utils/abi-coder").defaultAbiCoder;
+const ethers = require("ethers");
+const abiCoder = ethers.utils.defaultAbiCoder;
 
 /**
  * hijacking `call` to return origin bytes so that we could decode it by ethers abi coder.

@@ -22,6 +22,9 @@ export default {
       },
       {
         src: "https://unpkg.com/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
+      },
+      {
+        src: "https://unpkg.com/ethers@4.0.37/dist/ethers.min.js"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
@@ -86,6 +89,7 @@ export default {
       config.output.publicPath = "./nuxt/";
       config.externals = {
         vue: "Vue",
+        ethers: "ethers",
         "jcc-moac-utils": "jcc_moac_utils"
       };
 
