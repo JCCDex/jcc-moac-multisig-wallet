@@ -1,10 +1,8 @@
 import tp from "tp-js-sdk";
-import multisigContractInstance from "@/js/contract";
 
 const tpInfo = (() => {
   let address: string = null;
   let isDev = process.env.NODE_ENV === "development";
-  let isVoterState: boolean;
 
   const getAddress = async (): Promise<string> => {
     if (isDev) {
@@ -29,24 +27,8 @@ const tpInfo = (() => {
     address = null;
   };
 
-  const isVoter = async (): Promise<boolean> => {
-    if (isVoterState === undefined) {
-      const instance = multisigContractInstance.init();
-      try {
-        const voters = await instance.getVoters();
-        const address = await getAddress();
-        isVoterState = voters.includes(address);
-        return isVoterState;
-      } catch (error) {
-        console.log("request voters error: ", error);
-      }
-    }
-    return isVoterState;
-  };
-
   return {
     destroy,
-    isVoter,
     getAddress
   };
 })();

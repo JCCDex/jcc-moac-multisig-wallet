@@ -243,7 +243,10 @@
   },
   {
     "constant": true,
-    "inputs": [],
+    "inputs": [{
+      "name": "addr",
+      "type": "address"
+    }],
     "name": "isVoter",
     "outputs": [{
       "name": "",

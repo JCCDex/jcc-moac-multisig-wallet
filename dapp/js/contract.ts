@@ -105,6 +105,20 @@ export class MultisigContract extends SmartContract {
   }
 
   /**
+   * request account is voter or not
+   *
+   * @param {string} address
+   * @returns {Promise<boolean>}
+   * @memberof MultisigContract
+   */
+  public async isVoter(address: string): Promise<boolean> {
+    const bytes = await super.callABI("isVoter", address);
+    const outputs = abi.find(item => item.name === "isVoter").outputs;
+    const isVoter = abiCoder.decode(outputs, bytes)[0];
+    return isVoter;
+  }
+
+  /**
    * create proposal for changing pass percent
    *
    * @memberof MultisigContract
@@ -145,7 +159,7 @@ export class MultisigContract extends SmartContract {
   }
 
   /**
-   * request count of undetermined proposal
+   * request count of voted proposal
    *
    * @memberof MultisigContract
    */
@@ -156,7 +170,38 @@ export class MultisigContract extends SmartContract {
     return count.toString(10);
   }
 
+  /**
+   * request count of undetermined proposal that be submited by me
+   *
+   * @memberof MultisigContract
+   */
+  public async getMyVotingCount(): Promise<string> {
+    const bytes = await super.callABI("getMyVotingCount");
+    const outputs = abi.find(item => item.name === "getMyVotingCount").outputs;
+    const count = abiCoder.decode(outputs, bytes)[0];
+    return count.toString(10);
+  }
+
+  /**
+   * request count of voted proposal that be submited by me
+   *
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async getMyVotedCount(): Promise<string> {
+    const bytes = await super.callABI("getMyVotedCount");
+    const outputs = abi.find(item => item.name === "getMyVotedCount").outputs;
+    const count = abiCoder.decode(outputs, bytes)[0];
+    return count.toString(10);
+  }
+
   public getAllVotingTopicIds() {}
+
+  public getAllMyVotingTopicIds() {}
+
+  public getVotedTopicIds() {}
+
+  public getMyVotedTopicIds() {}
 
   public getTopic() {}
 
@@ -174,11 +219,50 @@ export class MultisigContract extends SmartContract {
 
   public deposit() {}
 
-  public getBalance() {}
+  /**
+   * request withdraw amount
+   *
+   * balance = depositBalance - withdrawBalance
+   *
+   * @param {string} address
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async getBalance(address: string): Promise<string> {
+    const bytes = await super.callABI("getBalance", address);
+    const outputs = abi.find(item => item.name === "getBalance").outputs;
+    const count = abiCoder.decode(outputs, bytes)[0];
+    return count.toString(10);
+  }
 
-  public getDepositBalance() {}
+  /**
+   * request amount which had deposited
+   *
+   * @param {string} address
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async getDepositBalance(address: string): Promise<string> {
+    const bytes = await super.callABI("getDepositBalance", address);
+    const outputs = abi.find(item => item.name === "getDepositBalance").outputs;
+    const count = abiCoder.decode(outputs, bytes)[0];
+    return count.toString(10);
+  }
 
-  public getWithdrawBalance() {}
+  /**
+   * request amount which had withdrawed
+   *
+   * @param {string} address
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async getWithdrawBalance(address: string): Promise<string> {
+    const bytes = await super.callABI("getWithdrawBalance", address);
+    const outputs = abi.find(item => item.name === "getWithdrawBalance")
+      .outputs;
+    const count = abiCoder.decode(outputs, bytes)[0];
+    return count.toString(10);
+  }
 
   // public kill() {
 

@@ -33,9 +33,8 @@ export default {
     /**
      * test moac address & secret
      */
-    MOAC_ADDRESS: "0x5edccedfe9952f5b828937b325bd1f132aa09f60",
-    MOAC_SECRET:
-      "8fef3bc906ea19f0348cb44bca851f5459b61e32c5cae445220e2f7066db36d8",
+    MOAC_ADDRESS: process.env.MoacAddress,
+    MOAC_SECRET: process.env.MoacSecret,
     CONTRACT: process.env.Contract,
     NODE: process.env.Node,
     MAINNET: process.env.Mainnet
@@ -68,7 +67,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/dpr.js", "~/plugins/vant.js", "~/plugins/i18n.js"],
+  plugins: [
+    "~/plugins/dpr",
+    "~/plugins/vant",
+    "~/plugins/i18n",
+    "~/plugins/initAccount"
+  ],
   /*
    ** Nuxt.js dev-modules
    */
