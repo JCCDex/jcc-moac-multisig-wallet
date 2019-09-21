@@ -64,5 +64,8 @@
    "recall_page": {
      "title": "投票人{index}",
      "confirm_message": "确定要罢免该投票人{voter}吗？"
-   }
+   },
+   "apply_voter": "申请投票人",
+   "undetermined_proposal": "待决提案",
+   "voted_proposal": "已决提案"
  }
