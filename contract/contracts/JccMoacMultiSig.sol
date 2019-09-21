@@ -119,8 +119,8 @@ contract JccMoacMultiSig is Administrative {
     return _voters.getAddress(0, _voters.count());
   }
 
-  function isVoter() public view returns (bool) {
-    return _voters.exist(msg.sender);
+  function isVoter(address addr) public view returns (bool) {
+    return _voters.exist(addr);
   }
   event CreateProposal(uint indexed topicId, uint indexed voteType, uint indexed value, address target);
 

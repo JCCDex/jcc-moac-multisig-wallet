@@ -48,7 +48,7 @@
 
 参见 [chain3的estimateGas问题](https://github.com/MOACChain/chain3/issues/15)
 
-1. 创建合约大约需要370万
+1. 创建合约大约需要430万
 2. configureOnce初始化有5个参与者，需要25万
 3. deposit需要8.6万
 4. setStopDeposit 需要2.3万

@@ -68,9 +68,9 @@ contract('JccMoacMultiSig', (accounts) => {
 
   it('JccMoacMultiSig vote percent proposal', async () => {
     await multiWallet.configureOnce(3, 50, [voter1, voter2, voter3]);
-    let isVoter = await multiWallet.isVoter({ from: voter2 });
+    let isVoter = await multiWallet.isVoter(voter1, { from: voter2 });
     assert.equal(isVoter, true);
-    isVoter = await multiWallet.isVoter({ from: voter4 });
+    isVoter = await multiWallet.isVoter(voter4, { from: voter4 });
     assert.equal(isVoter, false);
 
     // 发起议题
