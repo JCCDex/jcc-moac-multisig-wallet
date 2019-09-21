@@ -53,7 +53,11 @@
 3. deposit需要8.6万
 4. setStopDeposit 需要2.3万
 5. createPercentProposal发起投票百分比提案 22万
-6. voteTopic 投票 14万
-7. processExpire 处理两个提案 14万 处理5个提现请求70万
-8. createWithdrawProposal 21万
+6. createRecallProposal 罢免投票人 24万
+7. createVoterProposal 罢免投票人 24万
+8. createVoterProposal 罢免投票人 24万
+9. voteTopic 投票 14万
+10. processExpire 处理两个提案 14万 处理5个提现请求70万
+11. createWithdrawProposal 21万
 
+以上为实际记录的gas，实际运行时请增加20%比较保险
