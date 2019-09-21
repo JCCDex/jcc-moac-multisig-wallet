@@ -113,13 +113,13 @@
       },
       {
         "indexed": true,
-        "name": "voteType",
+        "name": "yesCount",
         "type": "uint256"
       },
       {
         "indexed": true,
-        "name": "flag",
-        "type": "bool"
+        "name": "totalCount",
+        "type": "uint256"
       }
     ],
     "name": "CloseProposal",
@@ -236,6 +236,18 @@
     "outputs": [{
       "name": "",
       "type": "address[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "isVoter",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
     }],
     "payable": false,
     "stateMutability": "view",
@@ -380,7 +392,83 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "getMyVotingCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getMyVotedCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "getAllVotingTopicIds",
+    "outputs": [{
+      "name": "",
+      "type": "uint256[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getAllMyVotingTopicIds",
+    "outputs": [{
+      "name": "",
+      "type": "uint256[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+        "name": "from",
+        "type": "uint256"
+      },
+      {
+        "name": "to",
+        "type": "uint256"
+      }
+    ],
+    "name": "getVotedTopicIds",
+    "outputs": [{
+      "name": "",
+      "type": "uint256[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+        "name": "from",
+        "type": "uint256"
+      },
+      {
+        "name": "to",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMyVotedTopicIds",
     "outputs": [{
       "name": "",
       "type": "uint256[]"
