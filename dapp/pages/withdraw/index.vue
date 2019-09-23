@@ -3,72 +3,37 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('withdraw_declare')" />
-            <div
-              ref="scroll"
-              flex
-              class="scroll-wrapper"
-              style="height: calc(100% - 0.8rem);  background-color: #fff;"
-            >
+            <div ref="scroll" flex class="scroll-wrapper" style="height: calc(100% - 0.8rem);  background-color: #fff;">
               <div flex="dir:top cross: center">
                 <div class="multisig-wallet-withdraw-tip-container">
                   <p v-for="(tip, index) in $t('withdraw_tips')" :key="index">
                     {{ tip }}
                   </p>
 
-                  <div
-                    flex="cross:center"
-                    style="margin-top: 1.35rem;"
-                    @click="acceptAgreement"
-                  >
-                    <svg
-                      class="multisig-wallet-icon multisig-wallet-icon-small"
-                      aria-hidden="true"
-                      style="margin-right: 0.1rem;"
-                    >
+                  <div flex="cross:center" style="margin-top: 1.35rem;" @click="acceptAgreement">
+                    <svg class="multisig-wallet-icon multisig-wallet-icon-small" aria-hidden="true" style="margin-right: 0.1rem;">
                       <use :xlink:href="icon" />
                     </svg>
                     {{ $t("accept_agreement") }}
                   </div>
                 </div>
-                <div
-                  class="multisig-wallet-withdraw-bottom-container"
-                  flex-box="1"
-                  flex="dir:top cross: center"
-                >
+                <div class="multisig-wallet-withdraw-bottom-container" flex-box="1" flex="dir:top cross: center">
                   <p>{{ $t("withdraw_amount", { colon: "：" }) }}</p>
 
-                  <van-field
-                    v-model="value"
-                    center
-                    type="number"
-                    :placeholder="$t('pls_input_amount')"
-                  >
+                  <van-field v-model="value" center type="number" :placeholder="$t('pls_input_amount')">
                     <span slot="button" size="small" type="primary">
                       {{ $t("moac") }}
                     </span>
                   </van-field>
 
-                  <div
-                    flex="main: justify cross:center"
-                    style="margin-top: 0.24rem;"
-                  >
-                    <span>{{
-                      $t("max_withdraw", { amount: amount, token: $t("moac") })
-                    }}</span>
+                  <div flex="main: justify cross:center" style="margin-top: 0.24rem;">
+                    <span>{{ $t("max_withdraw", { amount: amount, token: $t("moac") }) }}</span>
                   </div>
 
                   <div flex-box="1" flex="cross:bottom">
-                    <button
-                      :disabled="!withdrawEnable"
-                      class="multisig-wallet-button multisig-wallet-withdraw-button"
-                      style="width: 100%;"
-                      @click="show = true"
-                    >
+                    <button :disabled="!withdrawEnable" class="multisig-wallet-button multisig-wallet-withdraw-button" style="width: 100%;" @click="show = true">
                       {{ $t("withdraw") }}
                     </button>
                   </div>
@@ -96,10 +61,7 @@
         }}
       </p>
 
-      <button
-        class="multisig-wallet-button multisig-wallet-confirm-button"
-        style="width:100%;"
-      >
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
         {{ $t("withdraw_confirm") }}
       </button>
     </van-action-sheet>
@@ -127,12 +89,7 @@ export default {
   computed: {
     withdrawEnable() {
       const value = parseFloat(this.value);
-      return (
-        this.agree &&
-        isValidAmount(value) &&
-        value > 0 &&
-        new BigNumber(value).isLessThanOrEqualTo(this.amount)
-      );
+      return this.agree && isValidAmount(value) && value > 0 && new BigNumber(value).isLessThanOrEqualTo(this.amount);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";

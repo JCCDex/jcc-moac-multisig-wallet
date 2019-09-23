@@ -3,33 +3,14 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('recall_voter')" />
-            <div
-              style="color: #181C24;height:0.86rem; line-height:0.86rem; text-align:left;padding-left:0.3rem;"
-            >
+            <div style="color: #181C24;height:0.86rem; line-height:0.86rem; text-align:left;padding-left:0.3rem;">
               {{ $t("click_to_recall") }}
             </div>
-            <div
-              ref="scroll"
-              class="scroll-wrapper"
-              style="background-color: #fff;height: calc(100% - 1.66rem);"
-            >
-              <div
-                flex="dir:top cross: center"
-                class="multisig-wallet-recall-container"
-                style="min-height: calc(100% + 0.01rem)"
-              >
-                <div
-                  v-for="(voter, key) of voters"
-                  :key="key"
-                  flex="main:justify cross:center"
-                  class="multisig-wallet-voter-cell-container"
-                  @click="showAction(voter)"
-                >
+            <div ref="scroll" class="scroll-wrapper" style="background-color: #fff;height: calc(100% - 1.66rem);">
+              <div flex="dir:top cross: center" class="multisig-wallet-recall-container" style="min-height: calc(100% + 0.01rem)">
+                <div v-for="(voter, key) of voters" :key="key" flex="main:justify cross:center" class="multisig-wallet-voter-cell-container" @click="showAction(voter)">
                   <voter-cell :voter="voter" :index="key" />
                 </div>
               </div>
@@ -43,10 +24,7 @@
         {{ $t("recall_page.confirm_message", { voter: selectedVoter }) }}
       </p>
 
-      <button
-        class="multisig-wallet-button multisig-wallet-confirm-button"
-        style="width:100%;"
-      >
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
         {{ $t("vote_confirm") }}
       </button>
     </van-action-sheet>

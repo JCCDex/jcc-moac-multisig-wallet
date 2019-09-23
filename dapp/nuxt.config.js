@@ -15,14 +15,10 @@ export default {
     ],
     script: [
       {
-        src:
-          process.env.NODE_ENV === "development"
-            ? "https://cdn.bootcss.com/vue/2.6.10/vue.js"
-            : "https://cdn.bootcss.com/vue/2.6.10/vue.min.js"
+        src: process.env.NODE_ENV === "development" ? "https://cdn.bootcss.com/vue/2.6.10/vue.js" : "https://cdn.bootcss.com/vue/2.6.10/vue.min.js"
       },
       {
-        src:
-          "https://cdn.jsdelivr.net/npm/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
+        src: "https://cdn.jsdelivr.net/npm/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
       },
       {
         src: "https://cdn.jsdelivr.net/npm/ethers@4.0.37/dist/ethers.min.js"
@@ -68,12 +64,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    "~/plugins/dpr",
-    "~/plugins/vant",
-    "~/plugins/i18n",
-    "~/plugins/initAccount"
-  ],
+  plugins: ["~/plugins/dpr", "~/plugins/vant", "~/plugins/i18n", "~/plugins/initAccount"],
   /*
    ** Nuxt.js dev-modules
    */

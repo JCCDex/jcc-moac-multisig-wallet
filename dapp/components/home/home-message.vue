@@ -1,11 +1,7 @@
 <template>
   <div class="multisig-wallet-home-message-container">
     <slot />
-    <message-cell
-      v-for="(message, index) in messages"
-      :key="index"
-      :message="message"
-    />
+    <message-cell v-for="(message, index) in messages" :key="index" :message="message" />
   </div>
 </template>
 <script>
@@ -18,13 +14,7 @@ export default {
     messages: {
       type: Array,
       default() {
-        return [
-          { type: 0 },
-          { type: 1 },
-          { type: 2 },
-          { type: 3 },
-          { type: 4 }
-        ];
+        return [{ type: 0 }, { type: 1 }, { type: 2 }, { type: 3 }, { type: 4 }];
       }
     }
   }

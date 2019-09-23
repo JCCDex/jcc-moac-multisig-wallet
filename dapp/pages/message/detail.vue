@@ -3,26 +3,13 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
-            <div
-              ref="scroll"
-              class="scroll-wrapper"
-              style="margin-top:0.1rem; height: calc(100% - 0.1rem);"
-            >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
+            <div ref="scroll" class="scroll-wrapper" style="margin-top:0.1rem; height: calc(100% - 0.1rem);">
               <div class="multisig-wallet-message-detail-container">
-                <p
-                  class="multisig-wallet-large-font-size"
-                  style="color: #0B1F5D"
-                >
+                <p class="multisig-wallet-large-font-size" style="color: #0B1F5D">
                   提现申请
                 </p>
-                <p
-                  class="multisig-wallet-small-font-size"
-                  style="color: #9EA4C4"
-                >
+                <p class="multisig-wallet-small-font-size" style="color: #9EA4C4">
                   提现时间：2019-10-07 11:00
                 </p>
                 <p>

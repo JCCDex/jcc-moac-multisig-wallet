@@ -1,27 +1,14 @@
 <template>
   <div ref="scroll" class="scroll-wrapper">
     <div class="scroll-content">
-      <home-header
-        :lock-amount="lockAmount"
-        :address="address"
-        :vote-amount="voteAmount"
-      />
+      <home-header :lock-amount="lockAmount" :address="address" :vote-amount="voteAmount" />
       <home-middle />
       <home-message>
-        <div
-          flex="main:justify cross:center"
-          class="multisig-wallet-message-header"
-        >
-          <div
-            style="border-left: 0.04rem solid #0B1F5D; padding-left: 0.08rem;color: #242D3D"
-          >
+        <div flex="main:justify cross:center" class="multisig-wallet-message-header">
+          <div style="border-left: 0.04rem solid #0B1F5D; padding-left: 0.08rem;color: #242D3D">
             {{ $t("latest_message") }}
           </div>
-          <div
-            class="multisig-wallet-small-font-size"
-            style="color: #A6A8B2;"
-            @click="goto('/message')"
-          >
+          <div class="multisig-wallet-small-font-size" style="color: #A6A8B2;" @click="goto('/message')">
             {{ $t("more_messages") }}
           </div>
         </div>

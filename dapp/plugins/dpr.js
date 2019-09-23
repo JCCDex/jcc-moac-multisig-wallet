@@ -28,19 +28,7 @@
       p || (d && d[1] > 534) || c || (s = 1);
       var u = normal ? 1 : 1 / s,
         m = r.querySelector('meta[name="viewport"]');
-      m ||
-        ((m = r.createElement("meta")),
-        m.setAttribute("name", "viewport"),
-        r.head.appendChild(m)),
-        m.setAttribute(
-          "content",
-          "width=device-width,user-scalable=no,initial-scale=" +
-            u +
-            ",maximum-scale=" +
-            u +
-            ",minimum-scale=" +
-            u
-        );
+      m || ((m = r.createElement("meta")), m.setAttribute("name", "viewport"), r.head.appendChild(m)), m.setAttribute("content", "width=device-width,user-scalable=no,initial-scale=" + u + ",maximum-scale=" + u + ",minimum-scale=" + u);
       var dpr = window.devicePixelRatio;
       if (dpr >= 3) {
         dpr = 3;

@@ -3,19 +3,9 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
-            <div
-              ref="scroll"
-              class="scroll-wrapper"
-              style="margin-top: 0.1rem; background-color: #fff;height: calc(100% - 0.1rem);"
-            >
-              <div
-                class="scroll-content"
-                style="min-height: calc(100% + 0.01rem);position: relative;"
-              >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
+            <div ref="scroll" class="scroll-wrapper" style="margin-top: 0.1rem; background-color: #fff;height: calc(100% - 0.1rem);">
+              <div class="scroll-content" style="min-height: calc(100% + 0.01rem);position: relative;">
                 <div class="pulldown-wrapper multisig-wallet-small-font-size">
                   <div v-show="beforePullDown">
                     <span>{{ $t("pull_down_refresh") }}</span>
@@ -29,15 +19,8 @@
                     </div>
                   </div>
                 </div>
-                <message-cell
-                  v-for="(message, index) in messages"
-                  :key="index"
-                  :message="message"
-                />
-                <div
-                  v-if="!beforePullUp"
-                  class="pullup-wrapper multisig-wallet-small-font-size"
-                >
+                <message-cell v-for="(message, index) in messages" :key="index" :message="message" />
+                <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
                   <div v-if="!isPullUpLoad" class="before-trigger">
                     <span>{{ $t("pull_up_more") }}</span>
                   </div>

@@ -3,20 +3,10 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('locked_position_detail')" />
-            <div
-              ref="scroll"
-              class="scroll-wrapper"
-              style="margin-top: 0.1rem; background-color: #fff;height: calc(100% - 0.9rem);"
-            >
-              <div
-                class="scroll-content"
-                style="min-height: calc(100% + 0.01rem);position: relative;"
-              >
+            <div ref="scroll" class="scroll-wrapper" style="margin-top: 0.1rem; background-color: #fff;height: calc(100% - 0.9rem);">
+              <div class="scroll-content" style="min-height: calc(100% + 0.01rem);position: relative;">
                 <div class="pulldown-wrapper multisig-wallet-small-font-size">
                   <div v-show="beforePullDown">
                     <span>{{ $t("pull_down_refresh") }}</span>
@@ -31,12 +21,7 @@
                   </div>
                 </div>
                 <div style="padding:0 0.28rem 0.05rem 0.28rem;">
-                  <div
-                    v-for="(item, index) in dataList"
-                    :key="index"
-                    class="multisig-wallet-locked-cell"
-                    flex="main:center dir:top"
-                  >
+                  <div v-for="(item, index) in dataList" :key="index" class="multisig-wallet-locked-cell" flex="main:center dir:top">
                     <div class="multisig-wallet-locked-cell-time" flex>
                       {{ item }}
                     </div>
@@ -50,16 +35,11 @@
                           })
                         }}
                       </div>
-                      <div>
-                        {{ $t("locked_percent", { colon: "：" }) }}{{ item }}%
-                      </div>
+                      <div>{{ $t("locked_percent", { colon: "：" }) }}{{ item }}%</div>
                     </div>
                   </div>
                 </div>
-                <div
-                  v-if="!beforePullUp"
-                  class="pullup-wrapper multisig-wallet-small-font-size"
-                >
+                <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
                   <div v-if="!isPullUpLoad" class="before-trigger">
                     <span>{{ $t("pull_up_more") }}</span>
                   </div>

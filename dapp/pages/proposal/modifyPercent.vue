@@ -3,15 +3,9 @@
     <div style="position: fixed; height: 100%; width: 100%; top: 0;">
       <div class="multisig-wallet-tab-bar">
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
-          <div
-            class="multisig-wallet-tabs-content-wrap"
-            style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column"
-          >
+          <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('vote_percent')" />
-            <div
-              flex="dir:top cross: center"
-              class="multisig-wallet-modify-percent-container"
-            >
+            <div flex="dir:top cross: center" class="multisig-wallet-modify-percent-container">
               <p>
                 {{ $t("current_percent", { percent: "10%" }) }}
               </p>
@@ -23,10 +17,7 @@
                 </span>
               </van-field>
               <div flex-box="1" flex="cross:bottom">
-                <button
-                  class="multisig-wallet-button multisig-wallet-confirm-button"
-                  style="width: 100%;"
-                >
+                <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width: 100%;">
                   {{ $t("modify_confirm") }}
                 </button>
               </div>

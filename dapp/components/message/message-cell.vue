@@ -1,39 +1,22 @@
 <template>
-  <div
-    class="multisig-wallet-message-cell-container"
-    flex="main:justify cross:center"
-    @click="goto('/message/detail')"
-  >
+  <div class="multisig-wallet-message-cell-container" flex="main:justify cross:center" @click="goto('/message/detail')">
     <div flex="cross:center" style="width: calc(100% - 0.4rem)">
       <component :is="componentId" />
-      <div
-        style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)"
-      >
+      <div style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)">
         <div>
           <span class="multisig-wallet-large-font-size" style="color: #0B1F5D;">
             {{ `提现申请` }}
           </span>
-          <span
-            class="multisig-wallet-small-font-size"
-            style="margin-left:0.28rem;color: #9EA4C4"
-          >
+          <span class="multisig-wallet-small-font-size" style="margin-left:0.28rem;color: #9EA4C4">
             {{ `3分钟前` }}
           </span>
         </div>
-        <div
-          class="van-ellipsis"
-          style="color: #6B6E73;text-align:left;margin-top:0.04rem;"
-        >
-          {{
-            `xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现`
-          }}
+        <div class="van-ellipsis" style="color: #6B6E73;text-align:left;margin-top:0.04rem;">
+          {{ `xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现` }}
         </div>
       </div>
     </div>
-    <i
-      class="multisig-wallet-arrow multisig-wallet-arrow-right"
-      style="bottom: 0.06rem;"
-    />
+    <i class="multisig-wallet-arrow multisig-wallet-arrow-right" style="bottom: 0.06rem;" />
   </div>
 </template>
 <script>
@@ -61,13 +44,7 @@ export default {
   },
   computed: {
     componentId() {
-      let maps = new Map([
-        [0, "LockIcon"],
-        [1, "ModifyVotePercentIcon"],
-        [2, "RecallVoterIcon"],
-        [3, "VoteApplyIcon"],
-        [4, "WithdrawApplyIcon"]
-      ]);
+      let maps = new Map([[0, "LockIcon"], [1, "ModifyVotePercentIcon"], [2, "RecallVoterIcon"], [3, "VoteApplyIcon"], [4, "WithdrawApplyIcon"]]);
       return maps.get(this.message.type);
     }
   },

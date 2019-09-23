@@ -1,13 +1,6 @@
 <template>
-  <div
-    ref="scroll"
-    class="scroll-wrapper"
-    style="height: calc(100vh - 4.4rem);"
-  >
-    <div
-      class="scroll-content"
-      style="min-height: calc(100vh - 4.35rem);position: relative;"
-    >
+  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 4.4rem);">
+    <div class="scroll-content" style="min-height: calc(100vh - 4.35rem);position: relative;">
       <div class="pulldown-wrapper multisig-wallet-small-font-size">
         <div v-show="beforePullDown">
           <span>{{ $t("pull_down_refresh") }}</span>
@@ -22,17 +15,10 @@
         </div>
       </div>
       <div style="background-color: #fff">
-        <proposal-cell
-          v-for="(item, index) in dataList"
-          :key="index"
-          :proposal="item"
-        />
+        <proposal-cell v-for="(item, index) in dataList" :key="index" :proposal="item" />
       </div>
 
-      <div
-        v-if="!beforePullUp"
-        class="pullup-wrapper multisig-wallet-small-font-size"
-      >
+      <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
         <div v-if="!isPullUpLoad" class="before-trigger">
           <span>{{ $t("pull_up_more") }}</span>
         </div>

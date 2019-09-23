@@ -1,8 +1,5 @@
 <template>
-  <header
-    class="multisig-wallet-header multisig-wallet-large-font-size"
-    flex="main:center cross:center"
-  >
+  <header class="multisig-wallet-header multisig-wallet-large-font-size" flex="main:center cross:center">
     {{ title }}
   </header>
 </template>

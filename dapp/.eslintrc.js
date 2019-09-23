@@ -31,7 +31,8 @@ module.exports = {
       "tabWidth": 2,
       "singleQuote": false,
       "bracketSpacing": true,
-      "jsxBracketSameLine": true
+      "jsxBracketSameLine": true,
+      "printWidth": 240
     }]
   }
 }

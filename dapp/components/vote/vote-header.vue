@@ -1,21 +1,8 @@
 <template>
   <div style="padding:0.26rem 0 0.1rem 0;">
-    <div
-      v-if="isVoter"
-      flex="main:justify cross:center"
-      style="padding:0 0.5rem;"
-    >
-      <button
-        class="multisig-wallet-button multisig-wallet-recall-button"
-        style="width: 3rem;"
-        flex="main:center cross:center"
-        @click="goto('/proposal/recall')"
-      >
-        <div
-          class="multisig-wallet-icon-circle"
-          flex="main:center cross:center"
-          style="margin-right: 0.13rem;"
-        >
+    <div v-if="isVoter" flex="main:justify cross:center" style="padding:0 0.5rem;">
+      <button class="multisig-wallet-button multisig-wallet-recall-button" style="width: 3rem;" flex="main:center cross:center" @click="goto('/proposal/recall')">
+        <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-recall-voter" />
           </svg>
@@ -23,17 +10,8 @@
         {{ $t("recall_voter") }}
       </button>
 
-      <button
-        class="multisig-wallet-button multisig-wallet-vote-button"
-        style="width: 3rem;min-width: 300px;"
-        flex="main:center cross:center"
-        @click="goto('/proposal/modifyPercent')"
-      >
-        <div
-          class="multisig-wallet-icon-circle"
-          flex="main:center cross:center"
-          style="margin-right: 0.13rem;"
-        >
+      <button class="multisig-wallet-button multisig-wallet-vote-button" style="width: 3rem;min-width: 300px;" flex="main:center cross:center" @click="goto('/proposal/modifyPercent')">
+        <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-vote-percent" />
           </svg>
@@ -43,16 +21,8 @@
     </div>
 
     <div v-else flex="main:justify cross:center" style="padding:0 0.5rem;">
-      <button
-        class="multisig-wallet-button multisig-wallet-apply-button"
-        style="width: 100%;"
-        flex="main:center cross:center"
-      >
-        <div
-          class="multisig-wallet-icon-circle"
-          flex="main:center cross:center"
-          style="margin-right: 0.13rem;"
-        >
+      <button class="multisig-wallet-button multisig-wallet-apply-button" style="width: 100%;" flex="main:center cross:center">
+        <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-recall-voter" />
           </svg>
@@ -61,21 +31,11 @@
       </button>
     </div>
 
-    <div
-      flex="main:center cross:center"
-      class="multisig-wallet-proposal-choose-container multisig-wallet-large-font-size"
-    >
-      <p
-        :class="{ active: !isProposed }"
-        style="margin-right: 1.5rem"
-        @click="changeProposalType('toPropose')"
-      >
+    <div flex="main:center cross:center" class="multisig-wallet-proposal-choose-container multisig-wallet-large-font-size">
+      <p :class="{ active: !isProposed }" style="margin-right: 1.5rem" @click="changeProposalType('toPropose')">
         {{ $t("undetermined_proposal") }}
       </p>
-      <p
-        :class="{ active: isProposed }"
-        @click="changeProposalType('proposed')"
-      >
+      <p :class="{ active: isProposed }" @click="changeProposalType('proposed')">
         {{ $t("voted_proposal") }}
       </p>
     </div>

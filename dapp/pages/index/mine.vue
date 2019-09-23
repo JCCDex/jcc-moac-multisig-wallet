@@ -1,27 +1,14 @@
 <template>
   <div class="scroll-wrapper">
     <div class="multisig-wallet-mine-wrap">
-      <div
-        v-for="(cell, key) in cells"
-        :key="key"
-        flex="main:justify cross:center"
-        class="multisig-wallet-mine-cell"
-        @click="goto(cell)"
-      >
+      <div v-for="(cell, key) in cells" :key="key" flex="main:justify cross:center" class="multisig-wallet-mine-cell" @click="goto(cell)">
         <div flex="main:justify cross:center">
-          <svg
-            class="multisig-wallet-icon multisig-wallet-icon-large"
-            aria-hidden="true"
-            style="margin-right: 0.15rem;"
-          >
+          <svg class="multisig-wallet-icon multisig-wallet-icon-large" aria-hidden="true" style="margin-right: 0.15rem;">
             <use :xlink:href="cell.icon" />
           </svg>
           {{ cell.name }}
         </div>
-        <i
-          class="multisig-wallet-arrow multisig-wallet-arrow-right"
-          style="bottom: 0.06rem;"
-        />
+        <i class="multisig-wallet-arrow multisig-wallet-arrow-right" style="bottom: 0.06rem;" />
       </div>
     </div>
   </div>
