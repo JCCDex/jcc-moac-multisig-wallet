@@ -4,8 +4,15 @@ import multisigContractInstance from "@/js/contract";
 const accountInfo = (() => {
   let isVoterState: boolean = null;
 
-  const destroy = () => {
-    isVoterState = null;
+  /**
+   * destroy value by key
+   *
+   * @param {string} key
+   */
+  const destroy = (key: string) => {
+    if (key === "isVoter") {
+      isVoterState = null;
+    }
   };
 
   /**

@@ -21,7 +21,7 @@
     </div>
 
     <div v-else flex="main:justify cross:center" style="padding:0 0.5rem;">
-      <button class="multisig-wallet-button multisig-wallet-apply-button" style="width: 100%;" flex="main:center cross:center">
+      <button class="multisig-wallet-button multisig-wallet-apply-button" style="width: 100%;" flex="main:center cross:center" @click="show = true">
         <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-recall-voter" />
@@ -39,10 +39,26 @@
         {{ $t("voted_proposal") }}
       </p>
     </div>
+
+    <van-action-sheet v-model="show" :title="$t('apply_to_be_voter')" get-container="body">
+      <div class="multisig-wallet-apply-action-sheet-container">
+        <p v-for="(item, key) in $t('apply_voter_tips')" :key="key">
+          {{ item }}
+        </p>
+      </div>
+
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="confirmApply">
+        {{ $t("apply_confirm") }}
+      </button>
+    </van-action-sheet>
   </div>
 </template>
 <script>
 import bus from "@/js/bus";
+import tpInfo from "@/js/tp";
+import accountInfo from "@/js/account";
+import multisigContractInstance from "@/js/contract";
+import { Toast } from "vant";
 
 export default {
   name: "VoteHeader",
@@ -54,7 +70,8 @@ export default {
   },
   data() {
     return {
-      type: "toPropose"
+      type: "toPropose",
+      show: false
     };
   },
   computed: {
@@ -69,6 +86,37 @@ export default {
     changeProposalType(type) {
       this.type = type;
       bus.$emit("changeProposalType", type);
+    },
+    async confirmApply() {
+      this.show = false;
+
+      // clear cache to request latest state so that prevent from applying again if had been voter
+      // certainly it doesn't make a difference if apply again, the main purpose is to prevent from expanding gas
+      accountInfo.destroy("isVoter");
+
+      Toast.loading({
+        duration: 0,
+        forbidClick: true,
+        loadingType: "spinner",
+        message: this.$t("message.loading")
+      });
+      try {
+        const isVoter = await accountInfo.isVoter();
+        if (!isVoter) {
+          const topicId = Date.now();
+          const timestamp = Date.now();
+          const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
+          const address = await tpInfo.getAddress();
+          const hash = await multisigContractInstance.init().createVoterProposal(topicId, timestamp, endtime, address);
+          console.log("create voter proposal hash: ", hash);
+          Toast.success(this.$t("message.apply_succeed"));
+        } else {
+          Toast.fail(this.$t("message.is_voter"));
+        }
+      } catch (error) {
+        console.log("create voter proposal error: ", error);
+        Toast.fail(this.$t("message.apply_failed"));
+      }
     }
   }
 };
@@ -87,6 +135,20 @@ export default {
     &.active {
       color: #0b1f5d;
       border-bottom: 0.02rem solid #0b1f5d;
+    }
+  }
+}
+
+.multisig-wallet-apply-action-sheet-container {
+  text-align: left;
+  margin-top: 0.15rem;
+  margin-bottom: 0.55rem;
+
+  p {
+    margin-top: 0.1rem;
+
+    &:not(:first-child) {
+      color: #0b1f5d;
     }
   }
 }

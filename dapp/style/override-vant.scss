@@ -36,3 +36,18 @@
 .van-action-sheet__content {
   padding: 0.3rem;
 }
+
+.van-toast {
+  @include px2px("font-size", 14);
+  top: 75% !important;
+  width: 2rem !important;
+
+  .van-loading__spinner {
+    width: 0.3rem !important;
+    height: 0.3rem !important;
+  }
+
+  .van-toast__text {
+    line-height: 0.4rem;
+  }
+}

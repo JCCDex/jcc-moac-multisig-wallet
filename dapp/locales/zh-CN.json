@@ -67,5 +67,20 @@
    },
    "apply_voter": "申请投票人",
    "undetermined_proposal": "待决提案",
-   "voted_proposal": "已决提案"
+   "voted_proposal": "已决提案",
+   "apply_to_be_voter": "申请成为投票人",
+   "apply_confirm": "确认申请",
+   "apply_voter_tips": [
+     "申请提交后，将在3天内投票决议，投票通过后，将拥有以下投票特权：",
+     "1.提现",
+     "2.投票人申请",
+     "3.投票人罢免",
+     "4.修改投票规则"
+   ],
+   "message": {
+     "loading": "提交中...",
+     "is_voter": "当前已经是投票人，无需再次申请",
+     "apply_succeed": "申请成功",
+     "apply_failed": "申请失败"
+   }
  }
