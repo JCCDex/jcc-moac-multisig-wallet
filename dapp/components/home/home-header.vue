@@ -27,13 +27,13 @@ export default {
   props: {
     lockAmount: {
       require: true,
-      type: Number,
-      default: 0
+      type: String,
+      default: "0"
     },
     voteAmount: {
       require: true,
-      type: Number,
-      default: 0
+      type: String,
+      default: "0"
     },
     address: {
       require: true,

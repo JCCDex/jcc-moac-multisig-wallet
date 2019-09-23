@@ -23,6 +23,8 @@ import HomeHeader from "@/components/home/home-header";
 import HomeMiddle from "@/components/home/home-middle";
 import HomeMessage from "@/components/home/home-message";
 import tpInfo from "@/js/tp";
+import accountInfo from "@/js/account";
+import multisigContractInstance from "@/js/contract";
 
 export default {
   name: "Home",
@@ -34,10 +36,28 @@ export default {
   data() {
     return {
       bs: null,
-      lockAmount: 0,
-      voteAmount: 8,
+      lockAmount: "0",
+      voteAmount: "0",
       address: ""
     };
+  },
+  async asyncData() {
+    try {
+      let lockAmount, voteAmount;
+      const isVoter = await accountInfo.isVoter();
+      const address = await tpInfo.getAddress();
+      if (isVoter) {
+        // request all voting proposal count
+        voteAmount = await multisigContractInstance.init().getVotingCount();
+      } else {
+        // request my voting proposal count
+        voteAmount = await multisigContractInstance.init().getMyVotingCount(address);
+      }
+      lockAmount = await multisigContractInstance.init().getBalance(address);
+      return { lockAmount, voteAmount };
+    } catch (error) {
+      console.log("init home data error: ", error);
+    }
   },
   mounted() {
     this.init();

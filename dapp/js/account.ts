@@ -8,6 +8,11 @@ const accountInfo = (() => {
     isVoterState = null;
   };
 
+  /**
+   * request current address is voter or not
+   *
+   * @returns {Promise<boolean>}
+   */
   const isVoter = async (): Promise<boolean> => {
     if (isVoterState === null) {
       try {
