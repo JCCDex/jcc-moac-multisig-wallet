@@ -17,14 +17,15 @@ export default {
       {
         src:
           process.env.NODE_ENV === "development"
-            ? "https://unpkg.com/vue@2.6.10/dist/vue.js"
-            : "https://unpkg.com/vue@2.6.10/dist/vue.min.js"
+            ? "https://cdn.bootcss.com/vue/2.6.10/vue.js"
+            : "https://cdn.bootcss.com/vue/2.6.10/vue.min.js"
       },
       {
-        src: "https://unpkg.com/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
+        src:
+          "https://cdn.jsdelivr.net/npm/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
       },
       {
-        src: "https://unpkg.com/ethers@4.0.37/dist/ethers.min.js"
+        src: "https://cdn.jsdelivr.net/npm/ethers@4.0.37/dist/ethers.min.js"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
