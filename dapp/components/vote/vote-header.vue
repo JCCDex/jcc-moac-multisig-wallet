@@ -104,12 +104,30 @@ export default {
         const isVoter = await accountInfo.isVoter();
         if (!isVoter) {
           const topicId = Date.now();
-          const timestamp = Date.now();
+          console.log("topic id: ", topicId);
+          const timestamp = topicId;
           const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
           const address = await tpInfo.getAddress();
-          const hash = await multisigContractInstance.init().createVoterProposal(topicId, timestamp, endtime, address);
+          const instance = multisigContractInstance.init();
+          const hash = await instance.createVoterProposal(topicId, timestamp, endtime, address);
           console.log("create voter proposal hash: ", hash);
-          Toast.success(this.$t("message.apply_succeed"));
+          // confirm status by hash
+          setTimeout(async () => {
+            let res = null;
+            while (res === null) {
+              try {
+                res = await instance.moac.getTransactionReceipt(hash);
+                console.log("res: ", res);
+              } catch (error) {
+                console.log("request receipt error: ", error);
+              }
+            }
+            if (res && res.status === "0x1") {
+              Toast.success(this.$t("message.apply_succeed"));
+            } else {
+              Toast.fail(this.$t("message.apply_failed"));
+            }
+          }, 10000);
         } else {
           Toast.fail(this.$t("message.is_voter"));
         }
