@@ -22,16 +22,16 @@ export default {
   computed: {
     cells() {
       return [
-        {
-          name: this.$t("locked_position_detail"),
-          icon: "#icon-locked-detail",
-          to: "/locked/list"
-        },
-        {
-          name: this.$t("withdraw_detail"),
-          icon: "#icon-withdraw-detail",
-          to: "/withdraw/list"
-        },
+        // {
+        //   name: this.$t("locked_position_detail"),
+        //   icon: "#icon-locked-detail",
+        //   to: "/locked/list"
+        // },
+        // {
+        //   name: this.$t("withdraw_detail"),
+        //   icon: "#icon-withdraw-detail",
+        //   to: "/withdraw/list"
+        // },
         {
           name: this.$t("help_center"),
           icon: "#icon-help",
