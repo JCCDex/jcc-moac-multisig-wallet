@@ -1,11 +1,11 @@
 import tp from "tp-js-sdk";
+import { isDev } from "./util";
 
 const tpInfo = (() => {
   let address: string = null;
-  let isDev = process.env.NODE_ENV === "development";
 
   const getAddress = async (): Promise<string> => {
-    if (isDev) {
+    if (isDev()) {
       address = process.env.MOAC_ADDRESS;
       return address;
     }

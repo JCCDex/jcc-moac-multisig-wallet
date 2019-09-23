@@ -3,6 +3,7 @@ import {
   Moac,
   SolidityFunction
 } from "jcc-moac-utils";
+import { isDev } from "./util";
 const abi = require("@/abi/multisig-wallet-abi");
 const ethers = require("ethers");
 const abiCoder = ethers.utils.defaultAbiCoder;
@@ -46,16 +47,16 @@ export class MultisigContract extends SmartContract {
     super.init(this._contractAddress, moac, abi);
   }
 
-  /**
-   * request administrator of contract
-   *
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async owner(): Promise<string> {
-    const output = await super.callABI("owner");
-    return output[0];
-  }
+  // /**
+  //  * request administrator of contract
+  //  *
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async owner(): Promise<string> {
+  //   const output = await super.callABI("owner");
+  //   return output[0];
+  // }
 
   // public transferAdministrator() {
 
@@ -116,112 +117,149 @@ export class MultisigContract extends SmartContract {
   }
 
   /**
-   * create timestamp and topic id related
-   *
-   * @memberof MultisigContract
-   */
-  public createTopicData(): any {
-    const timestamp = Date.now();
-    return {
-      topicId: timestamp,
-      timestamp: timestamp,
-      endtime: timestamp + 3 * 24 * 60 * 60 * 1000
-    };
-  }
-  /**
    * create proposal for changing pass percent
-   * @param {number} percent percent
-   * @returns {Promise<string>} transaction hash
+   *
+   * @param {number} topicId
+   * @param {number} timestamp
+   * @param {number} endtime
+   * @param {number} percent
+   * @returns {Promise<string>} resolve hash if success
    * @memberof MultisigContract
    */
-  public async createPercentProposal(percent: number): Promise<string> {
-    const topicData = this.createTopicData();
+  public async createPercentProposal(
+    topicId: number,
+    timestamp: number,
+    endtime: number,
+    percent: number
+  ): Promise<string> {
     const bytes = await super.callABI(
       "createPercentProposal",
-      topicData.topicId,
-      topicData.timestamp,
-      topicData.endtime,
+      topicId,
+      timestamp,
+      endtime,
       percent
     );
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "0",
-      bytes,
-      { gasLimit: 260000 }
-    );
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "0",
+        bytes,
+        { gasLimit: 260000 }
+      );
+      return hash;
+    }
   }
 
   /**
    * create proposal for being voter
-   * @param {string} voter voter address
-   * @returns {Promise<string>} transaction hash
+   *
+   * @param {number} topicId
+   * @param {number} timestamp
+   * @param {number} endtime
+   * @param {string} voter moac address
+   * @returns {Promise<string>} resolve hash if success
    * @memberof MultisigContract
    */
-  public async createVoterProposal(voter: string): Promise<string> {
-    const topicData = this.createTopicData();
+  public async createVoterProposal(
+    topicId: number,
+    timestamp: number,
+    endtime: number,
+    voter: string
+  ): Promise<string> {
     const bytes = await super.callABI(
       "createVoterProposal",
-      topicData.topicId,
-      topicData.timestamp,
-      topicData.endtime,
+      topicId,
+      timestamp,
+      endtime,
       voter
     );
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "0",
-      bytes,
-      { gasLimit: 270000 }
-    );
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "0",
+        bytes,
+        {
+          gasLimit: 270000
+        }
+      );
+      return hash;
+    }
   }
 
   /**
    * create proposal for recalling voter
-   * @param {string} voter voter address
-   * @returns {Promise<string>} transaction hash
+   *
+   * @param {number} topicId
+   * @param {number} timestamp
+   * @param {number} endtime
+   * @param {string} voter moac address
+   * @returns {Promise<string>} resolve hash if success
    * @memberof MultisigContract
    */
-  public async createRecallProposal(voter: string): Promise<string> {
-    const topicData = this.createTopicData();
+  public async createRecallProposal(
+    topicId: number,
+    timestamp: number,
+    endtime: number,
+    voter: string
+  ): Promise<string> {
     const bytes = await super.callABI(
       "createRecallProposal",
-      topicData.topicId,
-      topicData.timestamp,
-      topicData.endtime,
+      topicId,
+      timestamp,
+      endtime,
       voter
     );
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "0",
-      bytes,
-      { gasLimit: 270000 }
-    );
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "0",
+        bytes,
+        {
+          gasLimit: 270000
+        }
+      );
+      return hash;
+    }
   }
 
   /**
    * create a withdraw proposal
+   *
+   * @param {number} topicId
+   * @param {number} timestamp
+   * @param {number} endtime
    * @param {number} amount amount of withdraw
-   * @returns {Promise<string>} transaction hash
+   * @returns {Promise<string>} resolve hash if success
    * @memberof MultisigContract
    */
-  public async createWithdrawProposal(amount: number): Promise<string> {
-    const topicData = this.createTopicData();
+  public async createWithdrawProposal(
+    topicId: number,
+    timestamp: number,
+    endtime: number,
+    amount: number
+  ): Promise<string> {
     const bytes = await super.callABI(
       "createWithdrawProposal",
-      topicData.topicId,
-      topicData.timestamp,
-      topicData.endtime,
+      topicId,
+      timestamp,
+      endtime,
       amount
     );
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "" + amount,
-      bytes,
-      { gasLimit: 300000 }
-    );
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "" + amount,
+        bytes,
+        {
+          gasLimit: 300000
+        }
+      );
+      return hash;
+    }
   }
 
   /**
@@ -247,11 +285,13 @@ export class MultisigContract extends SmartContract {
   /**
    * request count of undetermined proposal that be submited by me
    *
+   * @param {string} address
+   * @returns {Promise<string>}
    * @memberof MultisigContract
    */
-  public async getMyVotingCount(): Promise<string> {
+  public async getMyVotingCount(address: string): Promise<string> {
     const output = await super.callABI("getMyVotingCount", {
-      from: process.env.MoacAddress
+      from: address
     });
     return output[0].toString(10);
   }
@@ -259,12 +299,13 @@ export class MultisigContract extends SmartContract {
   /**
    * request count of voted proposal that be submited by me
    *
+   * @param {string} address
    * @returns {Promise<string>}
    * @memberof MultisigContract
    */
-  public async getMyVotedCount(): Promise<string> {
+  public async getMyVotedCount(address: string): Promise<string> {
     const output = await super.callABI("getMyVotedCount", {
-      from: process.env.MoacAddress
+      from: address
     });
     return output[0].toString(10);
   }
@@ -283,12 +324,13 @@ export class MultisigContract extends SmartContract {
   /**
    * request all my voting topic ids
    *
+   * @param {string} address
    * @returns {Promise<string>}
    * @memberof MultisigContract
    */
-  public async getAllMyVotingTopicIds(): Promise<string> {
+  public async getAllMyVotingTopicIds(address: string): Promise<string> {
     const output = await super.callABI("getAllMyVotingTopicIds", {
-      from: process.env.MoacAddress
+      from: address
     });
     return output[0];
   }
@@ -307,18 +349,19 @@ export class MultisigContract extends SmartContract {
   /**
    * request all my voted topic ids
    *
+   * @param {string} address
    * @returns {Promise<string>}
    * @memberof MultisigContract
    */
-  public async getMyVotedTopicIds(): Promise<string> {
+  public async getMyVotedTopicIds(address: string): Promise<string> {
     const output = await super.callABI("getMyVotedTopicIds", {
-      from: process.env.MoacAddress
+      from: address
     });
     return output[0];
   }
 
   /**
-   * get topic detail by id
+   * request topic detail by id
    * @param {number} topicId
    * @returns {Promise<string>}
    * @memberof MultisigContract
@@ -330,29 +373,35 @@ export class MultisigContract extends SmartContract {
 
   /**
    * vote topic
+   *
    * @param {number} topicId
-   * @param {boolean} confirm true or false
-   * @returns {Promise<string>}
+   * @param {number} timestamp
+   * @param {boolean} confirm
+   * @returns {Promise<string>} resolve hash if success
    * @memberof MultisigContract
    */
-  public async voteTopic(topicId: number, confirm: boolean): Promise<string> {
-    const bytes = await super.callABI(
-      "voteTopic",
-      topicId,
-      Date.now(),
-      confirm
-    );
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "0",
-      bytes,
-      { gasLimit: 160000 }
-    );
+  public async voteTopic(
+    topicId: number,
+    timestamp: number,
+    confirm: boolean
+  ): Promise<string> {
+    const bytes = await super.callABI("voteTopic", topicId, timestamp, confirm);
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "0",
+        bytes,
+        {
+          gasLimit: 160000
+        }
+      );
+      return hash;
+    }
   }
 
   /**
-   * get vote detail id list
+   * request vote detail id list
    * @param {number} topicId
    * @returns {Promise<string>}
    * @memberof MultisigContract
@@ -362,41 +411,86 @@ export class MultisigContract extends SmartContract {
     return output[0];
   }
 
+  /**
+   * request vote by topic id
+   *
+   * @param {number} topicId
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
   public async getVoteDetail(topicId: number): Promise<string> {
     const output = await super.callABI("getVoteDetail", topicId);
     return output[0];
   }
 
+  /**
+   * request vote details by topic id
+   *
+   * @param {number} topicId
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
   public async getVoteDetailsByTopic(topicId: number): Promise<string> {
     const output = await super.callABI("getVoteDetailsByTopic", topicId);
     return output[0];
   }
 
-  public async haveExpire(): Promise<string> {
-    const output = await super.callABI("getVoteDetailsByTopic", Date.now());
+  /**
+   * have expire
+   *
+   * @param {number} endtime
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async haveExpire(endtime: number): Promise<string> {
+    const output = await super.callABI("haveExpire", endtime);
     return output[0];
   }
 
-  public async processExpire(): Promise<string> {
-    const bytes = await super.callABI("processExpire", Date.now());
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "0",
-      bytes,
-      { gasLimit: 2000000 }
-    );
+  /**
+   * process proposal
+   *
+   * @param {number} endtime
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async processExpire(endtime: number): Promise<string> {
+    const bytes = await super.callABI("processExpire", endtime);
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        "0",
+        bytes,
+        {
+          gasLimit: 2000000
+        }
+      );
+      return hash;
+    }
   }
 
-  public async deposit(amount: number): Promise<string> {
+  /**
+   * deposit
+   *
+   * @param {string} amount
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async deposit(amount: string): Promise<string> {
     const bytes = await super.callABI("deposit");
-    return this.moac.sendTransactionWithCallData(
-      process.env.MoacSecret,
-      process.env.MoacAddress,
-      "" + amount,
-      bytes,
-      { gasLimit: 100000 }
-    );
+    if (isDev()) {
+      const hash = await this.moac.sendTransactionWithCallData(
+        process.env.MoacSecret,
+        process.env.MoacAddress,
+        amount,
+        bytes,
+        {
+          gasLimit: 100000
+        }
+      );
+      return hash;
+    }
   }
 
   /**
