@@ -2,4 +2,4 @@
 
 cross-env Contract=$1 Node=$2 Mainnet=$3 nuxt-ts generate
 
-# npm run generate "0x7d94158ccefe62abaea95d698bd45259bf3b89d0" http://192.168.66.249:8546 false
+# npm run generate "0x5ca7bae311d4092d23b2854e895548d451dcae5c" http://192.168.66.249:8546 false
