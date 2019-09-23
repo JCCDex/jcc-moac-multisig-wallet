@@ -66,7 +66,7 @@
      "confirm_message": "确定要罢免该投票人{voter}吗？"
    },
    "apply_voter": "申请投票人",
-   "undetermined_proposal": "待决提案",
+   "voting_proposal": "待决提案",
    "voted_proposal": "已决提案",
    "apply_to_be_voter": "申请成为投票人",
    "apply_confirm": "确认申请",
@@ -82,5 +82,17 @@
      "is_voter": "当前已经是投票人，无需再次申请",
      "apply_succeed": "申请成功",
      "apply_failed": "申请失败"
+   },
+   "proposal_cell": {
+     "voting": "投票中",
+     "voted": "投票结束",
+     "apply_voter_title": "申请投票人",
+     "apply_voter_content": "{account}申请成为投票人",
+     "withdraw_title": "提现请求",
+     "withdraw_content": "{account}申请提现{amount}{token}",
+     "recall_voter_title": "罢免投票人",
+     "recall_voter_content": "{account}发起提议, 取消{target}投票资格",
+     "modify_pass_percent_title": "修改投票比例",
+     "modify_pass_percent_content": "{account}发起提议, 修改投票比例"
    }
  }

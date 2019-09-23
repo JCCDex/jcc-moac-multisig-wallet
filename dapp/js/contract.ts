@@ -285,12 +285,14 @@ export class MultisigContract extends SmartContract {
   /**
    * request all voted topic ids
    *
-   * @returns {Promise<string>}
+   * @param {number} start
+   * @param {number} end
+   * @returns {Promise<string[]>}
    * @memberof MultisigContract
    */
-  public async getVotedTopicIds(): Promise<string[]> {
+  public async getVotedTopicIds(start: number, end: number): Promise<string[]> {
     const abiItem = abi.find(item => item.name == "getVotedTopicIds");
-    const output = await super.callABI("getVotedTopicIds");
+    const output = await super.callABI("getVotedTopicIds", start, end);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
     return decodeData[0].map(value => {
       return value.toString(10);
@@ -301,14 +303,14 @@ export class MultisigContract extends SmartContract {
    * request all my voted topic ids
    *
    * @param {string} address
-   * @returns {Promise<string>}
+   * @param {number} start
+   * @param {number} end
+   * @returns {Promise<string[]>}
    * @memberof MultisigContract
    */
-  public async getMyVotedTopicIds(address: string): Promise<string[]> {
+  public async getMyVotedTopicIds(address: string, start: number, end: number): Promise<string[]> {
     const abiItem = abi.find(item => item.name == "getMyVotedTopicIds");
-    const output = await super.callABI("getMyVotedTopicIds", {
-      from: address
-    });
+    const output = await super.callABI("getMyVotedTopicIds", { from: address }, start, end);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
     return decodeData[0].map(value => {
       return value.toString(10);

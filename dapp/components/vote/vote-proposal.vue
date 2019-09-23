@@ -15,7 +15,7 @@
         </div>
       </div>
       <div style="background-color: #fff">
-        <proposal-cell v-for="(item, index) in dataList" :key="index" :proposal="item" />
+        <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal.sync="item" />
       </div>
 
       <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
@@ -37,18 +37,12 @@ import Pullup from "@better-scroll/pull-up";
 import throttle from "lodash/throttle";
 import ProposalCell from "@/components/proposal-cell";
 import bus from "@/js/bus";
+import tpInfo from "@/js/tp";
+import accountInfo from "@/js/account";
+import multisigContractInstance from "@/js/contract";
+
 BScroll.use(PullDown);
 BScroll.use(Pullup);
-
-function getOneRandomList(type) {
-  const proposal = { type: type, checked: true };
-  return proposal;
-}
-
-const TIME_BOUNCE = 800;
-const TIME_STOP = 600;
-const THRESHOLD = 70;
-const STOP = 56;
 
 export default {
   components: {
@@ -60,9 +54,14 @@ export default {
       isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
-      type: "toPropose",
-      dataList: [getOneRandomList("toPropose")]
+      type: "voting",
+      proposals: []
     };
+  },
+  computed: {
+    isVoting() {
+      return this.type === "voting";
+    }
   },
   created() {
     this.bscroll = null;
@@ -73,16 +72,17 @@ export default {
   },
   mounted() {
     this.initBscroll();
+    this.pullingDownHandler();
   },
   methods: {
     initBscroll() {
       this.bscroll = new BScroll(this.$refs.scroll, {
         scrollY: true,
         click: true,
-        bounceTime: TIME_BOUNCE,
+        bounceTime: 800,
         pullDownRefresh: {
-          threshold: THRESHOLD,
-          stop: STOP
+          threshold: 70,
+          stop: 56
         },
         pullUpLoad: {
           threshold: 500
@@ -94,7 +94,7 @@ export default {
     },
     async refresh(type) {
       this.type = type;
-      this.dataList = [];
+      this.proposals = [];
       this.bscroll.closePullUp();
       this.bscroll.scrollTo(0, 0);
       await this.pullingDownHandler();
@@ -106,15 +106,19 @@ export default {
     async pullingDownHandler() {
       this.beforePullDown = false;
       this.isPullingDown = true;
-      await this.requestData();
-
+      let proposals;
+      if (this.isVoting) {
+        proposals = await this.requestVotingProposals();
+      } else {
+        proposals = await this.requestVotedProposals();
+      }
+      this.proposals = proposals;
       this.isPullingDown = false;
       this.finishPullDown();
     },
     async pullingUpHandler() {
       this.beforePullUp = false;
       this.isPullUpLoad = true;
-      await this.requestData();
 
       this.bscroll.finishPullUp();
       this.bscroll.refresh();
@@ -123,34 +127,66 @@ export default {
       this.beforePullUp = true;
     },
     async finishPullDown() {
-      const stopTime = TIME_STOP;
       await new Promise(resolve => {
         setTimeout(() => {
           this.bscroll.finishPullDown();
           resolve();
-        }, stopTime);
+        }, 600);
       });
       setTimeout(() => {
         this.beforePullDown = true;
         this.bscroll.refresh();
-      }, TIME_BOUNCE);
+      }, 800);
     },
-    async requestData() {
+    async requestVotingProposals() {
       try {
-        const newData = await this.ajaxGet(/* url */);
-        this.dataList = [...this.dataList, newData];
-      } catch (err) {
-        // handle err
-        console.log(err);
+        const address = await tpInfo.getAddress();
+        const instance = multisigContractInstance.init();
+        let proposalIds;
+        const isVoter = await accountInfo.isVoter();
+        if (isVoter) {
+          proposalIds = await instance.getAllVotingTopicIds();
+        } else {
+          proposalIds = await instance.getAllMyVotingTopicIds(address);
+        }
+        const props = [];
+        for (const id of proposalIds) {
+          props.push(instance.getTopic(id));
+        }
+        const responses = await Promise.all(props);
+        const proposals = responses.map(response => {
+          // set is voting or not
+          response.voting = true;
+          // set default select state
+          response.selected = true;
+          return response;
+        });
+        return proposals;
+      } catch (error) {
+        console.log("reqeust voting proposal error: ", error);
       }
     },
-    ajaxGet(/* url */) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const dataList = getOneRandomList(this.type);
-          resolve(dataList);
-        }, 1000);
-      });
+    async requestVotedProposals() {
+      try {
+        const address = await tpInfo.getAddress();
+        const instance = multisigContractInstance.init();
+        let proposalIds;
+        const isVoter = await accountInfo.isVoter();
+        if (isVoter) {
+          proposalIds = await instance.getVotedTopicIds(0, 5);
+        } else {
+          proposalIds = await instance.getMyVotedTopicIds(address, 0, 5);
+        }
+        const props = [];
+        for (const id of proposalIds) {
+          props.push(instance.getTopic(id));
+        }
+        const responses = await Promise.all(props);
+        const proposals = responses;
+        return proposals;
+      } catch (error) {
+        console.log("reqeust voted proposal error: ", error);
+      }
     }
   }
 };

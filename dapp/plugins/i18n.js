@@ -4,10 +4,10 @@ Vue.use(VueI18n);
 
 export default ({ app }) => {
   app.i18n = new VueI18n({
-    locale: "zh",
-    fallbackLocale: "zh",
+    locale: "zh_CN",
+    fallbackLocale: "zh_CN",
     messages: {
-      zh: require("~/locales/zh-CN")
+      zh_CN: require("~/locales/zh-CN")
     }
   });
 };

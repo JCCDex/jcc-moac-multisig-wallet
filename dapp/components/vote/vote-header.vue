@@ -32,10 +32,10 @@
     </div>
 
     <div flex="main:center cross:center" class="multisig-wallet-proposal-choose-container multisig-wallet-large-font-size">
-      <p :class="{ active: !isProposed }" style="margin-right: 1.5rem" @click="changeProposalType('toPropose')">
-        {{ $t("undetermined_proposal") }}
+      <p :class="{ active: isVoting }" style="margin-right: 1.5rem" @click="changeProposalType('voting')">
+        {{ $t("voting_proposal") }}
       </p>
-      <p :class="{ active: isProposed }" @click="changeProposalType('proposed')">
+      <p :class="{ active: !isVoting }" @click="changeProposalType('voted')">
         {{ $t("voted_proposal") }}
       </p>
     </div>
@@ -70,13 +70,13 @@ export default {
   },
   data() {
     return {
-      type: "toPropose",
+      type: "voting",
       show: false
     };
   },
   computed: {
-    isProposed() {
-      return this.type === "proposed";
+    isVoting() {
+      return this.type === "voting";
     }
   },
   methods: {
@@ -84,6 +84,9 @@ export default {
       this.$router.push(route);
     },
     changeProposalType(type) {
+      if (type === this.type) {
+        return;
+      }
       this.type = type;
       bus.$emit("changeProposalType", type);
     },
