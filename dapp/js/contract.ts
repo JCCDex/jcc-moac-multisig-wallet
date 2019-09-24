@@ -400,8 +400,16 @@ export class MultisigContract extends SmartContract {
   public async getVoteDetailsByTopic(topicId: number): Promise<string> {
     const abiItem = abi.find(item => item.name == "getVoteDetailsByTopic");
     const output = await super.callABI("getVoteDetailsByTopic", topicId);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0];
+    const decodeData = abiCoder.decode(abiItem.outputs, output)[0];
+    return decodeData.map(data => {
+      return {
+        flag: data.flag,
+        timestamp: data.timestamp.toString(10),
+        topicId: data.topicId.toString(10),
+        voter: data.voter,
+        idx: data.idx.toString(10)
+      };
+    });
   }
 
   /**

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div style="background-color: #fff">
-        <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal.sync="item" />
+        <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal="item" />
       </div>
 
       <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">

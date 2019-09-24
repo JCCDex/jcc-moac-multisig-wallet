@@ -1,5 +1,5 @@
 <template>
   <div>
-    <nuxt />
+    <nuxt keep-alive />
   </div>
 </template>

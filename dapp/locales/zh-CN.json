@@ -94,5 +94,15 @@
      "recall_voter_content": "{account}发起提议, 取消{target}投票资格",
      "modify_pass_percent_title": "修改投票比例",
      "modify_pass_percent_content": "{account}发起提议, 修改投票比例"
+   },
+   "approval": "赞成",
+   "against": "反对",
+   "proposal": {
+     "content": "提案简称：",
+     "type": "议题类型：",
+     "sponsor": "发起人：",
+     "start": "发起时间：",
+     "end": "失效时间：",
+     "state": "投票状态："
    }
  }

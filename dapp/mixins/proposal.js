@@ -1,9 +1,10 @@
-import { format } from "timeago.js";
+import { format } from "timeago.js/lib/format";
 import BigNumber from "bignumber.js";
+import moment from "moment";
 import { TYPE_CONFIG_COUNT, TYPE_CONFIG_PERCENT, TYPE_WITHDRAW, TYPE_VOTE, TYPE_RECALL } from "@/js/constant";
 export default {
   computed: {
-    proposalTitle() {
+    proposalType() {
       let voteType = this.proposal.voteType;
       if (voteType === TYPE_CONFIG_COUNT) {
         return "";
@@ -28,7 +29,7 @@ export default {
         return "";
       }
       if (voteType === TYPE_CONFIG_PERCENT) {
-        return "";
+        return this.$t("proposal_cell.modify_pass_percent_content", { account: sponsor.substring(0, 5) + "..." + sponsor.substring(25) });
       }
       if (voteType === TYPE_WITHDRAW) {
         return this.$t("proposal_cell.withdraw_content", {
@@ -58,7 +59,7 @@ export default {
         return "";
       }
       if (voteType === TYPE_CONFIG_PERCENT) {
-        return "";
+        return this.$t("proposal_cell.modify_pass_percent_content", { account: sponsor });
       }
       if (voteType === TYPE_WITHDRAW) {
         return this.$t("proposal_cell.withdraw_content", {
@@ -82,6 +83,12 @@ export default {
     },
     time() {
       return format(this.proposal.timestamp, this.$i18n.locale);
+    },
+    startTime() {
+      return moment(parseInt(this.proposal.timestamp)).format("YYYY-MM-DD");
+    },
+    endTime() {
+      return moment(parseInt(this.proposal.endtime)).format("YYYY-MM-DD");
     },
     voteState() {
       return this.proposal.flag ? this.$t("proposal_cell.voted") : this.$t("proposal_cell.voting");

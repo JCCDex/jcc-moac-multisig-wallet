@@ -7,7 +7,7 @@
       <div style="text-align: left;" :style="{ 'max-width': !isVoting ? '100%' : 'calc(100% - 0.6rem)' }" @click="goto('/proposal/detail')">
         <div>
           <span class="multisig-wallet-large-font-size" style="color: #181C24;">
-            {{ proposalTitle }}
+            {{ proposalType }}
           </span>
           <span class="multisig-wallet-small-font-size" style="margin-left:0.28rem;color: #9EA4C4">
             {{ time }}
@@ -42,8 +42,8 @@ export default {
     }
   },
   methods: {
-    goto(route) {
-      this.$router.push(route);
+    goto() {
+      this.$router.push("/proposal/" + this.proposal.topicId);
     }
   }
 };
