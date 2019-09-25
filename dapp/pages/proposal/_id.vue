@@ -66,7 +66,7 @@ import WalletHeader from "@/components/header";
 import proposalMixin from "@/mixins/proposal";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
-import moment from "moment";
+import tinydate from "tinydate";
 
 export default {
   name: "ProposalDetail",
@@ -134,7 +134,7 @@ export default {
       });
     },
     formatTime(timestamp) {
-      return moment(parseInt(timestamp)).format("YYYY-MM-DD hh:mm:ss");
+      return tinydate("{YYYY}-{MM}-{DD}  {HH}:{mm}:{ss}")(new Date(parseInt(timestamp)));
     }
   }
 };

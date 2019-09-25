@@ -1,7 +1,8 @@
 import { format } from "timeago.js/lib/format";
 import BigNumber from "bignumber.js";
-import moment from "moment";
 import { TYPE_CONFIG_COUNT, TYPE_CONFIG_PERCENT, TYPE_WITHDRAW, TYPE_VOTE, TYPE_RECALL } from "@/js/constant";
+import tinydate from "tinydate";
+
 export default {
   computed: {
     proposalType() {
@@ -85,10 +86,10 @@ export default {
       return format(this.proposal.timestamp, this.$i18n.locale);
     },
     startTime() {
-      return moment(parseInt(this.proposal.timestamp)).format("YYYY-MM-DD");
+      return tinydate("{YYYY}-{MM}-{DD}")(new Date(parseInt(this.proposal.timestamp)));
     },
     endTime() {
-      return moment(parseInt(this.proposal.endtime)).format("YYYY-MM-DD");
+      return tinydate("{YYYY}-{MM}-{DD}")(new Date(parseInt(this.proposal.endtime)));
     },
     voteState() {
       return this.proposal.flag ? this.$t("proposal_cell.voted") : this.$t("proposal_cell.voting");
