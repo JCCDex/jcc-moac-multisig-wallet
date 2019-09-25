@@ -75,7 +75,7 @@
   "proposal_cell": {
     "apply_voter_content": "{account}申请成为投票人",
     "apply_voter_title": "申请投票人",
-    "modify_pass_percent_content": "{account}发起提议, 修改投票比例",
+    "modify_pass_percent_content": "{account}发起提议, 修改投票比例为{percent}%",
     "modify_pass_percent_title": "修改投票比例",
     "recall_voter_content": "{account}发起提议, 取消{target}投票资格",
     "recall_voter_title": "罢免投票人",

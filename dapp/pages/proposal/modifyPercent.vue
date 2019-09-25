@@ -44,6 +44,7 @@ import voteInfo from "@/js/vote";
 import { isValidNumber } from "@/js/util";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
+import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 
 export default {
@@ -118,13 +119,13 @@ export default {
             let res = null;
             while (res === null) {
               try {
-                res = await instance.moac.getTransactionReceipt(hash);
+                res = await transaction.requestReceipt(hash);
                 console.log("res: ", res);
               } catch (error) {
                 console.log("request receipt error: ", error);
               }
             }
-            if (res && res.status === "0x1") {
+            if (transaction.isSuccessful(res)) {
               Toast.success(this.$t("message.submit_succeed"));
             } else {
               Toast.fail(this.$t("message.submit_failed"));
