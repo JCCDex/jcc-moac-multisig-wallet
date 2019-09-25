@@ -6,7 +6,7 @@
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column;">
             <vote-header :is-voter="isVoter" />
             <vote-proposal :is-voter="isVoter" :address="address" />
-            <vote-bottom />
+            <vote-bottom v-if="isVoter" />
           </div>
         </div>
       </div>
