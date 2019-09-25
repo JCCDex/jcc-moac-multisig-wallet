@@ -19,13 +19,13 @@
         </div>
       </div>
     </div>
-    <van-action-sheet v-model="show" :title="$t('vote_action_sheet_title')">
+    <van-action-sheet v-model="show" :title="$t('recall_action.title')">
       <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
-        {{ $t("recall_page.confirm_message", { voter: selectedVoter }) }}
+        {{ $t("recall_action.content", { voter: selectedVoter }) }}
       </p>
 
       <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
-        {{ $t("vote_confirm") }}
+        {{ $t("recall_action.button") }}
       </button>
     </van-action-sheet>
   </div>

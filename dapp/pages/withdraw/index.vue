@@ -44,10 +44,10 @@
         </div>
       </div>
     </div>
-    <van-action-sheet v-model="show" :title="$t('withdraw_action_sheet_title')">
+    <van-action-sheet v-model="show" :title="$t('withdraw_action.title')">
       <p style="text-align:left;margin-top:0.45rem;">
         {{
-          $t("withdraw_action_sheet_amount", {
+          $t("withdraw_action.amount", {
             amount: value,
             token: $t("moac")
           })
@@ -55,14 +55,14 @@
       </p>
       <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
         {{
-          $t("withdraw_action_sheet_percent", {
+          $t("withdraw_action.percent", {
             percent
           })
         }}
       </p>
 
       <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
-        {{ $t("withdraw_confirm") }}
+        {{ $t("withdraw_action.button") }}
       </button>
     </van-action-sheet>
   </div>

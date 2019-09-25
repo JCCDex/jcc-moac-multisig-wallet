@@ -44,10 +44,10 @@
       </div>
     </div>
 
-    <van-action-sheet v-model="show" :title="$t('lock_action_sheet_title')">
+    <van-action-sheet v-model="show" :title="$t('lock_action.title')">
       <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
         {{
-          $t("lock_action_sheet_amount", {
+          $t("lock_action.content", {
             amount: value,
             token: $t("moac")
           })
@@ -55,7 +55,7 @@
       </p>
 
       <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
-        {{ $t("lock_confirm") }}
+        {{ $t("lock_action.button") }}
       </button>
     </van-action-sheet>
   </div>

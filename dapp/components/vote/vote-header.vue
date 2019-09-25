@@ -40,15 +40,15 @@
       </p>
     </div>
 
-    <van-action-sheet v-model="show" :title="$t('apply_to_be_voter')" get-container="body">
+    <van-action-sheet v-model="show" :title="$t('apply_action.title')" get-container="body">
       <div class="multisig-wallet-apply-action-sheet-container">
-        <p v-for="(item, key) in $t('apply_voter_tips')" :key="key">
+        <p v-for="(item, key) in $t('apply_action.contents')" :key="key">
           {{ item }}
         </p>
       </div>
 
       <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="confirmApply">
-        {{ $t("apply_confirm") }}
+        {{ $t("apply_action.button") }}
       </button>
     </van-action-sheet>
   </div>
