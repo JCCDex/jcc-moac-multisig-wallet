@@ -2,10 +2,12 @@ import tpInfo from "./tp";
 import multisigContractInstance from "@/js/contract";
 
 const voteInfo = (() => {
-  let votedCount: number = null;
+  let votedCount: number | null = null;
+  let passPercent: number | null = null;
 
   const destroy = () => {
     votedCount = null;
+    passPercent = null;
   };
 
   /**
@@ -32,9 +34,22 @@ const voteInfo = (() => {
     return votedCount || 0;
   };
 
+  const getPassPercent = async (): Promise<number> => {
+    if (passPercent === null) {
+      const inst = multisigContractInstance.init();
+      try {
+        passPercent = await inst.getPercent();
+      } catch (error) {
+        console.log("request pass percent error: ", error);
+      }
+    }
+    return passPercent || 0;
+  };
+
   return {
     destroy,
-    getVotedCount
+    getVotedCount,
+    getPassPercent
   };
 })();
 

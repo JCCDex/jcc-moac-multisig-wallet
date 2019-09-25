@@ -71,7 +71,7 @@
 import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
-import { isValidAmount } from "@/js/util";
+import { isValidNumber } from "@/js/util";
 
 export default {
   name: "Withdraw",
@@ -89,7 +89,7 @@ export default {
   computed: {
     withdrawEnable() {
       const value = parseFloat(this.value);
-      return this.agree && isValidAmount(value) && value > 0 && new BigNumber(value).isLessThanOrEqualTo(this.amount);
+      return this.agree && isValidNumber(value) && value > 0 && new BigNumber(value).isLessThanOrEqualTo(this.amount);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";

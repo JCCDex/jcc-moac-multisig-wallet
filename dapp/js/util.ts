@@ -4,7 +4,7 @@
  * @param {number} value
  * @returns {boolean}
  */
-const isValidAmount = (value: number): boolean => {
+const isValidNumber = (value: number): boolean => {
   return Number.isFinite(value) && !Number.isNaN(value) && value >= 0;
 };
 
@@ -17,4 +17,4 @@ const isDev = (): boolean => {
   return process.env.NODE_ENV === "development";
 };
 
-export { isValidAmount, isDev };
+export { isValidNumber, isDev };

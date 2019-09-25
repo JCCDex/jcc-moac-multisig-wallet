@@ -81,7 +81,11 @@
      "loading": "提交中...",
      "is_voter": "当前已经是投票人，无需再次申请",
      "apply_succeed": "申请成功",
-     "apply_failed": "申请失败"
+     "apply_failed": "申请失败",
+     "not_need_create_percent_proposal": "投票比例未改变，无须提交提案",
+     "is_not_voter": "不是投票人，无权提交该提案",
+     "submit_succeed": "提交成功",
+     "submit_failed": "提交失败"
    },
    "proposal_cell": {
      "voting": "投票中",
@@ -104,5 +108,10 @@
      "start": "发起时间：",
      "end": "失效时间：",
      "state": "投票状态："
+   },
+   "modify_percent_action": {
+     "title": "修改确认",
+     "content": "确定要将投票通过百分比改为{percent}%吗?",
+     "button": "确定修改"
    }
  }

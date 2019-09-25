@@ -78,14 +78,14 @@ export class MultisigContract extends SmartContract {
   /**
    * request pass percent for all proposals
    *
-   * @returns {Promise<string>}
+   * @returns {Promise<number>}
    * @memberof MultisigContract
    */
-  public async getPercent(): Promise<string> {
+  public async getPercent(): Promise<number> {
     const abiItem = abi.find(item => item.name == "getPercent");
     const output = await super.callABI("getPercent");
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return decodeData[0].toNumber();
   }
 
   /**
