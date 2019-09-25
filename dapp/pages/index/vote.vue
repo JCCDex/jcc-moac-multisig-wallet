@@ -5,7 +5,7 @@
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column;">
             <vote-header :is-voter="isVoter" />
-            <vote-proposal />
+            <vote-proposal :is-voter="isVoter" :address="address" />
             <vote-bottom />
           </div>
         </div>
@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      isVoter: false
+      isVoter: false,
+      address: ""
     };
   },
   async asyncData() {
@@ -41,7 +42,7 @@ export default {
         address = await tpInfo.getAddress();
       }
       const isVoter = await accountInfo.isVoter(address);
-      return { isVoter };
+      return { isVoter, address };
     } catch (error) {
       console.log("get isVoter error: ", error);
     }

@@ -194,59 +194,61 @@ export class MultisigContract extends SmartContract {
   }
 
   /**
-   * request count of voting proposal
+   * request count of all voting proposal
    *
+   * @returns {Promise<number>}
    * @memberof MultisigContract
    */
-  public async getVotingCount(): Promise<string> {
+  public async getVotingCount(): Promise<number> {
     const abiItem = abi.find(item => item.name == "getVotingCount");
     const output = await super.callABI("getVotingCount");
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return decodeData[0].toNumber();
   }
 
   /**
-   * request count of voted proposal
+   * request count of all voted proposal
    *
+   * @returns {Promise<number>}
    * @memberof MultisigContract
    */
-  public async getVotedCount(): Promise<string> {
+  public async getVotedCount(): Promise<number> {
     const abiItem = abi.find(item => item.name == "getVotedCount");
     const output = await super.callABI("getVotedCount");
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return decodeData[0].toNumber();
   }
 
   /**
    * request count of voting proposal that be submited by me
    *
    * @param {string} address
-   * @returns {Promise<string>}
+   * @returns {Promise<number>}
    * @memberof MultisigContract
    */
-  public async getMyVotingCount(address: string): Promise<string> {
+  public async getMyVotingCount(address: string): Promise<number> {
     const abiItem = abi.find(item => item.name == "getMyVotingCount");
     const output = await super.callABI("getMyVotingCount", {
       from: address
     });
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return decodeData[0].toNumber();
   }
 
   /**
    * request count of voted proposal that be submited by me
    *
    * @param {string} address
-   * @returns {Promise<string>}
+   * @returns {Promise<number>}
    * @memberof MultisigContract
    */
-  public async getMyVotedCount(address: string): Promise<string> {
+  public async getMyVotedCount(address: string): Promise<number> {
     const abiItem = abi.find(item => item.name == "getMyVotedCount");
     const output = await super.callABI("getMyVotedCount", {
       from: address
     });
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return decodeData[0].toNumber();
   }
 
   /**

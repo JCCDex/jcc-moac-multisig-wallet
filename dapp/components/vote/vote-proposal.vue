@@ -34,12 +34,11 @@
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
 import Pullup from "@better-scroll/pull-up";
-import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import ProposalCell from "@/components/proposal-cell";
 import bus from "@/js/bus";
-import tpInfo from "@/js/tp";
-import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
+import voteInfo from "@/js/vote";
 
 BScroll.use(PullDown);
 BScroll.use(Pullup);
@@ -47,6 +46,15 @@ BScroll.use(Pullup);
 export default {
   components: {
     ProposalCell
+  },
+  props: {
+    isVoter: {
+      type: Boolean
+    },
+    address: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {
@@ -89,8 +97,8 @@ export default {
         }
       });
 
-      this.bscroll.on("pullingDown", throttle(this.pullingDownHandler, 1000));
-      this.bscroll.on("pullingUp", throttle(this.pullingUpHandler, 1000));
+      this.bscroll.on("pullingDown", debounce(this.pullingDownHandler, 500));
+      this.bscroll.on("pullingUp", debounce(this.pullingUpHandler, 500));
     },
     async refresh(type) {
       this.type = type;
@@ -117,9 +125,13 @@ export default {
       this.finishPullDown();
     },
     async pullingUpHandler() {
+      if (this.type === "voting") {
+        return;
+      }
       this.beforePullUp = false;
       this.isPullUpLoad = true;
-
+      const proposals = await this.requestVotedProposals();
+      this.proposals = [...this.proposals, ...proposals];
       this.bscroll.finishPullUp();
       this.bscroll.refresh();
 
@@ -140,14 +152,12 @@ export default {
     },
     async requestVotingProposals() {
       try {
-        const address = await tpInfo.getAddress();
         const instance = multisigContractInstance.init();
         let proposalIds;
-        const isVoter = await accountInfo.isVoter();
-        if (isVoter) {
+        if (this.isVoter) {
           proposalIds = await instance.getAllVotingTopicIds();
         } else {
-          proposalIds = await instance.getAllMyVotingTopicIds(address);
+          proposalIds = await instance.getAllMyVotingTopicIds(this.address);
         }
         const props = [];
         for (const id of proposalIds) {
@@ -167,15 +177,29 @@ export default {
       }
     },
     async requestVotedProposals() {
+      const votedCount = await voteInfo.getVotedCount(this.isVoter);
+      if (votedCount === 0) {
+        return;
+      }
+      if (votedCount <= this.proposals.length) {
+        return;
+      }
+      console.log("current voted proposals count: ", this.proposals.length);
+      console.log("all voted proposals count: ", votedCount);
+      let start = this.proposals.length;
+      let end = start + 2;
+      if (end >= votedCount - 1) {
+        end = votedCount - 1;
+      }
+      console.log("start: ", start);
+      console.log("end: ", end);
       try {
-        const address = await tpInfo.getAddress();
         const instance = multisigContractInstance.init();
         let proposalIds;
-        const isVoter = await accountInfo.isVoter();
-        if (isVoter) {
-          proposalIds = await instance.getVotedTopicIds(0, 5);
+        if (this.isVoter) {
+          proposalIds = await instance.getVotedTopicIds(start, end);
         } else {
-          proposalIds = await instance.getMyVotedTopicIds(address, 0, 5);
+          proposalIds = await instance.getMyVotedTopicIds(this.address, start, end);
         }
         const props = [];
         for (const id of proposalIds) {
