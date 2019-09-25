@@ -65,5 +65,17 @@ contract('ProposalList', (accounts) => {
     assert.equal(votingCount, 2);
     votedCount = await proposal.getVotedCount()
     assert.equal(votedCount, 1);
+
+    await proposal.voteTopic(allIds[1], Date.now(), true, { from: accounts[1] });
+    await proposal.voteTopic(allIds[1], Date.now(), true, { from: accounts[2] });
+    await proposal.voteTopic(allIds[1], Date.now(), true, { from: accounts[3] });
+    await proposal.voteTopic(allIds[1], Date.now(), true, { from: accounts[4] });
+    await proposal.voteTopic(allIds[1], Date.now(), true, { from: accounts[5] });
+
+    await proposal.moveTopic(allIds[1]);
+    votingCount = await proposal.getVotingCount()
+    assert.equal(votingCount, 1);
+    votedCount = await proposal.getVotedCount()
+    assert.equal(votedCount, 2);
   });
 });

@@ -214,11 +214,11 @@ contract JccMoacMultiSig is Administrative {
     return _proposals.getAllMyVotingTopicIds(msg.sender);
   }
 
-  function getVotedTopicIds(uint from, uint to) public view returns (uint[]) {
+  function getVotedTopicIds(uint from, uint to) public view returns (uint[] memory) {
     return _proposals.getVotedTopicIds(from, to);
   }
 
-  function getMyVotedTopicIds(uint from, uint to) public view returns (uint[]) {
+  function getMyVotedTopicIds(uint from, uint to) public view returns (uint[] memory) {
     return _proposals.getMyVotedTopicIds(msg.sender, from, to);
   }
 
@@ -303,12 +303,14 @@ contract JccMoacMultiSig is Administrative {
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
 
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      processMoveTopic(t);
       _percent = t.value;
     }
+
+    processMoveTopic(t);
+
     return true;
   }
- 
+
   function processVoteExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
 
@@ -316,9 +318,10 @@ contract JccMoacMultiSig is Administrative {
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
 
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      processMoveTopic(t);
       _voters.insert(t.target);
     }
+
+    processMoveTopic(t);
 
     return true;
   }
@@ -332,9 +335,10 @@ contract JccMoacMultiSig is Administrative {
     uint _resultNo = t.noCount.mul(100).div(_voters.count());
 
     if (_resultYes > _percent && _resultYes > _resultNo) {
-      processMoveTopic(t);
       _voters.remove(t.target);
     }
+
+    processMoveTopic(t);
 
     return true;
   }
@@ -355,7 +359,6 @@ contract JccMoacMultiSig is Administrative {
     uint totalWithdraw = _balanceOfWithdraw.add(t.target, t.value);
     emit Withdraw(t.target, t.value, totalWithdraw, _bd.sub(totalWithdraw));
 
-    processMoveTopic(t);
     t.target.transfer(t.value);
   }
 
@@ -369,6 +372,8 @@ contract JccMoacMultiSig is Administrative {
       // 执行转账
       withdraw(t);
     }
+
+    processMoveTopic(t);
 
     return true;
   }

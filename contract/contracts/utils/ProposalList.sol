@@ -105,12 +105,14 @@ library ProposalList {
 
   // 获得当前已决提案id，考虑到数量不断增长，因此采用范围获取
   function getVotedTopicIds(proposalMap storage self, uint from, uint to) internal view returns (uint[] memory) {
-    require(to > from, "index to must bigger than from");
+    require(to >= from, "index to must bigger than from");
     require(to < self._voteList.voted.length, "index to must smaller than voted count");
 
     uint len = 0;
-    uint[] memory res = new uint[](to.sub(from));
-    for (uint i = from; i < to; i++) {
+    uint size = to.sub(from).add(1);
+    //BUG:无法创建一个memory的一个成员的数组？
+    uint[] memory res = new uint[](size >= 2 ? size:2);
+    for (uint i = from; i <= to; i++) {
       res[len] = self._voteList.voted[i];
       len = len.add(1);
     }
@@ -118,11 +120,13 @@ library ProposalList {
   }
 
   function getMyVotedTopicIds(proposalMap storage self, address sponsor, uint from, uint to) internal view returns (uint[] memory) {
-    require(to > from, "index to must bigger than from");
+    require(to >= from, "index to must bigger than from");
     require(to < self._sponsors[sponsor].voted.length, "index to must smaller than voted count");
 
     uint len = 0;
-    uint[] memory res = new uint[](to.sub(from));
+    uint size = to.sub(from).add(1);
+    //BUG:无法创建一个memory的一个成员的数组？
+    uint[] memory res = new uint[](size >= 2 ? size:2);
     for (uint i = from; i < to; i++) {
       res[len] = self._sponsors[sponsor].voted[i];
       len = len.add(1);

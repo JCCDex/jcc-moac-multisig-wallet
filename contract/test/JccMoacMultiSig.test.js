@@ -66,7 +66,7 @@ contract('JccMoacMultiSig', (accounts) => {
     assert.equal(stop, true);
   });
 
-  it('JccMoacMultiSig vote percent proposal', async () => {
+  it('JccMoacMultiSig vote percent proposal success', async () => {
     await multiWallet.configureOnce(3, 50, [voter1, voter2, voter3]);
     let isVoter = await multiWallet.isVoter(voter1, { from: voter2 });
     assert.equal(isVoter, true);
@@ -128,6 +128,68 @@ contract('JccMoacMultiSig', (accounts) => {
     assert.equal(percent, 66);
   });
 
+  it('JccMoacMultiSig vote percent proposal fail', async () => {
+    await multiWallet.configureOnce(3, 50, [voter1, voter2, voter3]);
+    let isVoter = await multiWallet.isVoter(voter1, { from: voter2 });
+    assert.equal(isVoter, true);
+    isVoter = await multiWallet.isVoter(voter4, { from: voter4 });
+    assert.equal(isVoter, false);
+
+    // 发起议题
+    let topicId = Date.now();
+    await multiWallet.createPercentProposal(topicId, topicId, topicId + 1000000, 66);
+    // 投票百分比只能一个个串行
+    await assertRevert(multiWallet.createPercentProposal(topicId + 1, topicId + 1, topicId + 1000000, 60, { from: voter2 }));
+
+    // 获取当前投票中的议题
+    let votingCount = await multiWallet.getVotingCount();
+    assert.equal(votingCount, 1);
+    let votedCount = await multiWallet.getVotedCount();
+    assert.equal(votedCount, 0);
+    let topic = await multiWallet.getTopic(topicId);
+    assert.equal(topic.value, 66);
+    assert.equal(topic.origin, 50);
+    assert.equal(topic.sponsor, voter1);
+
+    // 投票：合法投票，不合法投票
+    await batchVote(topicId, [voter1, voter2, voter3], [false, false, true]);
+    await assertRevert(multiWallet.voteTopic(topicId, Date.now(), true, { from: voter4 }));
+
+    // 获得投票信息
+    let voteIdxs = await multiWallet.getDetailIdxs(topicId);
+    assert.equal(voteIdxs.length, 3);
+
+    let voteDetail = await multiWallet.getVoteDetail(topicId, { from: voter2 });
+    assert.equal(voteDetail.voter, voter2);
+    // 获取一个不存在的投票记录
+    voteDetail = await multiWallet.getVoteDetail(topicId, { from: voter4 });
+    assert.equal(voteDetail.voter, zeroAccount);
+
+    let allDetail = await multiWallet.getVoteDetailsByTopic(topicId);
+    assert.equal(allDetail[2].voter, voter3);
+
+    // 先检查原来的percent
+    let percent = await multiWallet.getPercent();
+    assert.equal(percent, 50);
+
+    // 扫描和关闭议题：按照结果关闭
+    // 传一个时间不到，投票结果完成的
+    let haveExpire = await multiWallet.haveExpire(topicId);
+    assert.equal(haveExpire[1], 1);
+
+    // 获得新的百分比
+    await multiWallet.processExpire(Date.now());
+    // 测试已决议题和待决议题数量变化
+    votingCount = await multiWallet.getVotingCount();
+    assert.equal(votingCount, 0);
+    votedCount = await multiWallet.getVotedCount();
+    assert.equal(votedCount, 1);
+
+    // 再检查percent
+    percent = await multiWallet.getPercent();
+    assert.equal(percent, 50);
+  });
+
   it('JccMoacMultiSig add/recall voter', async () => {
     await multiWallet.configureOnce(3, 50, [voter1, voter2, voter3]);
 
@@ -184,8 +246,12 @@ contract('JccMoacMultiSig', (accounts) => {
     votedCount = await multiWallet.getVotedCount();
     assert.equal(votedCount, 2);
 
-    // 增选vote5
-    await batchVote(topicId2, [voter1, voter3, voter4], [true, false, true]);
+    let ids = await multiWallet.getVotedTopicIds(0, 0);
+    // console.log(ids);
+    assert.equal(ids.length, 2);
+
+    // 增选vote5:反对增选
+    await batchVote(topicId2, [voter1, voter3, voter4], [false, false, true]);
     await assertRevert(multiWallet.voteTopic(topicId2, Date.now(), true, { from: voter2 }));
 
     await multiWallet.processExpire(Date.now());
@@ -195,9 +261,9 @@ contract('JccMoacMultiSig', (accounts) => {
     votedCount = await multiWallet.getVotedCount();
     assert.equal(votedCount, 3);
 
-    // 现在投票人有4个了
+    // 现在投票人有3个了
     let voters = await multiWallet.getVoters();
-    assert.equal(voters.length, 4);
+    assert.equal(voters.length, 3);
 
     // 发起增选voter2
     await multiWallet.createVoterProposal(topicId4, topicId4, topicId4 + 1000000, voter2, { from: voter1 });
@@ -208,7 +274,7 @@ contract('JccMoacMultiSig', (accounts) => {
     await multiWallet.processExpire(Date.now());
     // 现在投票人有4个了
     voters = await multiWallet.getVoters();
-    assert.equal(voters.length, 5);
+    assert.equal(voters.length, 4);
   });
 
   it('JccMoacMultiSig vote timeout test case', async () => {
@@ -398,8 +464,8 @@ contract('JccMoacMultiSig', (accounts) => {
     await batchVote(topicId1, [voter1, voter2, voter3], [true, false, true]);
     await batchVote(topicId2, [voter1, voter2, voter3], [true, false, true]);
     await batchVote(topicId3, [voter1, voter2, voter3], [true, false, true]);
-    await batchVote(topicId4, [voter1, voter2, voter3], [true, false, true]);
-    await batchVote(topicId5, [voter1, voter2, voter3], [true, false, true]);
+    await batchVote(topicId4, [voter1, voter2, voter3], [false, false, true]);
+    await batchVote(topicId5, [voter1, voter2, voter3], [false, false, true]);
 
     await multiWallet.processExpire(Date.now());
 
@@ -415,7 +481,7 @@ contract('JccMoacMultiSig', (accounts) => {
 
     // 测试可提现资金
     bTotal = web3.utils.fromWei(await web3.eth.getBalance(multiWallet.address));
-    assert.equal(bTotal.toString(), '0');
+    assert.equal(bTotal.toString(), '20');
   });
 
   it('JccMoacMultiSig vote detail info', async () => {
