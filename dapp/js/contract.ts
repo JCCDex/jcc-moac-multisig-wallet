@@ -486,7 +486,10 @@ export class MultisigContract extends SmartContract {
     const abiItem = abi.find(item => item.name == "getBalance");
     const output = await super.callABI("getBalance", address);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return super.moac
+      .getChain3()
+      .fromSha(decodeData[0])
+      .toString(10);
   }
 
   /**
@@ -500,7 +503,10 @@ export class MultisigContract extends SmartContract {
     const abiItem = abi.find(item => item.name == "getDepositBalance");
     const output = await super.callABI("getDepositBalance", address);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return super.moac
+      .getChain3()
+      .fromSha(decodeData[0])
+      .toString(10);
   }
 
   /**
@@ -514,7 +520,10 @@ export class MultisigContract extends SmartContract {
     const abiItem = abi.find(item => item.name == "getWithdrawBalance");
     const output = await super.callABI("getWithdrawBalance", address);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0].toString(10);
+    return super.moac
+      .getChain3()
+      .fromSha(decodeData[0])
+      .toString(10);
   }
 
   // public kill() {

@@ -21,13 +21,13 @@
                 </div>
                 <div class="multisig-wallet-lock-bottom-container" flex-box="1" flex="dir:top cross: center">
                   <p>{{ $t("locked_amount", { colon: "：" }) }}</p>
-                  <van-field v-model="value" center type="number" :placeholder="$t('pls_input_amount')">
+                  <van-field v-model="amount" center type="number" :placeholder="$t('pls_input_amount')">
                     <span slot="button" size="small" type="primary">
                       {{ $t("moac") }}
                     </span>
                   </van-field>
                   <div flex="main:justify cross:center" style="margin-top: 0.24rem;">
-                    <span>{{ $t("max_locked", { amount: amount, token: $t("moac") }) }}</span>
+                    <span>{{ $t("max_locked", { amount: parseFloat(balance).toFixed(2), token: $t("moac") }) }}</span>
                     <span>{{ $t("locked_amount_tip") }}</span>
                   </div>
 
@@ -48,13 +48,13 @@
       <p style="text-align:left;margin-top:0.45rem;margin-bottom:0.95rem">
         {{
           $t("lock_action.content", {
-            amount: value,
+            amount,
             token: $t("moac")
           })
         }}
       </p>
 
-      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="depositConfirm">
         {{ $t("lock_action.button") }}
       </button>
     </van-action-sheet>
@@ -65,26 +65,42 @@ import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import { isValidNumber } from "@/js/util";
+import tpInfo from "@/js/tp";
+import multisigContractInstance from "@/js/contract";
+import { Toast } from "vant";
+import * as transaction from "@/js/transaction";
+
 export default {
-  name: "Withdraw",
+  name: "Lock",
   components: {
     WalletHeader
   },
   data() {
     return {
-      amount: "2000000",
-      value: "",
+      balance: "",
+      amount: "",
       agree: false,
       show: false
     };
   },
   computed: {
     lockEnable() {
-      const value = parseFloat(this.value);
-      return this.agree && isValidNumber(value) && value % 1000 === 0 && new BigNumber(value).isGreaterThanOrEqualTo(10000) && new BigNumber(value).isLessThan(this.amount);
+      const value = parseFloat(this.amount);
+      const minGas = 0.01;
+      return this.agree && isValidNumber(value) && value % 1000 === 0 && new BigNumber(value).isGreaterThanOrEqualTo(10000) && new BigNumber(value).plus(minGas).isLessThan(this.balance);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";
+    }
+  },
+  async asyncData() {
+    try {
+      const address = await tpInfo.getAddress();
+      const balance = await multisigContractInstance.init().moac.getBalance(address);
+      return { balance };
+    } catch (error) {
+      console.log("reqeust moac balance error: ", error);
+      return { balance: "0" };
     }
   },
   mounted() {
@@ -105,6 +121,40 @@ export default {
     },
     acceptAgreement() {
       this.agree = !this.agree;
+    },
+    async depositConfirm() {
+      this.show = false;
+      Toast.loading({
+        duration: 0,
+        forbidClick: true,
+        loadingType: "spinner",
+        message: this.$t("message.loading")
+      });
+      try {
+        const instance = multisigContractInstance.init();
+        const hash = await instance.deposit(this.amount);
+        console.log("deposit hash: ", hash);
+        // confirm status by hash
+        setTimeout(async () => {
+          let res = null;
+          while (res === null) {
+            try {
+              res = await transaction.requestReceipt(hash);
+              console.log("res: ", res);
+            } catch (error) {
+              console.log("request receipt error: ", error);
+            }
+          }
+          if (transaction.isSuccessful(res)) {
+            Toast.success(this.$t("message.submit_succeed"));
+          } else {
+            Toast.fail(this.$t("message.submit_failed"));
+          }
+        }, 30000);
+      } catch (error) {
+        console.log("deposit error: ", error);
+        Toast.fail(this.$t("message.submit_failed"));
+      }
     }
   }
 };
