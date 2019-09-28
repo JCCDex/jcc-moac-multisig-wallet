@@ -24,7 +24,7 @@
         {{ $t("recall_action.content", { voter: selectedVoter }) }}
       </p>
 
-      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="recallConfirm">
         {{ $t("recall_action.button") }}
       </button>
     </van-action-sheet>
@@ -35,6 +35,9 @@ import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import VoterCell from "@/components/voter-cell";
 import multisigContractInstance from "@/js/contract";
+import accountInfo from "@/js/account";
+import * as transaction from "@/js/transaction";
+import { Toast } from "vant";
 
 export default {
   name: "Recall",
@@ -49,22 +52,22 @@ export default {
       voters: []
     };
   },
-  created() {
-    multisigContractInstance
-      .init()
-      .getVoters()
-      .then(voters => {
-        this.voters = voters;
-      })
-      .catch(error => {
-        console.log("request voters error: ", error);
-      });
+  async asyncData() {
+    try {
+      const voters = await multisigContractInstance.init().getVoters();
+      return { voters };
+    } catch (error) {
+      console.log("request voters error: ", error);
+    }
   },
   mounted() {
     this.init();
   },
   updated() {
     this.bs.refresh();
+  },
+  deactivated() {
+    this.$destroy();
   },
   beforeDestroy() {
     this.bs.destroy();
@@ -79,6 +82,53 @@ export default {
     showAction(voter) {
       this.selectedVoter = voter;
       this.show = true;
+    },
+    async recallConfirm() {
+      this.show = false;
+
+      // clear cache to request latest state
+      accountInfo.destroy("isVoter");
+
+      Toast.loading({
+        duration: 0,
+        forbidClick: true,
+        loadingType: "spinner",
+        message: this.$t("message.loading")
+      });
+      try {
+        const isVoter = await accountInfo.isVoter();
+        if (isVoter) {
+          const topicId = Date.now();
+          console.log("topic id: ", topicId);
+          const timestamp = topicId;
+          const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
+          const instance = multisigContractInstance.init();
+          const hash = await instance.createRecallProposal(topicId, timestamp, endtime, this.selectedVoter);
+          console.log("create recall proposal hash: ", hash);
+          // confirm status by hash
+          setTimeout(async () => {
+            let res = null;
+            while (res === null) {
+              try {
+                res = await transaction.requestReceipt(hash);
+                console.log("res: ", res);
+              } catch (error) {
+                console.log("request receipt error: ", error);
+              }
+            }
+            if (transaction.isSuccessful(res)) {
+              Toast.success(this.$t("message.submit_succeed"));
+            } else {
+              Toast.fail(this.$t("message.submit_failed"));
+            }
+          }, 30000);
+        } else {
+          Toast.fail(this.$t("message.is_not_voter"));
+        }
+      } catch (error) {
+        console.log("create recall proposal error: ", error);
+        Toast.fail(this.$t("message.submit_failed"));
+      }
     }
   }
 };

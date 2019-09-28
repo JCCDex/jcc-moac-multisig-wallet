@@ -130,7 +130,7 @@ export default {
             } else {
               Toast.fail(this.$t("message.submit_failed"));
             }
-          }, 10000);
+          }, 30000);
         } else {
           Toast.fail(this.$t("message.is_not_voter"));
         }

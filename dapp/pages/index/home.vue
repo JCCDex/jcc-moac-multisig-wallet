@@ -37,7 +37,7 @@ export default {
     return {
       bs: null,
       lockAmount: "0",
-      voteAmount: "0",
+      voteAmount: 0,
       address: ""
     };
   },
