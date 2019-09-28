@@ -61,7 +61,7 @@
         }}
       </p>
 
-      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;">
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="withdrawConfirm">
         {{ $t("withdraw_action.button") }}
       </button>
     </van-action-sheet>
@@ -72,6 +72,10 @@ import BigNumber from "bignumber.js";
 import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import { isValidNumber } from "@/js/util";
+import tpInfo from "@/js/tp";
+import multisigContractInstance from "@/js/contract";
+import { Toast } from "vant";
+import * as transaction from "@/js/transaction";
 
 export default {
   name: "Withdraw",
@@ -80,7 +84,7 @@ export default {
   },
   data() {
     return {
-      amount: "1000",
+      amount: "",
       value: "",
       agree: false,
       show: false
@@ -97,6 +101,16 @@ export default {
     percent() {
       const percent = (this.value / this.amount) * 100;
       return percent.toFixed(2) + "%";
+    }
+  },
+  async asyncData() {
+    try {
+      const address = await tpInfo.getAddress();
+      const amount = await multisigContractInstance.init().getBalance(address);
+      return { amount };
+    } catch (error) {
+      console.log("init withdraw amount error: ", error);
+      return { amount: "0" };
     }
   },
   mounted() {
@@ -117,6 +131,44 @@ export default {
     },
     acceptAgreement() {
       this.agree = !this.agree;
+    },
+    async withdrawConfirm() {
+      this.show = false;
+      Toast.loading({
+        duration: 0,
+        forbidClick: true,
+        loadingType: "spinner",
+        message: this.$t("message.loading")
+      });
+      try {
+        const topicId = Date.now();
+        console.log("topic id: ", topicId);
+        const timestamp = topicId;
+        const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
+        const instance = multisigContractInstance.init();
+        const hash = await instance.createWithdrawProposal(topicId, timestamp, endtime, this.value);
+        console.log("withdraw proposal hash: ", hash);
+        // confirm status by hash
+        setTimeout(async () => {
+          let res = null;
+          while (res === null) {
+            try {
+              res = await transaction.requestReceipt(hash);
+              console.log("res: ", res);
+            } catch (error) {
+              console.log("request receipt error: ", error);
+            }
+          }
+          if (transaction.isSuccessful(res)) {
+            Toast.success(this.$t("message.submit_succeed"));
+          } else {
+            Toast.fail(this.$t("message.submit_failed"));
+          }
+        }, 30000);
+      } catch (error) {
+        console.log("deposit error: ", error);
+        Toast.fail(this.$t("message.submit_failed"));
+      }
     }
   }
 };

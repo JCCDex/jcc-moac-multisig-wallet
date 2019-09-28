@@ -191,7 +191,8 @@ export class MultisigContract extends SmartContract {
    * @memberof MultisigContract
    */
   public async createWithdrawProposal(topicId: number, timestamp: number, endtime: number, amount: string): Promise<string> {
-    const bytes = await super.callABI("createWithdrawProposal", topicId, timestamp, endtime, amount);
+    const chain3 = super.moac.getChain3();
+    const bytes = await super.callABI("createWithdrawProposal", topicId, timestamp, endtime, chain3.intToHex(chain3.toSha(amount)));
     let hash: string;
     if (isDev()) {
       hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
