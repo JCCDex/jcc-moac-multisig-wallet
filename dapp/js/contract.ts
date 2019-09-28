@@ -1,4 +1,6 @@
 import { smartContract as SmartContract, Moac, SolidityFunction } from "jcc-moac-utils";
+import tpInfo from "./tp";
+import tp from "tp-js-sdk";
 import { isDev } from "./util";
 const abi = require("@/abi/multisig-wallet-abi");
 const ethers = require("ethers");
@@ -127,10 +129,13 @@ export class MultisigContract extends SmartContract {
    */
   public async createPercentProposal(topicId: number, timestamp: number, endtime: number, percent: number): Promise<string> {
     const bytes = await super.callABI("createPercentProposal", topicId, timestamp, endtime, percent);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 260000 });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 260000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 260000 });
     }
+    return hash;
   }
 
   /**
@@ -145,12 +150,13 @@ export class MultisigContract extends SmartContract {
    */
   public async createVoterProposal(topicId: number, timestamp: number, endtime: number, voter: string): Promise<string> {
     const bytes = await super.callABI("createVoterProposal", topicId, timestamp, endtime, voter);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, {
-        gasLimit: 270000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 270000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 270000 });
     }
+    return hash;
   }
 
   /**
@@ -165,12 +171,13 @@ export class MultisigContract extends SmartContract {
    */
   public async createRecallProposal(topicId: number, timestamp: number, endtime: number, voter: string): Promise<string> {
     const bytes = await super.callABI("createRecallProposal", topicId, timestamp, endtime, voter);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, {
-        gasLimit: 270000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 270000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 270000 });
     }
+    return hash;
   }
 
   /**
@@ -185,12 +192,13 @@ export class MultisigContract extends SmartContract {
    */
   public async createWithdrawProposal(topicId: number, timestamp: number, endtime: number, amount: string): Promise<string> {
     const bytes = await super.callABI("createWithdrawProposal", topicId, timestamp, endtime, amount);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, amount, bytes, {
-        gasLimit: 300000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
     }
+    return hash;
   }
 
   /**
@@ -357,12 +365,13 @@ export class MultisigContract extends SmartContract {
    */
   public async voteTopic(topicId: number, timestamp: number, confirm: boolean): Promise<string> {
     const bytes = await super.callABI("voteTopic", topicId, timestamp, confirm);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, {
-        gasLimit: 160000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 160000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 160000 });
     }
+    return hash;
   }
 
   /**
@@ -437,12 +446,13 @@ export class MultisigContract extends SmartContract {
    */
   public async processExpire(endtime: number): Promise<string> {
     const bytes = await super.callABI("processExpire", endtime);
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, {
-        gasLimit: 2000000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
     }
+    return hash;
   }
 
   /**
@@ -454,12 +464,13 @@ export class MultisigContract extends SmartContract {
    */
   public async deposit(amount: string): Promise<string> {
     const bytes = await super.callABI("deposit");
+    let hash: string;
     if (isDev()) {
-      const hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, amount, bytes, {
-        gasLimit: 100000
-      });
-      return hash;
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, amount, bytes, { gasLimit: 100000 });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, amount, bytes, { gasLimit: 100000 });
     }
+    return hash;
   }
 
   /**
@@ -509,6 +520,38 @@ export class MultisigContract extends SmartContract {
   // public kill() {
 
   // }
+
+  /**
+   * send transaction by tokenpocket javascript sdk
+   *
+   * this app will be published to [TokenPocket](https://www.tokenpocket.pro/)
+   *
+   * @private
+   * @param {string} contractAddr
+   * @param {string} value
+   * @param {string} calldata
+   * @param {ITransactionOption} [options]
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  private async sendTransactionByTp(contractAddr: string, value: string, calldata: string, options): Promise<string> {
+    const sender = await tpInfo.getAddress();
+    options = await super.moac.getOptions(options || {}, sender);
+    const tx = super.moac.getTx(sender, contractAddr, options.nonce, options.gasLimit, options.gasPrice, value, calldata);
+    // const res = await tp.signMoacTransaction(tx);
+    // if (res && res.result) {
+    //   const hash = await super.moac.sendRawSignedTransaction(res.data);
+    //   return hash
+    // } else {
+    //   throw new Error(res.msg);
+    // }
+    const res = await tp.sendMoacTransaction(tx);
+    if (res && res.result) {
+      return res.data;
+    } else {
+      throw new Error(res.msg);
+    }
+  }
 }
 
 const multisigContractInstance = (() => {
