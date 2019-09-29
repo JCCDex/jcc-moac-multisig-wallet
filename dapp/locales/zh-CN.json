@@ -45,6 +45,8 @@
   "message": {
     "apply_failed": "申请失败",
     "apply_succeed": "申请成功",
+    "could_not_deposit": "管理员设置当前暂时不能锁仓",
+    "could_not_withdraw": "管理员设置当前暂时不能提现",
     "is_not_voter": "不是投票人，无权提交该提案",
     "is_voter": "当前已经是投票人，无需再次申请",
     "loading": "提交中...",

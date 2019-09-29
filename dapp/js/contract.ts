@@ -73,9 +73,21 @@ export class MultisigContract extends SmartContract {
 
   // }
 
-  // public getStopDeposit() {
-
-  // }
+  /**
+   * reqeust state of stopping deposit
+   *
+   * if true, could not deposit
+   * if false, could not withdraw
+   *
+   * @returns {Promise<boolean>}
+   * @memberof MultisigContract
+   */
+  public async getStopDeposit(): Promise<boolean> {
+    const abiItem = abi.find(item => item.name == "getStopDeposit");
+    const output = await super.callABI("getStopDeposit");
+    const decodeData = abiCoder.decode(abiItem.outputs, output);
+    return decodeData[0];
+  }
 
   /**
    * request pass percent for all proposals

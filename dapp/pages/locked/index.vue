@@ -132,6 +132,10 @@ export default {
       });
       try {
         const instance = multisigContractInstance.init();
+        const state = await instance.getStopDeposit();
+        if (state) {
+          return Toast.fail(this.$t("message.could_not_deposit"));
+        }
         const hash = await instance.deposit(this.amount);
         console.log("deposit hash: ", hash);
         // confirm status by hash
