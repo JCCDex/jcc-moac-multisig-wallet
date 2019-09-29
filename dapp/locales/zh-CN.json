@@ -51,6 +51,8 @@
     "is_voter": "当前已经是投票人，无需再次申请",
     "loading": "提交中...",
     "not_need_create_percent_proposal": "投票比例未改变，无须提交提案",
+    "request_voting_withdraw_failed": "获取正在投票提现提案错误，请稍后重试",
+    "has_voting_withdraw": "当前已有一个正在投票的提现提案",
     "submit_failed": "提交失败",
     "submit_succeed": "提交成功"
   },

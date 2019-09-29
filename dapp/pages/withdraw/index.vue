@@ -76,6 +76,7 @@ import tpInfo from "@/js/tp";
 import multisigContractInstance from "@/js/contract";
 import { Toast } from "vant";
 import * as transaction from "@/js/transaction";
+import accountInfo from "@/js/account";
 
 export default {
   name: "Withdraw",
@@ -144,6 +145,14 @@ export default {
         message: this.$t("message.loading")
       });
       try {
+        const address = await tpInfo.getAddress();
+        const hasVotingWithdrawState = await accountInfo.hasVotingWithdrawProposal(address);
+        if (hasVotingWithdrawState === null) {
+          return Toast.fail(this.$t("message.request_voting_withdraw_failed"));
+        }
+        if (hasVotingWithdrawState) {
+          return Toast.fail(this.$t("message.has_voting_withdraw"));
+        }
         const instance = multisigContractInstance.init();
         const state = await instance.getStopDeposit();
         if (!state) {
@@ -168,6 +177,8 @@ export default {
           }
           if (transaction.isSuccessful(res)) {
             Toast.success(this.$t("message.submit_succeed"));
+            // submit success, destroy state
+            accountInfo.destroy("hasVotingWithdrawProposalState");
           } else {
             Toast.fail(this.$t("message.submit_failed"));
           }
