@@ -41,7 +41,7 @@ export default {
       }
       if (voteType === TYPE_VOTE) {
         return this.$t("proposal_cell.apply_voter_content", {
-          account: sponsor.substring(0, 10) + "..." + sponsor.substring(25)
+          account: target.substring(0, 10) + "..." + target.substring(25)
         });
       }
       if (voteType === TYPE_RECALL) {
@@ -71,7 +71,7 @@ export default {
       }
       if (voteType === TYPE_VOTE) {
         return this.$t("proposal_cell.apply_voter_content", {
-          account: sponsor
+          account: target
         });
       }
       if (voteType === TYPE_RECALL) {
