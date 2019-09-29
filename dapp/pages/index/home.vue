@@ -3,7 +3,7 @@
     <div class="scroll-content">
       <home-header :lock-amount="lockAmount" :address="address" :vote-amount="voteAmount" />
       <home-middle />
-      <home-message>
+      <home-message :messages="proposals">
         <div flex="main:justify cross:center" class="multisig-wallet-message-header">
           <div style="border-left: 0.04rem solid #0B1F5D; padding-left: 0.08rem;color: #242D3D">
             {{ $t("latest_message") }}
@@ -38,7 +38,8 @@ export default {
       bs: null,
       lockAmount: "0",
       voteAmount: 0,
-      address: ""
+      address: "",
+      proposals: []
     };
   },
   async asyncData() {
@@ -56,7 +57,17 @@ export default {
         voteAmount = await instance.getMyVotingCount(address);
       }
       lockAmount = await instance.getBalance(address);
-      return { lockAmount, voteAmount };
+      let proposalIds = await instance.getAllVotingTopicIds();
+      const props = [];
+      if (proposalIds.length > 10) {
+        // show max length is 10
+        proposalIds = proposalIds.slice(0, 10);
+      }
+      for (const id of proposalIds) {
+        props.push(instance.getTopic(id));
+      }
+      const proposals = await Promise.all(props);
+      return { lockAmount, voteAmount, proposals };
     } catch (error) {
       console.log("init home data error: ", error);
     }
@@ -66,9 +77,6 @@ export default {
     tpInfo.getAddress().then(address => {
       this.address = address || "";
     });
-  },
-  updated() {
-    this.bs.refresh();
   },
   beforeDestroy() {
     this.bs.destroy();

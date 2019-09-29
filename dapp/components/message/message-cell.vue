@@ -1,5 +1,5 @@
 <template>
-  <div class="multisig-wallet-message-cell-container" flex="main:justify cross:center" @click="goto('/message/detail')">
+  <div class="multisig-wallet-message-cell-container" flex="main:justify cross:center" @click="goto">
     <div flex="cross:center" style="width: calc(100% - 0.4rem)">
       <component :is="componentId" />
       <div style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)">
@@ -52,8 +52,8 @@ export default {
     }
   },
   methods: {
-    goto(route) {
-      this.$router.push(route);
+    goto() {
+      this.$router.push("/message/" + this.proposal.topicId);
     }
   }
 };

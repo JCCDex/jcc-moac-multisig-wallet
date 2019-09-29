@@ -6,40 +6,17 @@
 </template>
 <script>
 import MessageCell from "@/components/message/message-cell";
-import multisigContractInstance from "@/js/contract";
-import tpInfo from "@/js/tp";
 
 export default {
   components: {
     MessageCell
   },
-  data() {
-    return {
-      messages: []
-    };
-  },
-  created() {
-    this.requestVotingProposals();
-  },
-  methods: {
-    async requestVotingProposals() {
-      try {
-        const node = await tpInfo.getNode();
-        const instance = multisigContractInstance.init(node);
-        let proposalIds = await instance.getAllVotingTopicIds();
-        const props = [];
-        if (proposalIds.length > 10) {
-          // show max length is 10
-          proposalIds = proposalIds.slice(0, 10);
-        }
-        for (const id of proposalIds) {
-          props.push(instance.getTopic(id));
-        }
-        const responses = await Promise.all(props);
-        this.messages = responses;
-      } catch (error) {
-        console.log("reqeust voting proposal error: ", error);
-      }
+  props: {
+    messages: {
+      default() {
+        return [];
+      },
+      type: Array
     }
   }
 };

@@ -136,7 +136,7 @@ export default {
       });
     },
     formatTime(timestamp) {
-      return tinydate("{YYYY}-{MM}-{DD}  {HH}:{mm}:{ss}")(new Date(parseInt(timestamp)));
+      return tinydate("{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}")(new Date(parseInt(timestamp)));
     }
   }
 };

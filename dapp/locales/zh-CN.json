@@ -56,6 +56,14 @@
     "submit_failed": "提交失败",
     "submit_succeed": "提交成功"
   },
+  "message_detail": {
+    "apply_wallet": "申请钱包：{address}",
+    "submit_time": "提交时间：{time}",
+    "modify_percent": "修改后百分比：{percent}",
+    "withdraw_amount": "提现数量：{amount} {token}",
+    "apply_address": "申请投票人地址：{address}",
+    "recall_address": "罢免投票人地址：{address}"
+  },
   "mine": "我的",
   "moac": "MOAC",
   "moac_wallet": "MOAC钱包",
