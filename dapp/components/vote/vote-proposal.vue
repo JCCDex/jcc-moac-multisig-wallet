@@ -206,7 +206,7 @@ export default {
           props.push(instance.getTopic(id));
         }
         const responses = await Promise.all(props);
-        const proposals = responses;
+        const proposals = responses.filter(response => response.sponsor !== "0x0000000000000000000000000000000000000000");
         return proposals;
       } catch (error) {
         console.log("reqeust voted proposal error: ", error);

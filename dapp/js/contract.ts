@@ -333,7 +333,7 @@ export class MultisigContract extends SmartContract {
    */
   public async getMyVotedTopicIds(address: string, start: number, end: number): Promise<string[]> {
     const abiItem = abi.find(item => item.name == "getMyVotedTopicIds");
-    const output = await super.callABI("getMyVotedTopicIds", { from: address }, start, end);
+    const output = await super.callABI("getMyVotedTopicIds", start, end, { from: address });
     const decodeData = abiCoder.decode(abiItem.outputs, output);
     return decodeData[0].map(value => {
       return value.toString(10);
