@@ -67,6 +67,7 @@ import proposalMixin from "@/mixins/proposal";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
 import tinydate from "tinydate";
+import tpInfo from "@/js/tp";
 
 export default {
   name: "ProposalDetail",
@@ -101,7 +102,8 @@ export default {
   },
   async asyncData({ params }) {
     try {
-      const inst = multisigContractInstance.init();
+      const node = await tpInfo.getNode();
+      const inst = multisigContractInstance.init(node);
       const proposal = await inst.getTopic(params.id);
       let voteDetails = [];
       if (proposal.yesCount !== "0" || proposal.noCount !== "0") {

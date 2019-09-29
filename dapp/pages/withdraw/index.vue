@@ -107,7 +107,8 @@ export default {
   async asyncData() {
     try {
       const address = await tpInfo.getAddress();
-      const amount = await multisigContractInstance.init().getBalance(address);
+      const node = await tpInfo.getNode();
+      const amount = await multisigContractInstance.init(node).getBalance(address);
       return { amount };
     } catch (error) {
       console.log("init withdraw amount error: ", error);
@@ -153,7 +154,8 @@ export default {
         if (hasVotingWithdrawState) {
           return Toast.fail(this.$t("message.has_voting_withdraw"));
         }
-        const instance = multisigContractInstance.init();
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
         const state = await instance.getStopDeposit();
         if (!state) {
           return Toast.fail(this.$t("message.could_not_withdraw"));

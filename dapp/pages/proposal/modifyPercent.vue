@@ -46,6 +46,7 @@ import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
+import tpInfo from "@/js/tp";
 
 export default {
   name: "ModifyPercent",
@@ -111,7 +112,8 @@ export default {
           console.log("topic id: ", topicId);
           const timestamp = topicId;
           const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
-          const instance = multisigContractInstance.init();
+          const node = await tpInfo.getNode();
+          const instance = multisigContractInstance.init(node);
           const hash = await instance.createPercentProposal(topicId, timestamp, endtime, parseFloat(this.value));
           console.log("create percent proposal hash: ", hash);
           // confirm status by hash

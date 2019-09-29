@@ -39,6 +39,7 @@ import ProposalCell from "@/components/proposal-cell";
 import bus from "@/js/bus";
 import multisigContractInstance from "@/js/contract";
 import voteInfo from "@/js/vote";
+import tpInfo from "@/js/tp";
 
 BScroll.use(PullDown);
 BScroll.use(Pullup);
@@ -152,7 +153,8 @@ export default {
     },
     async requestVotingProposals() {
       try {
-        const instance = multisigContractInstance.init();
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
         let proposalIds;
         if (this.isVoter) {
           proposalIds = await instance.getAllVotingTopicIds();
@@ -194,7 +196,8 @@ export default {
       console.log("start: ", start);
       console.log("end: ", end);
       try {
-        const instance = multisigContractInstance.init();
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
         let proposalIds;
         if (this.isVoter) {
           proposalIds = await instance.getVotedTopicIds(start, end);

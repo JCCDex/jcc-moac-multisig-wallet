@@ -96,7 +96,8 @@ export default {
   async asyncData() {
     try {
       const address = await tpInfo.getAddress();
-      const balance = await multisigContractInstance.init().moac.getBalance(address);
+      const node = await tpInfo.getNode();
+      const balance = await multisigContractInstance.init(node).moac.getBalance(address);
       return { balance };
     } catch (error) {
       console.log("reqeust moac balance error: ", error);
@@ -134,7 +135,8 @@ export default {
         message: this.$t("message.loading")
       });
       try {
-        const instance = multisigContractInstance.init();
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
         const state = await instance.getStopDeposit();
         if (state) {
           return Toast.fail(this.$t("message.could_not_deposit"));

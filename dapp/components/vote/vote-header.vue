@@ -112,7 +112,8 @@ export default {
           const timestamp = topicId;
           const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
           const address = await tpInfo.getAddress();
-          const instance = multisigContractInstance.init();
+          const node = await tpInfo.getNode();
+          const instance = multisigContractInstance.init(node);
           const hash = await instance.createVoterProposal(topicId, timestamp, endtime, address);
           console.log("create voter proposal hash: ", hash);
           // confirm status by hash

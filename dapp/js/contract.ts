@@ -579,10 +579,9 @@ export class MultisigContract extends SmartContract {
 const multisigContractInstance = (() => {
   let inst: MultisigContract | null = null;
 
-  const init = (): MultisigContract => {
+  const init = (node: string): MultisigContract => {
     if (inst === null) {
       const contractAddress = process.env.CONTRACT;
-      const node = process.env.NODE;
       const mainnet = process.env.MAINNET === "true" ? true : false;
       const moac = new Moac(node, mainnet);
       moac.initChain3();

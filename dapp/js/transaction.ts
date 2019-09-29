@@ -1,4 +1,5 @@
 import multisigContractInstance from "@/js/contract";
+import tpInfo from "./tp";
 
 /**
  * request receipt information
@@ -12,10 +13,11 @@ import multisigContractInstance from "@/js/contract";
  */
 const requestReceipt = async (hash: string): Promise<any> => {
   return new Promise((resolve, reject) => {
-    const instance = multisigContractInstance.init();
     // limiting frequency because transaction needs some time to be confirmed
     setTimeout(async () => {
       try {
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
         const res = await instance.moac.getTransactionReceipt(hash);
         return resolve(res);
       } catch (error) {

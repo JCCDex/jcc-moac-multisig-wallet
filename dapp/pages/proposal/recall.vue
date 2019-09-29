@@ -38,6 +38,7 @@ import multisigContractInstance from "@/js/contract";
 import accountInfo from "@/js/account";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
+import tpInfo from "@/js/tp";
 
 export default {
   name: "Recall",
@@ -54,7 +55,8 @@ export default {
   },
   async asyncData() {
     try {
-      const voters = await multisigContractInstance.init().getVoters();
+      const node = await tpInfo.getNode();
+      const voters = await multisigContractInstance.init(node).getVoters();
       return { voters };
     } catch (error) {
       console.log("request voters error: ", error);
@@ -98,11 +100,12 @@ export default {
       try {
         const isVoter = await accountInfo.isVoter();
         if (isVoter) {
+          const node = await tpInfo.getNode();
           const topicId = Date.now();
           console.log("topic id: ", topicId);
           const timestamp = topicId;
           const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
-          const instance = multisigContractInstance.init();
+          const instance = multisigContractInstance.init(node);
           const hash = await instance.createRecallProposal(topicId, timestamp, endtime, this.selectedVoter);
           console.log("create recall proposal hash: ", hash);
           // confirm status by hash

@@ -19,7 +19,8 @@ const voteInfo = (() => {
    */
   const getVotedCount = async (isVoter: boolean): Promise<number> => {
     if (votedCount === null) {
-      const inst = multisigContractInstance.init();
+      const node = await tpInfo.getNode();
+      const inst = multisigContractInstance.init(node);
       try {
         if (isVoter) {
           votedCount = await inst.getVotedCount();
@@ -36,7 +37,8 @@ const voteInfo = (() => {
 
   const getPassPercent = async (): Promise<number> => {
     if (passPercent === null) {
-      const inst = multisigContractInstance.init();
+      const node = await tpInfo.getNode();
+      const inst = multisigContractInstance.init(node);
       try {
         passPercent = await inst.getPercent();
       } catch (error) {

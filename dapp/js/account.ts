@@ -31,7 +31,8 @@ const accountInfo = (() => {
     if (isVoterState === null) {
       try {
         const address = await tpInfo.getAddress();
-        isVoterState = await multisigContractInstance.init().isVoter(address);
+        const node = await tpInfo.getNode();
+        isVoterState = await multisigContractInstance.init(node).isVoter(address);
       } catch (error) {
         console.log("request if is voter error: ", error);
       }
@@ -47,7 +48,8 @@ const accountInfo = (() => {
   const getVoters = async (): Promise<string[]> => {
     if (voters === null) {
       try {
-        voters = await multisigContractInstance.init().getVoters();
+        const node = await tpInfo.getNode();
+        voters = await multisigContractInstance.init(node).getVoters();
       } catch (error) {
         console.log("request voters error: ", error);
       }
@@ -64,7 +66,8 @@ const accountInfo = (() => {
    */
   const hasVotingWithdrawProposal = async (address: string): Promise<boolean> => {
     if (hasVotingWithdrawProposalState === null) {
-      const instance = multisigContractInstance.init();
+      const node = await tpInfo.getNode();
+      const instance = multisigContractInstance.init(node);
       try {
         const proposalIds = await instance.getAllMyVotingTopicIds(address);
         const props = [];

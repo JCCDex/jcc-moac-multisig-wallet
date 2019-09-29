@@ -46,14 +46,16 @@ export default {
       let lockAmount, voteAmount;
       const isVoter = await accountInfo.isVoter();
       const address = await tpInfo.getAddress();
+      const node = await tpInfo.getNode();
+      const instance = multisigContractInstance.init(node);
       if (isVoter) {
         // request all voting proposal count
-        voteAmount = await multisigContractInstance.init().getVotingCount();
+        voteAmount = await instance.getVotingCount();
       } else {
         // request my voting proposal count
-        voteAmount = await multisigContractInstance.init().getMyVotingCount(address);
+        voteAmount = await instance.getMyVotingCount(address);
       }
-      lockAmount = await multisigContractInstance.init().getBalance(address);
+      lockAmount = await instance.getBalance(address);
       return { lockAmount, voteAmount };
     } catch (error) {
       console.log("init home data error: ", error);

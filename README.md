@@ -1,4 +1,4 @@
-# jcc-moac-mutisig-wallet
+# jcc-moac-multisig-wallet
 
 ## DAPP基本功能
 
