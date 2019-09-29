@@ -58,4 +58,12 @@ contract MockProposalList {
   function moveTopic(uint topicId) public returns (bool) {
     return _proposals.moveTopic(topicId);
   }
+
+  function getMyVotedTopicIds(address sponsor, uint from, uint to) public view returns (uint[] memory) {
+    return _proposals.getMyVotedTopicIds(sponsor, from, to);
+  }
+
+  function getVotedTopicIds(uint from, uint to) public view returns (uint[] memory) {
+    return _proposals.getVotedTopicIds(from, to);
+  }
 }

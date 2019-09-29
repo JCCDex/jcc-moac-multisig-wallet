@@ -18,6 +18,7 @@
 * createRecallProposal 罢免投票人的提案，只有投票人才能发起提案
 * createWithdrawProposal 发起提现的提案，只有锁仓的用户才有资格发起
 * voteTopic 投票人投票
+* batchVoteTopic 批量投票，其实就是调用voteTopic,只要有一个投票失败，就立刻返回false，终止批量投票
 * deposit 锁仓
 * getBalance 获取用户的提现额度
 * getDepositBalance/getWithdrawBalance 获取用户的已存款和已提现金额，二者相差即为用户可提现金额

@@ -77,5 +77,9 @@ contract('ProposalList', (accounts) => {
     assert.equal(votingCount, 1);
     votedCount = await proposal.getVotedCount()
     assert.equal(votedCount, 2);
+
+    let votedTopicIds = await proposal.getVotedTopicIds(0, votedCount - 1);
+    console.log('ids:', votedTopicIds);
+    // let myVotedTopicIds = await proposal.getMyVotedTopicIds(accounts[0], 0, 6);
   });
 });

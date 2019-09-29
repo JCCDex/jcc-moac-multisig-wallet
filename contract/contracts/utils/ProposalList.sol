@@ -127,7 +127,7 @@ library ProposalList {
     uint size = to.sub(from).add(1);
     //BUG:无法创建一个memory的一个成员的数组？
     uint[] memory res = new uint[](size >= 2 ? size:2);
-    for (uint i = from; i < to; i++) {
+    for (uint i = from; i <= to; i++) {
       res[len] = self._sponsors[sponsor].voted[i];
       len = len.add(1);
     }
