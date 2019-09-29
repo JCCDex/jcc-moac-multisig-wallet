@@ -109,6 +109,9 @@ export default {
   updated() {
     this.bs.refresh();
   },
+  deactivated() {
+    this.$destroy();
+  },
   beforeDestroy() {
     this.bs.destroy();
   },
