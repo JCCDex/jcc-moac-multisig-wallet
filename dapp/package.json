@@ -9,8 +9,9 @@
     "build": "nuxt-ts build",
     "generate": "./generate.sh",
     "start": "nuxt-ts start",
-    "test": "jest",
-    "e2e": "nightwatch",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "test:e2e": "nightwatch",
     "lint": "eslint --ext .js,.vue,.ts --ignore-path .eslintignore .",
     "lintfix": "eslint --fix --ext .js,.vue,.ts --ignore-path .eslintignore .",
     "precommit": "npm run lint"
@@ -58,6 +59,7 @@
     "prettier": "^1.18.2",
     "sass-loader": "^8.0.0",
     "selenium-server": "^3.141.59",
+    "ts-jest": "^24.1.0",
     "vue-jest": "^4.0.0-0"
   }
 }

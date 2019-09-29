@@ -48,16 +48,22 @@ describe('main page', () => {
 
   test("has three bottom tabs", () => {
     expect(vm.tabs).toEqual([{
-        componentId: "/home",
-        tab: "home"
+        "activeIcon": "#icon-home-selected",
+        "icon": "#icon-home",
+        "name": "home",
+        "to": "/home",
       },
       {
-        componentId: "/vote",
-        tab: "vote"
+        "activeIcon": "#icon-vote-selected",
+        "icon": "#icon-vote",
+        "name": "vote",
+        "to": "/vote"
       },
       {
-        componentId: "/mine",
-        tab: "mine"
+        "activeIcon": "#icon-mine-selected",
+        "icon": "#icon-mine",
+        "name": "mine",
+        "to": "/mine"
       }
     ])
     expect(wrapper.findAll(".multisig-wallet-tab-bar-item").length).toBe(3);
