@@ -19,7 +19,7 @@
                     </div>
                   </div>
                 </div>
-                <message-cell v-for="(message, index) in messages" :key="index" :message="message" />
+                <message-cell v-for="(message, index) in messages" :key="index" :proposal="message" />
                 <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
                   <div v-if="!isPullUpLoad" class="before-trigger">
                     <span>{{ $t("pull_up_more") }}</span>
@@ -41,21 +41,12 @@
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
 import Pullup from "@better-scroll/pull-up";
-import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import MessageCell from "@/components/message/message-cell";
-
+import tpInfo from "@/js/tp";
+import multisigContractInstance from "@/js/contract";
 BScroll.use(PullDown);
 BScroll.use(Pullup);
-
-function getOneRandomList() {
-  const type = Math.floor(Math.random() * 5);
-  return { type: type };
-}
-
-const TIME_BOUNCE = 800;
-const TIME_STOP = 600;
-const THRESHOLD = 70;
-const STOP = 56;
 
 export default {
   name: "Messages",
@@ -68,11 +59,29 @@ export default {
       isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
-      messages: [getOneRandomList()]
+      messages: []
     };
+  },
+  async asyncData() {
+    try {
+      const node = await tpInfo.getNode();
+      const instance = multisigContractInstance.init(node);
+      let proposalIds = await instance.getAllVotingTopicIds();
+      const props = [];
+      for (const id of proposalIds) {
+        props.push(instance.getTopic(id));
+      }
+      const proposals = await Promise.all(props);
+      return { messages: proposals };
+    } catch (error) {
+      console.log("init messages data error: ", error);
+    }
   },
   created() {
     this.bscroll = null;
+  },
+  deactivated() {
+    this.$destroy();
   },
   mounted() {
     this.initBscroll();
@@ -82,40 +91,24 @@ export default {
       this.bscroll = new BScroll(this.$refs.scroll, {
         scrollY: true,
         click: true,
-        bounceTime: TIME_BOUNCE,
+        bounceTime: 800,
         pullDownRefresh: {
-          threshold: THRESHOLD,
-          stop: STOP
-        },
-        pullUpLoad: {
-          threshold: 0
+          threshold: 70,
+          stop: 56
         }
       });
 
-      this.bscroll.on("pullingDown", throttle(this.pullingDownHandler, 1000));
-      this.bscroll.on("pullingUp", throttle(this.pullingUpHandler, 1000));
+      this.bscroll.on("pullingDown", debounce(this.pullingDownHandler, 1000));
     },
     async pullingDownHandler() {
       this.beforePullDown = false;
       this.isPullingDown = true;
       await this.requestData();
-
       this.isPullingDown = false;
       this.finishPullDown();
     },
-    async pullingUpHandler() {
-      this.beforePullUp = false;
-      this.isPullUpLoad = true;
-      await this.requestData();
-
-      this.bscroll.finishPullUp();
-      this.bscroll.refresh();
-
-      this.isPullUpLoad = false;
-      this.beforePullUp = true;
-    },
     async finishPullDown() {
-      const stopTime = TIME_STOP;
+      const stopTime = 600;
       await new Promise(resolve => {
         setTimeout(() => {
           this.bscroll.finishPullDown();
@@ -125,24 +118,22 @@ export default {
       setTimeout(() => {
         this.beforePullDown = true;
         this.bscroll.refresh();
-      }, TIME_BOUNCE);
+      }, 800);
     },
     async requestData() {
       try {
-        const newData = await this.ajaxGet(/* url */);
-        this.messages = [...this.messages, newData];
-      } catch (err) {
-        // handle err
-        console.log(err);
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
+        let proposalIds = await instance.getAllVotingTopicIds();
+        const props = [];
+        for (const id of proposalIds) {
+          props.push(instance.getTopic(id));
+        }
+        const proposals = await Promise.all(props);
+        this.messages = proposals;
+      } catch (error) {
+        console.log("init messages data error: ", error);
       }
-    },
-    ajaxGet(/* url */) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const dataList = getOneRandomList();
-          resolve(dataList);
-        }, 1000);
-      });
     }
   }
 };
