@@ -241,12 +241,11 @@ contract JccMoacMultiSig is Administrative {
   }
 
   // 对提案进行批量投票
-  function batchVoteTopic(uint[] topicIds, uint timestamp, bool[] confirms) public returns (bool) {
+  function batchVoteTopic(uint[] topicIds, uint timestamp, bool confirm) public returns (bool) {
     require(topicIds.length > 0, "topicids length must bigger than 0");
-    require(topicIds.length == confirms.length, "topicids length not equal confirms");
 
     for (uint i = 0; i < topicIds.length; i++) {
-      if (!voteTopic(topicIds[i], timestamp, confirms[i])) {
+      if (!voteTopic(topicIds[i], timestamp, confirm)) {
         return false;
       }
     }
