@@ -5,14 +5,14 @@
       <div style="margin-left:0.19rem;text-align: left;max-width:calc(100% - 1rem)">
         <div>
           <span class="multisig-wallet-large-font-size" style="color: #0B1F5D;">
-            {{ `提现申请` }}
+            {{ proposalType }}
           </span>
           <span class="multisig-wallet-small-font-size" style="margin-left:0.28rem;color: #9EA4C4">
-            {{ `3分钟前` }}
+            {{ time }}
           </span>
         </div>
         <div class="van-ellipsis" style="color: #6B6E73;text-align:left;margin-top:0.04rem;">
-          {{ `xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现xxx申请提现` }}
+          {{ proposalSimpleContent }}
         </div>
       </div>
     </div>
@@ -25,6 +25,8 @@ import ModifyVotePercentIcon from "./modify-vote-percent-icon";
 import RecallVoterIcon from "./recall-voter-icon";
 import VoteApplyIcon from "./vote-apply-icon";
 import WithdrawApplyIcon from "./withdraw-apply-icon";
+import proposalMixin from "@/mixins/proposal";
+import { TYPE_CONFIG_PERCENT, TYPE_WITHDRAW, TYPE_VOTE, TYPE_RECALL } from "@/js/constant";
 
 export default {
   components: {
@@ -34,8 +36,9 @@ export default {
     VoteApplyIcon,
     WithdrawApplyIcon
   },
+  mixins: [proposalMixin],
   props: {
-    message: {
+    proposal: {
       type: Object,
       default() {
         return {};
@@ -44,8 +47,8 @@ export default {
   },
   computed: {
     componentId() {
-      let maps = new Map([[0, "LockIcon"], [1, "ModifyVotePercentIcon"], [2, "RecallVoterIcon"], [3, "VoteApplyIcon"], [4, "WithdrawApplyIcon"]]);
-      return maps.get(this.message.type);
+      let maps = new Map([[TYPE_CONFIG_PERCENT, "ModifyVotePercentIcon"], [TYPE_RECALL, "RecallVoterIcon"], [TYPE_VOTE, "VoteApplyIcon"], [TYPE_WITHDRAW, "WithdrawApplyIcon"]]);
+      return maps.get(this.proposal.voteType);
     }
   },
   methods: {
