@@ -141,11 +141,15 @@ export default {
         message: this.$t("message.loading")
       });
       try {
+        const instance = multisigContractInstance.init();
+        const state = await instance.getStopDeposit();
+        if (!state) {
+          return Toast.fail(this.$t("message.could_not_withdraw"));
+        }
         const topicId = Date.now();
         console.log("topic id: ", topicId);
         const timestamp = topicId;
         const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
-        const instance = multisigContractInstance.init();
         const hash = await instance.createWithdrawProposal(topicId, timestamp, endtime, this.value);
         console.log("withdraw proposal hash: ", hash);
         // confirm status by hash
