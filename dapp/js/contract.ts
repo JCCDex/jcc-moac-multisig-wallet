@@ -400,7 +400,7 @@ export class MultisigContract extends SmartContract {
     const bytes = await super.callABI("batchVoteTopic", topicIds, timestamp, confirm);
     let hash: string;
     if (isDev()) {
-      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 160000 * topicIds.length });
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
     } else {
       hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 160000 });
     }
