@@ -140,28 +140,25 @@ export default {
           proposalIds = await instance.getAllMyVotingTopicIds(this.address);
         }
         const props = [];
-        const voteDetailProps = [];
         for (const id of proposalIds) {
           props.push(instance.getTopic(id));
-          voteDetailProps.push(instance.getVoteDetailsByTopic(id));
         }
-        const responses = await Promise.all(props);
-        const voteDetails = await Promise.all(voteDetailProps);
-        for (let index = 0, len = voteDetails.length; index < len; index++) {
-          const response = responses[index];
-          // set flag if i had voted
-          response.hadVoted = Boolean(voteDetails[index].find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
-        }
-        const proposals = responses.map(response => {
-          // set is voting or not
-          response.voting = true;
-          // set default select state
-          if (!response.hadVoted) {
-            response.selected = true;
-          }
-          return response;
-        });
+        const proposals = await Promise.all(props);
 
+        for (const proposal of proposals) {
+          if (proposal.yesCount !== "0" || proposal.noCount !== "0") {
+            const voteDetails = await instance.getVoteDetailsByTopic(proposal.topicId);
+            proposal.hadVoted = Boolean(voteDetails.find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
+          } else {
+            proposal.hadVoted = false;
+          }
+          // set is voting or not
+          proposal.voting = true;
+          // set default select state
+          if (!proposal.hadVoted) {
+            proposal.selected = true;
+          }
+        }
         return proposals;
       } catch (error) {
         console.log("reqeust voting proposal error: ", error);
