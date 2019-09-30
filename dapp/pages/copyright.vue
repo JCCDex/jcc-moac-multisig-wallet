@@ -21,8 +21,12 @@
 <script>
 import WalletHeader from "@/components/header";
 export default {
+  name: "Copyright",
   components: {
     WalletHeader
+  },
+  deactivated() {
+    this.$destroy();
   }
 };
 </script>
