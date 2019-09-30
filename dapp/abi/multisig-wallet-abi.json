@@ -569,6 +569,30 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [{
+        "name": "topicIds",
+        "type": "uint256[]"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "confirm",
+        "type": "bool"
+      }
+    ],
+    "name": "batchVoteTopic",
+    "outputs": [{
+      "name": "",
+      "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [{
       "name": "topicId",
