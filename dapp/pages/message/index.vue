@@ -20,6 +20,7 @@
                   </div>
                 </div>
                 <message-cell v-for="(message, index) in messages" :key="index" :proposal="message" />
+                <empty-content v-if="messages.length === 0" />
                 <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
                   <div v-if="!isPullUpLoad" class="before-trigger">
                     <span>{{ $t("pull_up_more") }}</span>
@@ -45,13 +46,16 @@ import debounce from "lodash/debounce";
 import MessageCell from "@/components/message/message-cell";
 import tpInfo from "@/js/tp";
 import multisigContractInstance from "@/js/contract";
+import emptyContent from "@/components/empty";
+
 BScroll.use(PullDown);
 BScroll.use(Pullup);
 
 export default {
   name: "Messages",
   components: {
-    MessageCell
+    MessageCell,
+    emptyContent
   },
   data() {
     return {
