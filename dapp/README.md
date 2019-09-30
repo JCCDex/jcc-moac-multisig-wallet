@@ -10,7 +10,7 @@ $ npm run install
 
 # serve with hot reload at localhost:3000
 
-contractAddress: 合约地址(dapp目录下合约部署后的地址)
+contractAddress: 合约地址(contract目录下合约部署后的地址)
 node: 节点地址
 mainnet: true(主网) false(测试网)
 testAddress: 测试钱包地址
