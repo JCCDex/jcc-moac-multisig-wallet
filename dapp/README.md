@@ -20,6 +20,7 @@ $ npm run dev $contractAddress $node $mainnet $testAddress $testSecret
 
 
 # generate static project
-# 部署后请在Tokenpocket中打开网页
+# 部署后请在TokenPocket中打开网页
+# 使用TokenPocket默认MOAC节点，若获取失败则使用配置节点
 $ npm run generate $contractAddress $node $mainnet
 ```
