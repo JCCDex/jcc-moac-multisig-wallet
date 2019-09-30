@@ -32,10 +32,10 @@
     </div>
 
     <div flex="main:center cross:center" class="multisig-wallet-proposal-choose-container multisig-wallet-large-font-size">
-      <p :class="{ active: isVoting }" style="margin-right: 1.5rem" @click="changeProposalType('voting')">
+      <p :class="{ active: isVoting }" style="margin-right: 1.5rem" @click="changeProposalType('VotingProposalList')">
         {{ $t("voting_proposal") }}
       </p>
-      <p :class="{ active: !isVoting }" @click="changeProposalType('voted')">
+      <p :class="{ active: !isVoting }" @click="changeProposalType('VotedProposalList')">
         {{ $t("voted_proposal") }}
       </p>
     </div>
@@ -71,13 +71,13 @@ export default {
   },
   data() {
     return {
-      type: "voting",
+      type: "VotingProposalList",
       show: false
     };
   },
   computed: {
     isVoting() {
-      return this.type === "voting";
+      return this.type === "VotingProposalList";
     }
   },
   methods: {

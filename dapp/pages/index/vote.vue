@@ -5,7 +5,7 @@
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column;">
             <vote-header :is-voter="isVoter" />
-            <vote-proposal :is-voter="isVoter" :address="address" />
+            <component :is="componentId" :is-voter="isVoter" :address="address" />
             <vote-bottom v-if="isVoter" />
           </div>
         </div>
@@ -16,20 +16,25 @@
 
 <script>
 import VoteHeader from "@/components/vote/vote-header";
-import VoteProposal from "@/components/vote/vote-proposal";
+import VotingProposalList from "@/components/vote/voting-proposal-list";
+import VotedProposalList from "@/components/vote/voted-proposal-list";
 import VoteBottom from "@/components/vote/vote-bottom";
 import tpInfo from "@/js/tp";
 import accountInfo from "@/js/account";
+import bus from "@/js/bus";
+
 export default {
   name: "Vote",
   components: {
     VoteHeader,
-    VoteProposal,
-    VoteBottom
+    VoteBottom,
+    VotingProposalList,
+    VotedProposalList
   },
   data() {
     return {
       isVoter: false,
+      componentId: "VotingProposalList",
       address: ""
     };
   },
@@ -45,6 +50,21 @@ export default {
       return { isVoter, address };
     } catch (error) {
       console.log("get isVoter error: ", error);
+    }
+  },
+  created() {
+    bus.$on("changeProposalType", this.changeProposalComponent);
+  },
+  beforeDestroy() {
+    bus.$off("changeProposalType", this.changeProposalComponent);
+  },
+  methods: {
+    changeProposalComponent(id) {
+      console.log(id);
+      if (this.componentId === id) {
+        return;
+      }
+      this.componentId = id;
     }
   }
 };
