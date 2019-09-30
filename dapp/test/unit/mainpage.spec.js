@@ -3,8 +3,8 @@ import MainPage from '@/pages'
 import VueI18n from "vue-i18n"
 import VueRouter from 'vue-router'
 import Home from "@/pages/index/home";
-import Vote from "@/pages/index/Vote";
-import Mine from "@/pages/index/Mine";
+import Vote from "@/pages/index/vote";
+import Mine from "@/pages/index/mine";
 
 const router = new VueRouter({
   routes: [

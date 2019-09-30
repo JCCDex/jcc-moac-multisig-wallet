@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- 11
+after_success:
+- cd dapp
+- npm run coveralls
+addons:
+- chrome: stable
+services:
+- xvfb
+before_script:
+  - ./install.sh
+script:
+  - ./test.sh
+env:
+  global:
+    secure: EMYcs1ZsD1A0zyVR6j9vbcsv+G4cFXtg4TO2QZMXwkkx5C1hT1pev2fIsQxDebo6zo0AblBhI+LijpWK5UG8p+ThKB8XVgfM8+PIFlTma11rmCLh7X7IdyRRGAJMCxO4BwxMN6sz0oNiUKWAQvwh/Or1mhoXLIomh2t6P2K89qACqH6Jynvm17+xnCJpI4gF56/XusyalWjCUMlFaTzjGK2PNjnkRZiJfwmtSuTWaV0lH8qROVQ6OYlIMtzx5XWp9sLy3GzClRJVRWcjmivduN3StU6s6v2lIaovwpohyyBGHWCQagbGwt/agAeoil9KpCsl6tZR+tXSsImDKLMtE+i3JCnGE6DvBuJHVI1wqYiFq0+b2wNW7U7Tmg3jgi+2LWR9c7jdsr2nqDH6lN4F1DEfBQ5W0csmpN61gEcZbFZ3kqVxouTuKAqEjk6Ji3/dm+kMUoWXNa0kxrJ/sUKaIgRgM9FM0B0ynkMwZhM3uf8loxWlN8F3iLQ/GoJLoT5oQyxCkrZXnSshsUdpmnXTzIGWkYsxK242pjAaH1fIKqEY5cYohc5fg+IoNFvW0y/3U5giuh1UJ9C+sW8wF1KPQ/oXR1ejOOFfqET7BKQnYYxVfNb35ZDMwcoEqvDPrtKn0Qz3+qFJ8LZGFjLrmsCkfCkcr4ZVLrCuFotUGwBRgWc=

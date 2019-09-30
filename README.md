@@ -1,5 +1,8 @@
 # jcc-moac-multisig-wallet
 
+[![Build Status](https://travis-ci.com/JCCDex/jcc-moac-multisig-wallet.svg?branch=master)](https://travis-ci.com/JCCDex/jcc-moac-multisig-wallet)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 ## DAPP基本功能
 
 1. 管理员只能初始化投票条件、决定是否接受存款以及合约自杀
