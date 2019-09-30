@@ -80,6 +80,7 @@ contract('ProposalList', (accounts) => {
 
     let votedTopicIds = await proposal.getVotedTopicIds(0, votedCount - 1);
     console.log('ids:', votedTopicIds);
+    assert.equal(votedTopicIds[0].toString(), allIds[0].toString());
     // let myVotedTopicIds = await proposal.getMyVotedTopicIds(accounts[0], 0, 6);
   });
 });

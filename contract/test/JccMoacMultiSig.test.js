@@ -519,6 +519,23 @@ contract('JccMoacMultiSig', (accounts) => {
     assert.equal(votingCount, 2);
     votedCount = await multiWallet.getVotedCount();
     assert.equal(votedCount, 1);
+
+    // 罢免 voter2
+    await batchVote(topicId3, [voter1, voter2, voter4, voter3], [true, false, true, true]);
+    await multiWallet.processExpire(Date.now());
+
+    allDetail = await multiWallet.getVoteDetailsByTopic(topicId3);
+    assert.equal(allDetail.length, 4)
+    assert.equal(allDetail[2].voter, voter4);
+
+    // 测试已决议题和待决议题数量变化
+    votingCount = await multiWallet.getVotingCount();
+    assert.equal(votingCount, 1);
+    votedCount = await multiWallet.getVotedCount();
+    assert.equal(votedCount, 2);
+
+    // 故意取没有投票信息的提案，应该抛出异常
+    await assertRevert(multiWallet.getVoteDetailsByTopic(topicId2));
   });
 
   it('JccMoacMultiSig duplicate add voter test', async () => {

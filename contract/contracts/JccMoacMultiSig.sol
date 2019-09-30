@@ -1,14 +1,13 @@
 pragma solidity 0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "./utils/SafeMath.sol";
-import "./utils/Administrative.sol";
-import "./utils/AddressUtils.sol";
-import "./utils/GoodERC20.sol";
-import "./utils/AddressList.sol";
+import "jcc-solidity-utils/contracts/math/SafeMath.sol";
+import "jcc-solidity-utils/contracts/owner/Administrative.sol";
+import "jcc-solidity-utils/contracts/AddressUtils.sol";
+import "jcc-solidity-utils/contracts/list/AddressList.sol";
+import "jcc-solidity-utils/contracts/list/BalanceList.sol";
 import "./utils/Proposal.sol";
 import "./utils/ProposalList.sol";
-import "./utils/BalanceList.sol";
 
 /**
 墨客锁仓多签名钱包
@@ -116,7 +115,7 @@ contract JccMoacMultiSig is Administrative {
   }
 
   function getVoters() public view returns (address[]) {
-    return _voters.getAddress(0, _voters.count());
+    return _voters.getList(0, _voters.count());
   }
 
   function isVoter(address addr) public view returns (bool) {
@@ -452,16 +451,32 @@ contract JccMoacMultiSig is Administrative {
   {
     return _balanceOfDeposit.balance(_addr);
   }
+  function getDepositCount() public view returns (uint)
+  {
+    return _balanceOfDeposit.count();
+  }
+  function getDepositList(uint from, uint count) public view returns (BalanceList.element[] memory)
+  {
+    return _balanceOfDeposit.getList(from, count);
+  }
   function getWithdrawBalance(address _addr) public view returns (uint)
   {
     return _balanceOfWithdraw.balance(_addr);
+  }
+  function getWithdrawCount() public view returns (uint)
+  {
+    return _balanceOfWithdraw.count();
+  }
+  function getWithdrawList(uint from, uint count) public view returns (BalanceList.element[] memory)
+  {
+    return _balanceOfWithdraw.getList(from, count);
   }
   // 不接受匿名的资金转账
   function() public payable {
     require(false, "never receive funds in fallback function");
   }
   // 自杀时的资金转移
-  function kill() public onlyAdministrator {
+  function kill() public onlyOwner {
     selfdestruct(msg.sender);
   }
 }

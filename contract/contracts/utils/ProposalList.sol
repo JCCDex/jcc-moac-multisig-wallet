@@ -1,5 +1,5 @@
 pragma solidity 0.4.24;
-import "./SafeMath.sol";
+import "jcc-solidity-utils/contracts/math/SafeMath.sol";
 import "./Proposal.sol";
 
 /**

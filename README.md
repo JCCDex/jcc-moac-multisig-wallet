@@ -25,6 +25,8 @@
 * deposit 锁仓
 * getBalance 获取用户的提现额度
 * getDepositBalance/getWithdrawBalance 获取用户的已存款和已提现金额，二者相差即为用户可提现金额
+* getDepositCount/getWithdrawCount 锁仓和提现的钱包数量统计
+* getDepositList/getWithdrawList 锁仓和提现的钱包明细清单
 * getPercent 获取投票生效的百分比规则
 * getVoters/isVoter 获取所有投票人信息/判断自己是否是投票人
 * getVotingCount/getVotedCount 全部待决提案数量/全部已决提案数量
@@ -65,3 +67,9 @@
 11. createWithdrawProposal 21万
 
 以上为实际记录的gas，实际运行时请增加20%比较保险
+
+## truffle提速的技巧
+
+运行 truffle watch
+
+然后在另外一个console运行truffle test，不需要重复编译合约，直接运行测试。

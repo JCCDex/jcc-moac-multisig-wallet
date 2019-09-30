@@ -4,7 +4,6 @@ pragma experimental ABIEncoderV2;
 import "../utils/Proposal.sol";
 import "../utils/ProposalList.sol";
 
-// 定义一个调用UintList的合约
 contract MockProposalList {
   using ProposalList for ProposalList.proposalMap;
 
