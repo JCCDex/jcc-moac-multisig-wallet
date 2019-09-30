@@ -140,17 +140,28 @@ export default {
           proposalIds = await instance.getAllMyVotingTopicIds(this.address);
         }
         const props = [];
+        const voteDetailProps = [];
         for (const id of proposalIds) {
           props.push(instance.getTopic(id));
+          voteDetailProps.push(instance.getVoteDetailsByTopic(id));
         }
         const responses = await Promise.all(props);
+        const voteDetails = await Promise.all(voteDetailProps);
+        for (let index = 0, len = voteDetails.length; index < len; index++) {
+          const response = responses[index];
+          // set flag if i had voted
+          response.hadVoted = Boolean(voteDetails[index].find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
+        }
         const proposals = responses.map(response => {
           // set is voting or not
           response.voting = true;
           // set default select state
-          response.selected = true;
+          if (!response.hadVoted) {
+            response.selected = true;
+          }
           return response;
         });
+
         return proposals;
       } catch (error) {
         console.log("reqeust voting proposal error: ", error);
@@ -159,11 +170,13 @@ export default {
     },
     selectAll(flag) {
       for (const proposal of this.proposals) {
-        proposal.selected = flag;
+        if (!proposal.hadVoted) {
+          proposal.selected = flag;
+        }
       }
     },
     showVoteAction(confirm) {
-      const selectedProposals = this.proposals.filter(proposal => proposal.selected);
+      const selectedProposals = this.proposals.filter(proposal => proposal.selected && !proposal.hadVoted);
 
       if (selectedProposals.length === 0) {
         return;

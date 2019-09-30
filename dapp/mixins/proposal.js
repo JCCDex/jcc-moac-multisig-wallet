@@ -30,7 +30,7 @@ export default {
         return "";
       }
       if (voteType === TYPE_CONFIG_PERCENT) {
-        return this.$t("proposal_cell.modify_pass_percent_content", { account: sponsor.substring(0, 5) + "..." + sponsor.substring(25) });
+        return this.$t("proposal_cell.modify_pass_percent_content", { account: sponsor.substring(0, 5) + "..." + sponsor.substring(25), percent: value });
       }
       if (voteType === TYPE_WITHDRAW) {
         return this.$t("proposal_cell.withdraw_content", {
