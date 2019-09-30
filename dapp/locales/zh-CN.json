@@ -114,6 +114,11 @@
   "to_withdraw": "我要提现",
   "token_amount": "{amount} {token}",
   "vote": "投票",
+  "vote_action": {
+    "button": "投票确认",
+    "content": "您在为{count}个提案投{type}票，确定投票吗？",
+    "title": "确认投票"
+  },
   "vote_amount": "带投票事项：{amount}个",
   "vote_percent": "投票通过百分比",
   "voted_proposal": "已决提案",

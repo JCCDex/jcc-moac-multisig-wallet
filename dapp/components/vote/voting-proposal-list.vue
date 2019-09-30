@@ -21,6 +21,16 @@
         <empty-content />
       </div>
     </div>
+
+    <van-action-sheet v-model="show" :title="$t('vote_action.title')" get-container="body">
+      <p style="margin:0.44rem 0 0.95rem 0;">
+        {{ $t("vote_action.content", { count: selectedCount, type: voteType }) }}
+      </p>
+
+      <button class="multisig-wallet-button multisig-wallet-confirm-button" style="width:100%;" @click="voteConfirm">
+        {{ $t("vote_action.button") }}
+      </button>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -32,6 +42,10 @@ import ProposalCell from "@/components/proposal-cell";
 import multisigContractInstance from "@/js/contract";
 import tpInfo from "@/js/tp";
 import emptyContent from "@/components/empty";
+import bus from "@/js/bus";
+import accountInfo from "@/js/account";
+import * as transaction from "@/js/transaction";
+import { Toast } from "vant";
 
 BScroll.use(PullDown);
 
@@ -54,12 +68,22 @@ export default {
       beforePullDown: true,
       isPullingDown: false,
       showEmpty: false,
+      voteType: "",
+      show: false,
+      selectedCount: 0,
+      confirm: null,
       proposals: []
     };
   },
   created() {
     this.bscroll = null;
     this.pullingDownHandler();
+    bus.$on("selectAll", this.selectAll);
+    bus.$on("voteProposal", this.showVoteAction);
+  },
+  beforeDestroy() {
+    bus.$off("selectAll", this.selectAll);
+    bus.$off("voteProposal", this.showVoteAction);
   },
   mounted() {
     this.initBscroll();
@@ -131,6 +155,79 @@ export default {
       } catch (error) {
         console.log("reqeust voting proposal error: ", error);
         return null;
+      }
+    },
+    selectAll(flag) {
+      for (const proposal of this.proposals) {
+        proposal.selected = flag;
+      }
+    },
+    showVoteAction(confirm) {
+      const selectedProposals = this.proposals.filter(proposal => proposal.selected);
+
+      if (selectedProposals.length === 0) {
+        return;
+      }
+      this.confirm = confirm;
+      this.show = true;
+      this.selectedCount = selectedProposals.length;
+      this.voteType = this.confirm ? this.$t("approval") : this.$t("against");
+    },
+    async voteConfirm() {
+      this.show = false;
+
+      const selectedProposals = this.proposals.filter(proposal => proposal.selected);
+
+      if (selectedProposals.length === 0) {
+        return;
+      }
+
+      // clear cache to request latest state
+      accountInfo.destroy("isVoter");
+
+      Toast.loading({
+        duration: 0,
+        forbidClick: true,
+        loadingType: "spinner",
+        message: this.$t("message.loading")
+      });
+      try {
+        const isVoter = await accountInfo.isVoter();
+        if (isVoter) {
+          const timestamp = Date.now();
+          const node = await tpInfo.getNode();
+          const instance = multisigContractInstance.init(node);
+          let hash;
+          if (selectedProposals.length === 1) {
+            hash = await instance.voteTopic(selectedProposals[0].topicId, timestamp, this.confirm);
+          } else {
+            const topicIds = selectedProposals.map(proposal => proposal.topicId);
+            hash = await instance.batchVoteTopic(topicIds, timestamp, this.confirm);
+          }
+          console.log("vote hash: ", hash);
+          // confirm status by hash
+          setTimeout(async () => {
+            let res = null;
+            while (res === null) {
+              try {
+                res = await transaction.requestReceipt(hash);
+                console.log("res: ", res);
+              } catch (error) {
+                console.log("request receipt error: ", error);
+              }
+            }
+            if (transaction.isSuccessful(res)) {
+              Toast.success(this.$t("message.submit_succeed"));
+            } else {
+              Toast.fail(this.$t("message.submit_failed"));
+            }
+          }, 30000);
+        } else {
+          Toast.fail(this.$t("message.is_not_voter"));
+        }
+      } catch (error) {
+        console.log("vote error: ", error);
+        Toast.fail(this.$t("message.submit_failed"));
       }
     }
   }

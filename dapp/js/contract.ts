@@ -388,6 +388,26 @@ export class MultisigContract extends SmartContract {
   }
 
   /**
+   * batch vote topic
+   *
+   * @param {string[]} topicIds
+   * @param {number} timestamp
+   * @param {boolean} confirm
+   * @returns {Promise<string>}
+   * @memberof MultisigContract
+   */
+  public async batchVoteTopic(topicIds: string[], timestamp: number, confirm: boolean): Promise<string> {
+    const bytes = await super.callABI("batchVoteTopic", topicIds, timestamp, confirm);
+    let hash: string;
+    if (isDev()) {
+      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 160000 * topicIds.length });
+    } else {
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 160000 });
+    }
+    return hash;
+  }
+
+  /**
    * request vote detail id list
    * @param {number} topicId
    * @returns {Promise<string>}
