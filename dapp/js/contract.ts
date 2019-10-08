@@ -1,7 +1,7 @@
 import { smartContract as SmartContract, Moac, SolidityFunction } from "jcc-moac-utils";
 import tpInfo from "./tp";
 import tp from "tp-js-sdk";
-import { isDev } from "./util";
+import { isDev, isMainnet } from "./util";
 const abi = require("@/abi/multisig-wallet-abi");
 const ethers = require("ethers");
 const abiCoder = ethers.utils.defaultAbiCoder;
@@ -622,7 +622,7 @@ const multisigContractInstance = (() => {
   const init = (node: string): MultisigContract => {
     if (inst === null) {
       const contractAddress = process.env.CONTRACT;
-      const mainnet = process.env.MAINNET === "true" ? true : false;
+      const mainnet = isMainnet();
       const moac = new Moac(node, mainnet);
       moac.initChain3();
       inst = new MultisigContract(contractAddress);

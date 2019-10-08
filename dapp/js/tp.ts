@@ -1,5 +1,5 @@
 import tp from "tp-js-sdk";
-import { isDev } from "./util";
+import { isDev, isMainnet } from "./util";
 
 const tpInfo = (() => {
   let address: string = null;
@@ -25,7 +25,7 @@ const tpInfo = (() => {
   };
 
   const getNode = async (): Promise<string> => {
-    if (isDev()) {
+    if (!isMainnet()) {
       node = process.env.NODE;
       return node;
     }

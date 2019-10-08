@@ -17,4 +17,13 @@ const isDev = (): boolean => {
   return process.env.NODE_ENV === "development";
 };
 
-export { isValidNumber, isDev };
+/**
+ * is main net or not
+ *
+ * @returns {boolean}
+ */
+const isMainnet = (): boolean => {
+  return process.env.MAINNET === "true";
+};
+
+export { isValidNumber, isDev, isMainnet };
