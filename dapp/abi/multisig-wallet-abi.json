@@ -1,4 +1,13 @@
 [{
+    "constant": false,
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "owner",
@@ -13,7 +22,7 @@
   {
     "constant": false,
     "inputs": [{
-      "name": "newAdministrator",
+      "name": "newAdmin",
       "type": "address"
     }],
     "name": "transferAdministrator",
@@ -37,7 +46,7 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "administrator",
+    "name": "admin",
     "outputs": [{
       "name": "",
       "type": "address"
@@ -170,6 +179,38 @@
       }
     ],
     "name": "Deposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "previousAdmin",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "newAdmin",
+        "type": "address"
+      }
+    ],
+    "name": "AdministratorTransferred",
     "type": "event"
   },
   {
@@ -804,6 +845,51 @@
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "getDepositCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+        "name": "from",
+        "type": "uint256"
+      },
+      {
+        "name": "count",
+        "type": "uint256"
+      }
+    ],
+    "name": "getDepositList",
+    "outputs": [{
+      "components": [{
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "",
+      "type": "tuple[]"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [{
       "name": "_addr",
       "type": "address"
@@ -812,6 +898,51 @@
     "outputs": [{
       "name": "",
       "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getWithdrawCount",
+    "outputs": [{
+      "name": "",
+      "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{
+        "name": "from",
+        "type": "uint256"
+      },
+      {
+        "name": "count",
+        "type": "uint256"
+      }
+    ],
+    "name": "getWithdrawList",
+    "outputs": [{
+      "components": [{
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "",
+      "type": "tuple[]"
     }],
     "payable": false,
     "stateMutability": "view",

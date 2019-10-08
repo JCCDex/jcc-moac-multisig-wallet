@@ -44,6 +44,10 @@ export class MultisigContract extends SmartContract {
     super.init(this._contractAddress, moac, abi);
   }
 
+  // public renounceOwnership() {
+
+  // }
+
   // /**
   //  * request administrator of contract
   //  *
@@ -61,7 +65,7 @@ export class MultisigContract extends SmartContract {
 
   // }
 
-  // public administrator() {
+  // public admin() {
 
   // }
 
@@ -542,6 +546,14 @@ export class MultisigContract extends SmartContract {
       .toString(10);
   }
 
+  // public getDepositCount() {
+
+  // }
+
+  // public getDepositList() {
+
+  // }
+
   /**
    * request amount which had withdrawed
    *
@@ -558,6 +570,14 @@ export class MultisigContract extends SmartContract {
       .fromSha(decodeData[0])
       .toString(10);
   }
+
+  // public getWithdrawCount() {
+
+  // }
+
+  // public getWithdrawList() {
+
+  // }
 
   // public kill() {
 
