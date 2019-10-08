@@ -1,4 +1,6 @@
 module.exports = {
+  verbose: true,
+  silent: true,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
     "^~/(.*)$": "<rootDir>/$1",
