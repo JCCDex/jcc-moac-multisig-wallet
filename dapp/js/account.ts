@@ -13,6 +13,7 @@ const accountInfo = (() => {
    * @param {string} key
    */
   const destroy = (key: string) => {
+    /* istanbul ignore else */
     if (key === "isVoter") {
       isVoterState = null;
     } else if (key === "voters") {

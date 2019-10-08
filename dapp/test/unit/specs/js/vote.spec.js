@@ -73,7 +73,7 @@ describe("test vote.ts", () => {
       expect(stub2.calledOnceWithExactly()).toBe(true);
       expect(stub3.calledOnceWithExactly(config.testAddress)).toBe(true);
       expect(spy.calledOnceWithExactly(config.testNode)).toBe(true);
-      expect(spy1.calledOnce).toBe(false);
+      expect(spy1.called).toBe(false);
       votedCount = await voteInfo.getVotedCount(false);
       expect(votedCount).toBe(2);
       expect(stub1.calledOnce).toBe(true);
