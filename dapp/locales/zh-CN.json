@@ -110,6 +110,7 @@
     "title": "投票人{index}"
   },
   "recall_voter": "罢免投票人",
+  "select_all": "全选",
   "to_lock": "我要锁仓",
   "to_withdraw": "我要提现",
   "token_amount": "{amount} {token}",

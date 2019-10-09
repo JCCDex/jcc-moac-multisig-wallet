@@ -4,7 +4,7 @@
       <svg class="multisig-wallet-icon" aria-hidden="true" style="margin-right: 0.2rem">
         <use :xlink:href="selected ? '#icon-selected' : '#icon-unselected'" />
       </svg>
-      <span>全选</span>
+      <span>{{ $t("select_all") }}</span>
     </div>
 
     <div flex="main:center cross:center">
@@ -12,13 +12,13 @@
         <svg class="multisig-wallet-icon multisig-wallet-icon-smaller" aria-hidden="true" style="margin-right: 0.05rem;">
           <use xlink:href="#icon-agree" />
         </svg>
-        赞成
+        {{ $t("approval") }}
       </button>
       <button class="multisig-wallet-button" style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem" flex="main:center cross:center" @click="vote(false)">
         <svg class="multisig-wallet-icon multisig-wallet-icon-smaller" aria-hidden="true" style="margin-right: 0.05rem;margin-top:0.04rem;">
           <use xlink:href="#icon-against" />
         </svg>
-        反对
+        {{ $t("against") }}
       </button>
     </div>
   </div>
