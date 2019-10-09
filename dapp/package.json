@@ -17,6 +17,12 @@
     "lintfix": "eslint --fix --ext .js,.vue,.ts --ignore-path .eslintignore .",
     "precommit": "npm run lint"
   },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": 3000
+    }
+  },
   "dependencies": {
     "@better-scroll/core": "^2.0.0-beta.2",
     "@better-scroll/pull-down": "^2.0.0-beta.2",
