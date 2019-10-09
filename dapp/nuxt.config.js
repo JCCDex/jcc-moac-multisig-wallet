@@ -1,3 +1,6 @@
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const WebpackAutoInject = require("webpack-auto-inject-version");
+
 export default {
   mode: "spa",
   /*
@@ -81,14 +84,48 @@ export default {
      ** You can extend webpack config here
      */
     publicPath: "/nuxt/",
-    extend(config) {
+    extend(config, ctx) {
       config.output.publicPath = "./nuxt/";
       config.externals = {
         vue: "Vue",
         ethers: "ethers",
         "jcc-moac-utils": "jcc_moac_utils"
       };
-
+      if (!ctx.isDev) {
+        config.plugins.push(
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              compress: {
+                drop_console: true
+              }
+            },
+            sourceMap: false,
+            cache: true,
+            parallel: true
+          })
+        );
+        config.plugins.push(
+          new WebpackAutoInject({
+            SHORT: "Multisig wallet for MOAC",
+            SILENT: true,
+            PACKAGE_JSON_PATH: "./package.json",
+            components: {
+              AutoIncreaseVersion: true,
+              InjectAsComment: true,
+              InjectByTag: true
+            },
+            componentsOptions: {
+              AutoIncreaseVersion: {
+                runInWatchMode: false
+              },
+              InjectAsComment: {
+                tag: "Release version: {version} - {date}",
+                dateFormat: "yyyy-mm-dd HH:MM:ss"
+              }
+            }
+          })
+        );
+      }
       return config;
     }
   }
