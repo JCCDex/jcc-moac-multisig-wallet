@@ -42,7 +42,7 @@ describe("test transaction.ts", () => {
       expect(transaction.isSuccessful({ status: '0x1' })).toBe(true);
     })
 
-    test("return true if status is '0x0'", () => {
+    test("return false if status is '0x0'", () => {
       expect(transaction.isSuccessful({ status: '0x0' })).toBe(false);
     })
   })
