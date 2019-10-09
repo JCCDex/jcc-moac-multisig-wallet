@@ -21,11 +21,8 @@ Object.defineProperty(SolidityFunction.prototype, "call", {
         const payload = this.toPayload(args);
         this._mc.call(payload, defaultBlock, function(error, output) {
           if (error) return reject(error);
-          try {
-            return resolve(output);
-          } catch (error) {
-            return reject(error);
-          }
+          console.log("output: ", output);
+          return resolve(output);
         });
       });
     };
@@ -406,37 +403,37 @@ export class MultisigContract extends SmartContract {
     if (isDev()) {
       hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
     } else {
-      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 160000 });
+      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 300000 });
     }
     return hash;
   }
 
-  /**
-   * request vote detail id list
-   * @param {number} topicId
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async getDetailIdxs(topicId: number): Promise<string> {
-    const abiItem = abi.find(item => item.name == "getDetailIdxs");
-    const output = await super.callABI("getDetailIdxs", topicId);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0];
-  }
+  // /**
+  //  * request vote detail id list
+  //  * @param {number} topicId
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async getDetailIdxs(topicId: number): Promise<string> {
+  //   const abiItem = abi.find(item => item.name == "getDetailIdxs");
+  //   const output = await super.callABI("getDetailIdxs", topicId);
+  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
+  //   return decodeData[0];
+  // }
 
-  /**
-   * request vote by topic id
-   *
-   * @param {number} topicId
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async getVoteDetail(topicId: number): Promise<string> {
-    const abiItem = abi.find(item => item.name == "getVoteDetail");
-    const output = await super.callABI("getVoteDetail", topicId);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0];
-  }
+  // /**
+  //  * request vote by topic id
+  //  *
+  //  * @param {number} topicId
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async getVoteDetail(topicId: number): Promise<string> {
+  //   const abiItem = abi.find(item => item.name == "getVoteDetail");
+  //   const output = await super.callABI("getVoteDetail", topicId);
+  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
+  //   return decodeData[0];
+  // }
 
   /**
    * request vote details by topic id
@@ -460,37 +457,37 @@ export class MultisigContract extends SmartContract {
     });
   }
 
-  /**
-   * have expire
-   *
-   * @param {number} endtime
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async haveExpire(endtime: number): Promise<string> {
-    const abiItem = abi.find(item => item.name == "haveExpire");
-    const output = await super.callABI("haveExpire", endtime);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return decodeData[0];
-  }
+  // /**
+  //  * have expire
+  //  *
+  //  * @param {number} endtime
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async haveExpire(endtime: number): Promise<string> {
+  //   const abiItem = abi.find(item => item.name == "haveExpire");
+  //   const output = await super.callABI("haveExpire", endtime);
+  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
+  //   return decodeData[0];
+  // }
 
-  /**
-   * process proposal
-   *
-   * @param {number} endtime
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async processExpire(endtime: number): Promise<string> {
-    const bytes = await super.callABI("processExpire", endtime);
-    let hash: string;
-    if (isDev()) {
-      hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
-    } else {
-      hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
-    }
-    return hash;
-  }
+  // /**
+  //  * process proposal
+  //  *
+  //  * @param {number} endtime
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async processExpire(endtime: number): Promise<string> {
+  //   const bytes = await super.callABI("processExpire", endtime);
+  //   let hash: string;
+  //   if (isDev()) {
+  //     hash = await this.moac.sendTransactionWithCallData(process.env.MOAC_SECRET, process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
+  //   } else {
+  //     hash = await this.sendTransactionByTp(process.env.CONTRACT, "0", bytes, { gasLimit: 2000000 });
+  //   }
+  //   return hash;
+  // }
 
   /**
    * deposit
@@ -523,28 +520,22 @@ export class MultisigContract extends SmartContract {
     const abiItem = abi.find(item => item.name == "getBalance");
     const output = await super.callABI("getBalance", address);
     const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return super.moac
-      .getChain3()
-      .fromSha(decodeData[0])
-      .toString(10);
+    return super.moac.getChain3().fromSha(decodeData[0].toString(10));
   }
 
-  /**
-   * request amount which had deposited
-   *
-   * @param {string} address
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async getDepositBalance(address: string): Promise<string> {
-    const abiItem = abi.find(item => item.name == "getDepositBalance");
-    const output = await super.callABI("getDepositBalance", address);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return super.moac
-      .getChain3()
-      .fromSha(decodeData[0])
-      .toString(10);
-  }
+  // /**
+  //  * request amount which had deposited
+  //  *
+  //  * @param {string} address
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async getDepositBalance(address: string): Promise<string> {
+  //   const abiItem = abi.find(item => item.name == "getDepositBalance");
+  //   const output = await super.callABI("getDepositBalance", address);
+  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
+  //   return super.moac.getChain3().fromSha(decodeData[0].toString(10));
+  // }
 
   // public getDepositCount() {
 
@@ -554,22 +545,19 @@ export class MultisigContract extends SmartContract {
 
   // }
 
-  /**
-   * request amount which had withdrawed
-   *
-   * @param {string} address
-   * @returns {Promise<string>}
-   * @memberof MultisigContract
-   */
-  public async getWithdrawBalance(address: string): Promise<string> {
-    const abiItem = abi.find(item => item.name == "getWithdrawBalance");
-    const output = await super.callABI("getWithdrawBalance", address);
-    const decodeData = abiCoder.decode(abiItem.outputs, output);
-    return super.moac
-      .getChain3()
-      .fromSha(decodeData[0])
-      .toString(10);
-  }
+  // /**
+  //  * request amount which had withdrawed
+  //  *
+  //  * @param {string} address
+  //  * @returns {Promise<string>}
+  //  * @memberof MultisigContract
+  //  */
+  // public async getWithdrawBalance(address: string): Promise<string> {
+  //   const abiItem = abi.find(item => item.name == "getWithdrawBalance");
+  //   const output = await super.callABI("getWithdrawBalance", address);
+  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
+  //   return super.moac.getChain3().fromSha(decodeData[0].toString(10));
+  // }
 
   // public getWithdrawCount() {
 

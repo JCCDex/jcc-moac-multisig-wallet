@@ -15,7 +15,7 @@ describe("test vote.ts", () => {
   })
 
   describe("test getVotedCount", () => {
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
       voteInfo.destroy();
     });
@@ -102,7 +102,7 @@ describe("test vote.ts", () => {
   })
 
   describe("test getPassPercent", () => {
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
       voteInfo.destroy();
     });

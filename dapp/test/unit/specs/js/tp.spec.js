@@ -14,7 +14,7 @@ describe("test tp.ts", () => {
 
   describe("test getAddress", () => {
 
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
       tpInfo.destroy();
     });
@@ -60,7 +60,7 @@ describe("test tp.ts", () => {
 
   describe("test getNode", () => {
 
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
       tpInfo.destroy();
     });

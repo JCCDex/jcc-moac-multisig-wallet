@@ -15,7 +15,7 @@ describe("test account.ts", () => {
   })
 
   describe("test isVoter", () => {
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
     });
 
@@ -55,7 +55,7 @@ describe("test account.ts", () => {
   })
 
   describe("test getVoters", () => {
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
     });
 
@@ -91,7 +91,7 @@ describe("test account.ts", () => {
   })
 
   describe("test hasVotingWithdrawProposal", () => {
-    beforeEach(() => {
+    afterEach(() => {
       sandbox.restore();
     });
 
