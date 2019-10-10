@@ -120,7 +120,7 @@
     "content": "您在为{count}个提案投{type}票，确定投票吗？",
     "title": "确认投票"
   },
-  "vote_amount": "带投票事项：{amount}个",
+  "vote_amount": "待投票事项：{amount}个",
   "vote_percent": "投票通过百分比",
   "voted_proposal": "已决提案",
   "voting_proposal": "待决提案",

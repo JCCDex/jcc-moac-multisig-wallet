@@ -1,12 +1,20 @@
 import tp from "tp-js-sdk";
-import { isDev, isMainnet } from "./util";
+import { isMainnet } from "./util";
 
 const tpInfo = (() => {
   let address: string = null;
   let node: string = null;
+  let isConnectedState: boolean = null;
+
+  const isConnected = (): boolean => {
+    if (isConnectedState === null) {
+      isConnectedState = tp.isConnected();
+    }
+    return isConnectedState;
+  };
 
   const getAddress = async (): Promise<string> => {
-    if (isDev()) {
+    if (!isConnected()) {
       address = process.env.MOAC_ADDRESS;
       return address;
     }
@@ -46,12 +54,14 @@ const tpInfo = (() => {
   const destroy = () => {
     address = null;
     node = null;
+    isConnectedState = null;
   };
 
   return {
     destroy,
     getAddress,
-    getNode
+    getNode,
+    isConnected
   };
 })();
 

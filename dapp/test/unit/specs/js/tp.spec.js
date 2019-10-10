@@ -23,19 +23,19 @@ describe("test tp.ts", () => {
       expect(typeof tpInfo.getAddress).toBe("function")
     })
 
-    test("return configured address when the enviroment is development", async () => {
+    test("return configured address when tokenpocket isn't connected", async () => {
       process.env.MOAC_ADDRESS = config.testAddress;
-      process.env.NODE_ENV = "development";
       const spy = sandbox.spy(tp, "getCurrentWallet");
       const address = await tpInfo.getAddress();
       expect(address).toBe(config.testAddress);
       expect(spy.called).toBe(false);
     })
 
-    test("getCurrentWallet should be called and only be called once if get success when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("getCurrentWallet should be called and only be called once if get success when tokenpocket is connected", async () => {
       const stub = sandbox.stub(tp, "getCurrentWallet");
       stub.resolves({ result: true, data: { address: "test" } });
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       let address = await tpInfo.getAddress();
       expect(address).toBe("test");
       expect(stub.called).toBe(true);
@@ -44,10 +44,12 @@ describe("test tp.ts", () => {
       expect(stub.calledOnce).toBe(true);
     })
 
-    test("return null if get fail when the enviroment is production", async () => {
+    test("return null if get fail when tokenpocket is connected", async () => {
       const stub = sandbox.stub(tp, "getCurrentWallet");
       stub.onCall(0).rejects();
       stub.onCall(1).resolves({});
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       let address = await tpInfo.getAddress();
       expect(address).toBe(null);
       expect(stub.calledOnce).toBe(true);

@@ -16,18 +16,6 @@ describe("test util.ts", () => {
     })
   })
 
-  describe("test isDev", () => {
-    test("return true if the NODE_ENV is 'development'", () => {
-      process.env.NODE_ENV = "development";
-      expect(util.isDev()).toBe(true);
-    })
-
-    test("return false if the NODE_ENV isn't 'development'", () => {
-      process.env.NODE_ENV = "production";
-      expect(util.isDev()).toBe(false);
-    })
-  })
-
   describe("test isMainnet", () => {
     test("return true if the MAINNET is 'true'", () => {
       process.env.MAINNET = "true";

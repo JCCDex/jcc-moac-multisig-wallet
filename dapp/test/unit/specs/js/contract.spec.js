@@ -115,10 +115,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -132,12 +132,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.createPercentProposal("1570519453119", "1570519453119", "1570778653119", 80);
@@ -152,10 +153,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -169,12 +170,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.createVoterProposal("1570519453119", "1570519453119", "1570778653119", config.testAddress);
@@ -189,10 +191,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -206,12 +208,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.createRecallProposal("1570519453119", "1570519453119", "1570778653119", config.testAddress);
@@ -226,10 +229,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -243,12 +246,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.createWithdrawProposal("1570519453119", "1570519453119", "1570778653119", "1");
@@ -417,10 +421,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -434,12 +438,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.voteTopic("1570519453119", "1570519453119", true);
@@ -454,10 +459,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -471,12 +476,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.batchVoteTopic(["1570519453119"], "1570519453119", true);
@@ -507,10 +513,10 @@ describe("test contract.ts", () => {
 
     afterEach(() => {
       sandbox.restore();
+      tpInfo.destroy();
     });
 
-    test("sendTransactionWithCallData should be called when the enviroment is development", async () => {
-      process.env.NODE_ENV = "development";
+    test("sendTransactionWithCallData should be called when tokenpocket isn't connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(instance.moac, "sendTransactionWithCallData");
@@ -524,12 +530,13 @@ describe("test contract.ts", () => {
       expect(hash).toBe(config.testHash);
     })
 
-    test("sendTransactionByTp should be called when the enviroment is production", async () => {
-      process.env.NODE_ENV = "production";
+    test("sendTransactionByTp should be called when tokenpocket is connected", async () => {
       process.env.MOAC_SECRET = config.testSecret;
       process.env.CONTRACT = config.testContract;
       const stub = sandbox.stub(MultisigContract.prototype, "sendTransactionByTp");
       stub.resolves(config.testHash);
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       const spy = sandbox.spy(SmartContract.prototype, "callABI");
       const spy1 = sandbox.spy(instance.moac, "sendTransactionWithCallData");
       const hash = await instance.deposit("1");
