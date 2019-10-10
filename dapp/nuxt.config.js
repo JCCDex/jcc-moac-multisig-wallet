@@ -18,7 +18,7 @@ export default {
     ],
     script: [
       {
-        src: process.env.NODE_ENV === "development" ? "https://cdn.bootcss.com/vue/2.6.10/vue.js" : "https://cdn.bootcss.com/vue/2.6.10/vue.min.js"
+        src: process.env.NODE_ENV === "development" ? "https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js" : "https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"
       },
       {
         src: "https://cdn.jsdelivr.net/npm/jcc-moac-utils@0.2.3/dist/jcc-moac-utils.min.js"
@@ -85,7 +85,6 @@ export default {
      */
     publicPath: "/nuxt/",
     extend(config, ctx) {
-      config.output.publicPath = "./nuxt/";
       config.externals = {
         vue: "Vue",
         ethers: "ethers",
