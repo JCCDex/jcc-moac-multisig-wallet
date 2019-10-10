@@ -87,7 +87,7 @@ export default {
     lockEnable() {
       const value = parseFloat(this.amount);
       const minGas = 0.01;
-      return this.agree && isValidNumber(value) && value % 1000 === 0 && new BigNumber(value).isGreaterThanOrEqualTo(10000) && new BigNumber(value).plus(minGas).isLessThan(this.balance);
+      return this.agree && isValidNumber(value) && value % 10 === 0 && new BigNumber(value).isGreaterThanOrEqualTo(10) && new BigNumber(value).plus(minGas).isLessThan(this.balance);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";

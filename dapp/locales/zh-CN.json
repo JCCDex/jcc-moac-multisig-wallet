@@ -32,11 +32,11 @@
   "lock_amount": "锁仓：{amount}个",
   "lock_declare": "锁仓说明",
   "locked_amount": "锁仓数量{colon}",
-  "locked_amount_tip": "必须为1000的倍数",
+  "locked_amount_tip": "必须为10的倍数",
   "locked_percent": "锁仓比例{colon}",
   "locked_position_detail": "锁仓明细",
   "locked_tips": [
-    "1.最低锁仓数量为10000MOAC，必须为1000的倍数",
+    "1.最低锁仓数量为10MOAC，必须为10的倍数",
     "2.锁仓的即可以是投票人，也可以不是投票人，参与签名的都是投票人",
     "3.锁仓和投票权不一定重合，锁仓人只有提议发起权力，是否调动资金看投票结果",
     "4.锁仓成功后，将在未来按比例释放提现"
