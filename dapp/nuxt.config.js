@@ -67,7 +67,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/dpr", "~/plugins/vant", "~/plugins/i18n", "~/plugins/initAccount"],
+  plugins: ["~/plugins/dpr", "~/plugins/vant", "~/plugins/i18n", "~/plugins/initAccount", "~/plugins/tp"],
   /*
    ** Nuxt.js dev-modules
    */
