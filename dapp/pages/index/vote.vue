@@ -39,13 +39,8 @@ export default {
     };
   },
   async asyncData() {
-    let address;
     try {
-      if (process.env.NODE_ENV === "development") {
-        address = process.env.MOAC_ADDRESS;
-      } else {
-        address = await tpInfo.getAddress();
-      }
+      const address = await tpInfo.getAddress();
       const isVoter = await accountInfo.isVoter(address);
       return { isVoter, address };
     } catch (error) {
