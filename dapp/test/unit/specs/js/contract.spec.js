@@ -2,7 +2,7 @@ import tpInfo from "@/js/tp";
 import tp from "tp-js-sdk";
 import multisigContractInstance from "@/js/contract";
 import { MultisigContract } from "@/js/contract";
-import { smartContract as SmartContract } from "jcc-moac-utils";
+import { smartContract as SmartContract, Moac } from "jcc-moac-utils";
 import sinon from "sinon";
 import config from "@/test/unit/config";
 const sandbox = sinon.createSandbox();
@@ -571,15 +571,18 @@ describe("test contract.ts", () => {
         gasLimit: "1",
         gasPrice: "2"
       })
-      const stub2 = sandbox.stub(tp, "sendMoacTransaction");
-      stub2.resolves({
+      const stub2 = sandbox.stub(Moac.prototype, "sendRawSignedTransaction");
+      stub2.resolves(config.testHash);
+      const stub3 = sandbox.stub(tp, "signMoacTransaction");
+      stub3.resolves({
         result: true,
-        data: config.testHash
+        data: "test"
       })
       const hash = await instance.sendTransactionByTp(config.testContract, "1", "0x00");
       expect(hash).toBe(config.testHash);
       expect(stub1.calledOnceWithExactly({}, config.testAddress));
-      expect(stub2.calledOnceWithExactly({
+      expect(stub2.calledOnceWithExactly("test")).toBe(true);
+      expect(stub3.calledOnceWithExactly({
         chainId: '0x65',
         data: '0x00',
         from: '0x5edccedfe9952f5b828937b325bd1f132aa09f60',
@@ -603,7 +606,7 @@ describe("test contract.ts", () => {
         gasLimit: "1",
         gasPrice: "2"
       })
-      const stub2 = sandbox.stub(tp, "sendMoacTransaction");
+      const stub2 = sandbox.stub(tp, "signMoacTransaction");
       stub2.resolves({
         result: false,
         msg: "nonce is too low"

@@ -589,19 +589,12 @@ export class MultisigContract extends SmartContract {
     const sender = await tpInfo.getAddress();
     options = await super.moac.getOptions(options || {}, sender);
     const tx = super.moac.getTx(sender, contractAddr, options.nonce, options.gasLimit, options.gasPrice, value, calldata);
-    // const res = await tp.signMoacTransaction(tx);
-    // if (res && res.result) {
-    //   const hash = await super.moac.sendRawSignedTransaction(res.data);
-    //   return hash
-    // } else {
-    //   throw new Error(res.msg);
-    // }
-
     // fixed value
     tx.value = new BigNumber(value).multipliedBy(10 ** 18).toString(10);
-    const res = await tp.sendMoacTransaction(tx);
+    const res = await tp.signMoacTransaction(tx);
     if (res && res.result) {
-      return res.data;
+      const hash = await super.moac.sendRawSignedTransaction(res.data);
+      return hash;
     } else {
       throw new Error(res.msg);
     }
