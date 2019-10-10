@@ -588,7 +588,7 @@ describe("test contract.ts", () => {
         nonce: '0x0',
         shardingFlag: '0x0',
         systemContract: '0x0',
-        value: '0xde0b6b3a7640000',
+        value: '1000000000000000000',
         via: '0x',
         to: '0x8eca41a83ea0efbd41401ed850774974bda6b697'
       })).toBe(true);

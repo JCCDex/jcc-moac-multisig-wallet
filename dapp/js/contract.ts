@@ -2,6 +2,7 @@ import { smartContract as SmartContract, Moac, SolidityFunction } from "jcc-moac
 import tpInfo from "./tp";
 import tp from "tp-js-sdk";
 import { isDev, isMainnet } from "./util";
+import BigNumber from "bignumber.js";
 const abi = require("@/abi/multisig-wallet-abi");
 const ethers = require("ethers");
 const abiCoder = ethers.utils.defaultAbiCoder;
@@ -595,6 +596,9 @@ export class MultisigContract extends SmartContract {
     // } else {
     //   throw new Error(res.msg);
     // }
+
+    // fixed value
+    tx.value = new BigNumber(value).multipliedBy(10 ** 18).toString(10);
     const res = await tp.sendMoacTransaction(tx);
     if (res && res.result) {
       return res.data;
