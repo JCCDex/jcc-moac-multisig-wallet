@@ -195,12 +195,6 @@ export default {
       // clear cache to request latest state
       accountInfo.destroy("isVoter");
 
-      Toast.loading({
-        duration: 0,
-        forbidClick: true,
-        loadingType: "spinner",
-        message: this.$t("message.loading")
-      });
       try {
         const isVoter = await accountInfo.isVoter();
         if (isVoter) {
@@ -215,6 +209,13 @@ export default {
             hash = await instance.batchVoteTopic(topicIds, timestamp, this.confirm);
           }
           console.log("vote hash: ", hash);
+
+          Toast.loading({
+            duration: 0,
+            forbidClick: true,
+            loadingType: "spinner",
+            message: this.$t("message.loading")
+          });
           // confirm status by hash
           setTimeout(async () => {
             let res = null;

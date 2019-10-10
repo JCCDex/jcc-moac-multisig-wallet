@@ -98,12 +98,6 @@ export default {
       // certainly it doesn't make a difference if apply again, the main purpose is to prevent from expanding gas
       accountInfo.destroy("isVoter");
 
-      Toast.loading({
-        duration: 0,
-        forbidClick: true,
-        loadingType: "spinner",
-        message: this.$t("message.loading")
-      });
       try {
         const isVoter = await accountInfo.isVoter();
         if (!isVoter) {
@@ -116,6 +110,13 @@ export default {
           const instance = multisigContractInstance.init(node);
           const hash = await instance.createVoterProposal(topicId, timestamp, endtime, address);
           console.log("create voter proposal hash: ", hash);
+
+          Toast.loading({
+            duration: 0,
+            forbidClick: true,
+            loadingType: "spinner",
+            message: this.$t("message.loading")
+          });
           // confirm status by hash
           setTimeout(async () => {
             let res = null;

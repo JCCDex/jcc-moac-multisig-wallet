@@ -128,12 +128,6 @@ export default {
     },
     async depositConfirm() {
       this.show = false;
-      Toast.loading({
-        duration: 0,
-        forbidClick: true,
-        loadingType: "spinner",
-        message: this.$t("message.loading")
-      });
       try {
         const node = await tpInfo.getNode();
         const instance = multisigContractInstance.init(node);
@@ -143,6 +137,13 @@ export default {
         }
         const hash = await instance.deposit(this.amount);
         console.log("deposit hash: ", hash);
+
+        Toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: "spinner",
+          message: this.$t("message.loading")
+        });
         // confirm status by hash
         setTimeout(async () => {
           let res = null;

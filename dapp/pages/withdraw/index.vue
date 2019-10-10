@@ -139,12 +139,6 @@ export default {
     },
     async withdrawConfirm() {
       this.show = false;
-      Toast.loading({
-        duration: 0,
-        forbidClick: true,
-        loadingType: "spinner",
-        message: this.$t("message.loading")
-      });
       try {
         const address = await tpInfo.getAddress();
         const hasVotingWithdrawState = await accountInfo.hasVotingWithdrawProposal(address);
@@ -166,6 +160,13 @@ export default {
         const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
         const hash = await instance.createWithdrawProposal(topicId, timestamp, endtime, this.value);
         console.log("withdraw proposal hash: ", hash);
+
+        Toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: "spinner",
+          message: this.$t("message.loading")
+        });
         // confirm status by hash
         setTimeout(async () => {
           let res = null;
