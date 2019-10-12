@@ -56,7 +56,7 @@ export default {
 .multisig-wallet-mine-wrap {
   background-color: #fff;
   margin-top: 0.2rem;
-  padding: 0 0.15rem;
+  padding: 0 0.3rem;
 
   .multisig-wallet-mine-cell {
     height: 1.2rem;
