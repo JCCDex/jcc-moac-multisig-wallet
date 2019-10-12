@@ -47,6 +47,7 @@ import MessageCell from "@/components/message/message-cell";
 import tpInfo from "@/js/tp";
 import multisigContractInstance from "@/js/contract";
 import emptyContent from "@/components/empty";
+import accountInfo from "@/js/account";
 
 BScroll.use(PullDown);
 BScroll.use(Pullup);
@@ -70,7 +71,16 @@ export default {
     try {
       const node = await tpInfo.getNode();
       const instance = multisigContractInstance.init(node);
-      let proposalIds = await instance.getAllVotingTopicIds();
+      const isVoter = await accountInfo.isVoter();
+
+      let proposalIds;
+      if (isVoter) {
+        proposalIds = await instance.getAllVotingTopicIds();
+      } else {
+        const address = await tpInfo.getAddress();
+        proposalIds = await instance.getAllMyVotingTopicIds(address);
+      }
+
       const props = [];
       for (const id of proposalIds) {
         props.push(instance.getTopic(id));
@@ -128,7 +138,16 @@ export default {
       try {
         const node = await tpInfo.getNode();
         const instance = multisigContractInstance.init(node);
-        let proposalIds = await instance.getAllVotingTopicIds();
+        const isVoter = await accountInfo.isVoter();
+
+        let proposalIds;
+        if (isVoter) {
+          proposalIds = await instance.getAllVotingTopicIds();
+        } else {
+          const address = await tpInfo.getAddress();
+          proposalIds = await instance.getAllMyVotingTopicIds(address);
+        }
+
         const props = [];
         for (const id of proposalIds) {
           props.push(instance.getTopic(id));

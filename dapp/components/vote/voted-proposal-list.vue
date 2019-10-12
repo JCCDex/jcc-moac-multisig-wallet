@@ -113,7 +113,6 @@ export default {
       this.finishPullDown();
     },
     async pullingUpHandler() {
-      console.log("aaaaa");
       const votedCount = await voteInfo.getVotedCount(this.isVoter);
       console.log("current voted proposals count: ", this.proposals.length);
       console.log("all voted proposals count: ", votedCount);

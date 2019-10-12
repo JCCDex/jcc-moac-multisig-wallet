@@ -49,15 +49,18 @@ export default {
       const address = await tpInfo.getAddress();
       const node = await tpInfo.getNode();
       const instance = multisigContractInstance.init(node);
+      let proposalIds;
       if (isVoter) {
         // request all voting proposal count
         voteAmount = await instance.getVotingCount();
+        proposalIds = await instance.getAllVotingTopicIds();
       } else {
         // request my voting proposal count
         voteAmount = await instance.getMyVotingCount(address);
+        proposalIds = await instance.getAllMyVotingTopicIds(address);
       }
       lockAmount = await instance.getBalance(address);
-      let proposalIds = await instance.getAllVotingTopicIds();
+
       const props = [];
       if (proposalIds.length > 10) {
         // show max length is 10
