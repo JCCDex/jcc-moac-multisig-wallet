@@ -87,11 +87,15 @@ export default {
       isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
+      bscroll: null,
       dataList: getOneRandomList(STEP)
     };
   },
-  created() {
-    this.bscroll = null;
+  beforeDestroy() {
+    if (this.bscroll) {
+      this.bscroll.destroy();
+      this.bscroll = null;
+    }
   },
   mounted() {
     this.initBscroll();

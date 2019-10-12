@@ -64,6 +64,7 @@ export default {
       isPullUpLoad: false,
       beforePullDown: true,
       isPullingDown: false,
+      bscroll: null,
       messages: []
     };
   },
@@ -91,11 +92,14 @@ export default {
       console.log("init messages data error: ", error);
     }
   },
-  created() {
-    this.bscroll = null;
-  },
   deactivated() {
     this.$destroy();
+  },
+  beforeDestroy() {
+    if (this.bscroll) {
+      this.bscroll.destroy();
+      this.bscroll = null;
+    }
   },
   mounted() {
     this.initBscroll();

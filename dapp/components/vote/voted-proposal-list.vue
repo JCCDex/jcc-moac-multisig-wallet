@@ -1,6 +1,6 @@
 <template>
-  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 4.4rem);">
-    <div class="scroll-content" style="min-height: calc(100vh - 4.35rem);position: relative;">
+  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 3.3rem);">
+    <div class="scroll-content" style="min-height: calc(100vh - 3.25rem);position: relative;">
       <div class="pulldown-wrapper multisig-wallet-small-font-size">
         <div v-show="beforePullDown">
           <span>{{ $t("pull_down_refresh") }}</span>
@@ -68,11 +68,15 @@ export default {
       beforePullDown: true,
       isPullingDown: false,
       showEmpty: false,
-      proposals: []
+      proposals: [],
+      bscroll: null
     };
   },
-  created() {
-    this.bscroll = null;
+  beforeDestroy() {
+    if (this.bscroll) {
+      this.bscroll.destroy();
+      this.bscroll = null;
+    }
   },
   mounted() {
     this.initBscroll();

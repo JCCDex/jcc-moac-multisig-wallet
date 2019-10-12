@@ -1,6 +1,6 @@
 <template>
-  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 4.4rem);">
-    <div class="scroll-content" style="min-height: calc(100vh - 4.35rem);position: relative;">
+  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 4.5rem);">
+    <div class="scroll-content" style="min-height: calc(100vh - 4.45rem);position: relative;">
       <div class="pulldown-wrapper multisig-wallet-small-font-size">
         <div v-show="beforePullDown">
           <span>{{ $t("pull_down_refresh") }}</span>
@@ -72,16 +72,20 @@ export default {
       show: false,
       selectedCount: 0,
       confirm: null,
-      proposals: []
+      proposals: [],
+      bscroll: null
     };
   },
   created() {
-    this.bscroll = null;
     this.pullingDownHandler();
     bus.$on("selectAll", this.selectAll);
     bus.$on("voteProposal", this.showVoteAction);
   },
   beforeDestroy() {
+    if (this.bscroll) {
+      this.bscroll.destroy();
+      this.bscroll = null;
+    }
     bus.$off("selectAll", this.selectAll);
     bus.$off("voteProposal", this.showVoteAction);
   },
