@@ -124,13 +124,17 @@ export default {
       await new Promise(resolve => {
         setTimeout(() => {
           this.isPullingDown = false;
-          this.bscroll.finishPullDown();
+          if (this.bscroll) {
+            this.bscroll.finishPullDown();
+          }
           resolve();
         }, 1000);
       });
       setTimeout(() => {
         this.beforePullDown = true;
-        this.bscroll.refresh();
+        if (this.bscroll) {
+          this.bscroll.refresh();
+        }
       }, 800);
     },
     async requestVotingProposals() {

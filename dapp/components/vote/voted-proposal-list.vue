@@ -133,31 +133,47 @@ export default {
       if (proposals) {
         this.proposals = [...this.proposals, ...proposals];
       }
-
-      this.bscroll.finishPullUp();
-      this.bscroll.refresh();
-
-      this.isPullUpLoad = false;
-      this.beforePullUp = true;
+      await this.finishPullUp();
+    },
+    async finishPullUp() {
+      await new Promise(resolve => {
+        setTimeout(() => {
+          this.isPullUpLoad = false;
+          if (this.bscroll) {
+            this.bscroll.finishPullUp();
+          }
+          resolve();
+        }, 500);
+      });
+      setTimeout(() => {
+        this.beforePullUp = true;
+        if (this.bscroll) {
+          this.bscroll.refresh();
+        }
+      }, 500);
     },
     async finishPullDown() {
       await new Promise(resolve => {
         setTimeout(() => {
           this.isPullingDown = false;
-          this.bscroll.finishPullDown();
+          if (this.bscroll) {
+            this.bscroll.finishPullDown();
+          }
           resolve();
         }, 1200);
       });
       setTimeout(() => {
         this.beforePullDown = true;
-        this.bscroll.refresh();
-        this.bscroll.openPullUp({
-          threshold: 500
-        });
+        if (this.bscroll) {
+          this.bscroll.refresh();
+          this.bscroll.openPullUp({
+            threshold: 500
+          });
+        }
       }, 800);
     },
     getStartEnd(start, votedCount) {
-      let end = start + 10;
+      let end = start + 9;
       if (end >= votedCount - 1) {
         end = votedCount - 1;
       }
