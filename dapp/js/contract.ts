@@ -591,10 +591,6 @@ export class MultisigContract extends SmartContract {
     const tx = super.moac.getTx(sender, contractAddr, options.nonce, options.gasLimit, options.gasPrice, value, calldata);
     // fixed value
     tx.value = new BigNumber(value).multipliedBy(10 ** 18).toString(10);
-    // fixed gasLimit
-    tx.gasLimit = options.gasLimit;
-    // fixed gasPrice
-    tx.gasPrice = options.gasPrice;
     const res = await tp.signMoacTransaction(tx);
     if (res && res.result) {
       const hash = await super.moac.sendRawSignedTransaction(res.data);
