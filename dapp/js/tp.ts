@@ -1,5 +1,4 @@
 import tp from "tp-js-sdk";
-import { isMainnet } from "./util";
 
 const tpInfo = (() => {
   let address: string = null;
@@ -33,7 +32,7 @@ const tpInfo = (() => {
   };
 
   const getNode = async (): Promise<string> => {
-    if (!isMainnet()) {
+    if (!isConnected()) {
       node = process.env.NODE;
       return node;
     }

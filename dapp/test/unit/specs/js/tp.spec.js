@@ -80,10 +80,11 @@ describe("test tp.ts", () => {
       expect(spy.called).toBe(false);
     })
 
-    test("getNode should be called and only be called once if get success when the node is main net", async () => {
-      process.env.MAINNET = "true";
+    test("getNode should be called and only be called once if get success when tp is connected", async () => {
       const stub = sandbox.stub(tp, "getNodeUrl");
       stub.resolves({ result: true, data: { nodeUrl: "http://localhost:8080" } });
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       let node = await tpInfo.getNode();
       expect(node).toBe("http://localhost:8080");
       expect(stub.calledOnceWithExactly({ blockchain: "moac" })).toBe(true);
@@ -92,10 +93,12 @@ describe("test tp.ts", () => {
       expect(stub.calledOnce).toBe(true);
     })
 
-    test("return configured node if called getNodeUrl fail when the node is main net", async () => {
+    test("return configured node if called getNodeUrl fail when tp is connected", async () => {
       const stub = sandbox.stub(tp, "getNodeUrl");
       stub.onCall(0).rejects();
       stub.onCall(1).resolves({});
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
       let node = await tpInfo.getNode();
       expect(node).toBe("http://localhost");
       expect(stub.calledOnce).toBe(true);
