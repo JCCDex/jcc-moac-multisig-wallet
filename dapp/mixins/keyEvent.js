@@ -9,22 +9,16 @@ export default {
   },
   mounted() {
     if (browser.versions.android) {
-      window.addEventListener("resize", this.keyup);
-    } else if (browser.versions.ios) {
-      window.addEventListener("focusin", this.focusin);
-      window.addEventListener("focusout", this.focusout);
+      window.addEventListener("resize", this.focus);
     }
   },
   beforeDestroy() {
     if (browser.versions.android) {
-      window.removeEventListener("resize", this.keyup);
-    } else if (browser.versions.ios) {
-      window.removeEventListener("focusin", this.focusin);
-      window.removeEventListener("focusout", this.focusout);
+      window.removeEventListener("resize", this.focus);
     }
   },
   methods: {
-    keyup() {
+    focus() {
       const newInnerHeight = window.innerHeight;
       if (this.innerHeight > newInnerHeight) {
         // keyup event
