@@ -10,11 +10,17 @@ export default {
   mounted() {
     if (browser.versions.android) {
       window.addEventListener("resize", this.keyup);
+    } else if (browser.versions.ios) {
+      window.addEventListener("focusin", this.focusin);
+      window.addEventListener("focusout", this.focusout);
     }
   },
   beforeDestroy() {
     if (browser.versions.android) {
       window.removeEventListener("resize", this.keyup);
+    } else if (browser.versions.ios) {
+      window.removeEventListener("focusin", this.focusin);
+      window.removeEventListener("focusout", this.focusout);
     }
   },
   methods: {
@@ -22,11 +28,17 @@ export default {
       const newInnerHeight = window.innerHeight;
       if (this.innerHeight > newInnerHeight) {
         // keyup event
-        this.showElement = false;
+        this.focusin();
       } else {
         // keydown event
-        this.showElement = true;
+        this.focusout();
       }
+    },
+    focusin() {
+      this.showElement = false;
+    },
+    focusout() {
+      this.showElement = true;
     }
   }
 };
