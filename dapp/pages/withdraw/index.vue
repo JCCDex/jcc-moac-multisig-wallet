@@ -32,7 +32,7 @@
                     <span>{{ $t("max_withdraw", { amount: amount, token: $t("moac") }) }}</span>
                   </div>
 
-                  <div flex-box="1" flex="cross:bottom">
+                  <div v-show="showElement" flex-box="1" flex="cross:bottom">
                     <button :disabled="!withdrawEnable" class="multisig-wallet-button multisig-wallet-withdraw-button" style="width: 100%;" @click="show = true">
                       {{ $t("withdraw") }}
                     </button>
@@ -77,12 +77,15 @@ import multisigContractInstance from "@/js/contract";
 import { Toast } from "vant";
 import * as transaction from "@/js/transaction";
 import accountInfo from "@/js/account";
+import scrollIntoView from "@/mixins/scrollIntoView";
+import keyEvent from "@/mixins/keyEvent";
 
 export default {
   name: "Withdraw",
   components: {
     WalletHeader
   },
+  mixins: [scrollIntoView, keyEvent],
   data() {
     return {
       amount: "",
@@ -117,9 +120,6 @@ export default {
   },
   mounted() {
     this.init();
-  },
-  updated() {
-    this.bs.refresh();
   },
   deactivated() {
     this.$destroy();

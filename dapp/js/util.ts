@@ -17,4 +17,14 @@ const isMainnet = (): boolean => {
   return process.env.MAINNET === "true";
 };
 
-export { isValidNumber, isMainnet };
+const browser = {
+  versions: (function() {
+    let u = navigator.userAgent;
+    return {
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+      android: u.indexOf("Android") > -1 || u.indexOf("Adr") > -1
+    };
+  })()
+};
+
+export { isValidNumber, isMainnet, browser };

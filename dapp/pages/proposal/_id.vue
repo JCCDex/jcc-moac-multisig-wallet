@@ -119,9 +119,6 @@ export default {
     this.init();
     this.currentVoters = this.agreeVoters;
   },
-  updated() {
-    this.bs.refresh();
-  },
   beforeDestroy() {
     this.bs.destroy();
   },

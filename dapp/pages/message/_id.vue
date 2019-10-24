@@ -89,9 +89,6 @@ export default {
   mounted() {
     this.init();
   },
-  updated() {
-    this.bs.refresh();
-  },
   deactivated() {
     this.$destroy();
   },

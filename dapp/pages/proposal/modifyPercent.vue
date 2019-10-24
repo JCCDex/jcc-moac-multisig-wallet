@@ -16,7 +16,7 @@
                   %
                 </span>
               </van-field>
-              <div flex-box="1" flex="cross:bottom">
+              <div v-show="showElement" flex-box="1" flex="cross:bottom">
                 <button :disabled="!modifyEnable" class="multisig-wallet-button multisig-wallet-confirm-button" style="width: 100%;" @click="show = true">
                   {{ $t("modify_confirm") }}
                 </button>
@@ -47,12 +47,14 @@ import multisigContractInstance from "@/js/contract";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 import tpInfo from "@/js/tp";
+import keyEvent from "@/mixins/keyEvent";
 
 export default {
   name: "ModifyPercent",
   components: {
     WalletHeader
   },
+  mixins: [keyEvent],
   data() {
     return {
       percent: "",
@@ -76,9 +78,6 @@ export default {
   },
   mounted() {
     this.init();
-  },
-  updated() {
-    this.bs.refresh();
   },
   deactivated() {
     this.$destroy();
