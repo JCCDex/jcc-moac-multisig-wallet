@@ -3,9 +3,11 @@ pragma experimental ABIEncoderV2;
 
 import "jcc-solidity-utils/contracts/math/SafeMath.sol";
 import "jcc-solidity-utils/contracts/owner/Administrative.sol";
-import "jcc-solidity-utils/contracts/AddressUtils.sol";
+import "jcc-solidity-utils/contracts/utils/AddressUtils.sol";
 import "jcc-solidity-utils/contracts/list/AddressList.sol";
 import "jcc-solidity-utils/contracts/list/BalanceList.sol";
+import "jcc-solidity-utils/contracts/interface/IJccMoacAlarm.sol";
+import "jcc-solidity-utils/contracts/interface/IJccMoacAlarmCallback.sol";
 import "./utils/Proposal.sol";
 import "./utils/ProposalList.sol";
 
@@ -21,7 +23,7 @@ import "./utils/ProposalList.sol";
 8. 提供投票，锁仓相关消息的查询
 9. 支持投票人多选投票，降低工作强度
  */
-contract JccMoacMultiSig is Administrative {
+contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
   using SafeMath for uint256;
   using AddressUtils for address;
 
@@ -425,6 +427,27 @@ contract JccMoacMultiSig is Administrative {
     }
     return true;
   }
+
+  // 接受预言机的调用，定时执行决议
+  function jccMoacAlarmCallback() public {
+    processExpire(block.timestamp);
+  }
+
+  // 在预言机中设置定时任务
+  function setAlarm(address _alarmAddr, uint256 _type, uint256 _period) public onlyAdministrator {
+    // type, begin
+    IJccMoacAlarm alarm = IJccMoacAlarm(_alarmAddr);
+    // 可以检查设置成功与否
+    alarm.createAlarm(address(this), _type, block.timestamp, _period);
+  }
+
+  // 在预言机中删除定时任务
+  function removeAlarm(address alarmAddr) public onlyAdministrator {
+    IJccMoacAlarm alarm = IJccMoacAlarm(alarmAddr);
+    // 可以检查设置成功与否
+    alarm.removeAlarm(address(this));
+  }
+
   event Deposit(address indexed user, uint indexed amount, uint indexed total);
   /**
   充值锁仓

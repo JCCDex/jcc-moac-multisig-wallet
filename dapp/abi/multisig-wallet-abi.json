@@ -807,6 +807,48 @@
   {
     "constant": false,
     "inputs": [],
+    "name": "jccMoacAlarmCallback",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+        "name": "_alarmAddr",
+        "type": "address"
+      },
+      {
+        "name": "_type",
+        "type": "uint256"
+      },
+      {
+        "name": "_period",
+        "type": "uint256"
+      }
+    ],
+    "name": "setAlarm",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{
+      "name": "alarmAddr",
+      "type": "address"
+    }],
+    "name": "removeAlarm",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
     "name": "deposit",
     "outputs": [],
     "payable": true,

@@ -39,6 +39,9 @@
 * getVoteDetailsByTopic 获取指定提案下所有的投票详情信息
 * haveExpire 扫描有无需要执行的待决提案
 * processExpire 处理待决提案，任何人都有权处理，最佳办法是通过预言机执行
+* jccMoacAlarmCallback 墨客预言机回调接口
+* setAlarm 在预言机设置周期任务
+* removeAlarm 在预言机删除周期任务
 
 ## 合约流程
 
@@ -73,3 +76,31 @@
 运行 truffle watch
 
 然后在另外一个console运行truffle test，不需要重复编译合约，直接运行测试。
+
+## 合约地址
+
+测试网络: 0xb999d66a18546b2ab989947cc402e2f45ee69384
+
+主网: 0x7a73ee7aba73e797a35cc606e19ac6dcd3b794d7
+
+## 合约部署后的常用配置指令
+
+部署好后，对初始投票人和投票比例做初始化，只能调用一次
+
+```bash
+# 初始化5个钱包作为投票人，表决比例是50%，后续其他的投票人通过发起申请和投票即可当选
+jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名合约地址" --method "configureOnce" --parameters '5,50,["0x780d9da80c427defd49d458b365e0e77808f5086", "0x6afc5acd3f1db92e18094e1f6b8a878b27665f51", "0xf0fb6874e0da30c8108d3de55c1fec00f82faba2", "0x329a1891fba80498525e70d285d39d8091add46e", "0x60e78bd0f249125d5c266b5e3ca8ff73da0e7ef6"]' --gas_limit 280000
+
+
+# 在预言机合约设置多签钱包合约地址为白名单
+jcc_moac_tool --abi JccMoacAlarm.json --contractAddr 预言机合约地址 --method "addContract" --parameters '"多签名钱包合约地址"' --gas_limit 55000
+
+# 在多签名钱包中注册定时任务到预言机合约：周期性任务，300秒执行一次
+jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "setAlarm" --parameters '"预言机合约地址",1,300' --gas_limit 200000
+
+# 停止锁仓充值，停止充值后，无法充值，用户可以提出提现的提案；如果允许充值，则禁止发起提现提案
+./src/jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "setStopDeposit" --parameters true --gas_limit 23000
+
+# 允许充值锁仓
+./src/jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "setStopDeposit" --parameters false --gas_limit 23000
+```
