@@ -202,6 +202,10 @@ contract('JccMoacMultiSig', (accounts) => {
     await multiWallet.createVoterProposal(topicId2, topicId2, topicId2 + 1000000, voter5, { from: voter3 });
     await multiWallet.createRecallProposal(topicId3, topicId3, topicId3 + 1000000, voter2, { from: voter1 });
 
+    // 检查一个人同一时间只能发起一个提名投票
+    await assertRevert(multiWallet.createVoterProposal(topicId4, topicId4, topicId4 + 1000000, voter5, { from: voter2 }));
+    await assertRevert(multiWallet.createRecallProposal(topicId4, topicId4, topicId4 + 1000000, voter3, { from: voter1 }));
+
     // 获取当前投票中的议题
     let votingCount = await multiWallet.getVotingCount();
     assert.equal(votingCount, 3);
@@ -227,10 +231,10 @@ contract('JccMoacMultiSig', (accounts) => {
     assert.equal(votingCountBySponsor, 0);
 
     // 罢免voter2
-    await batchVote(topicId3, [voter1, voter2, voter4], [true, false, true]);
+    await batchVote(topicId3, [voter1, voter2], [true, false]);
     await assertRevert(multiWallet.voteTopic(topicId3, Date.now(), true, { from: voter5 }));
 
-    // 50% 不能通过
+    // 不足50% 不能通过
     await multiWallet.processExpire(Date.now());
     votingCount = await multiWallet.getVotingCount();
     assert.equal(votingCount, 2);

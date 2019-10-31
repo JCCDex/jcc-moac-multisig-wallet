@@ -148,6 +148,10 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
     require(!_onlyonce, "admin does not configure yet");
     require(!_voters.exist(target), "can not vote exist voter");
 
+    // 一个人只能发起一个投票人提案
+    bool exist = _proposals.votingExist(TYPE_VOTE, msg.sender);
+    require(!exist, "only one voter proposal per user in voting.");
+
     if (_proposals.insertTopic(topicId, timestamp, endtime, TYPE_VOTE, 0, 0, target, msg.sender)) {
       emit CreateProposal(topicId, TYPE_VOTE, 0, target);
       return true;
@@ -161,6 +165,10 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
     require(_voters.count() >= 3, "at least 3 voter");
     require(_voters.exist(target), "must recall exist voter");
     require(_voters.exist(msg.sender), "only voter can commit");
+
+    // 一个人只能发起一个罢免投票人提案
+    bool exist = _proposals.votingExist(TYPE_RECALL, msg.sender);
+    require(!exist, "only one recall proposal per user in voting.");
 
     if (_proposals.insertTopic(topicId, timestamp, endtime, TYPE_RECALL, 0, 0, target, msg.sender)) {
       emit CreateProposal(topicId, TYPE_RECALL, 0, target);
@@ -267,6 +275,19 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
     return _proposals.getVoteDetailsByTopic(topicId);
   }
 
+  // 计算生效的最少票数
+  function getLeastVoterCount() internal view returns(uint) {
+    uint _base = _voters.count().mul(_percent);
+    uint _count = _base.div(100);
+
+    _count = _base.div(100).mul(100) == _base ? _count : _count.add(1);
+
+    // 不能超过总投票人数
+    _count = _count > _voters.count() ? _voters.count() : _count;
+
+    return _count;
+  }
+
   // 扫描是否有到期的提案,关闭提案应该是用时间和投票数据判断，所以对执行的钱包没有要求
   function haveExpire(uint endtime) public view returns(Proposal.topic[], uint) {
     // 扫描所有待决提案，检查是否过期，是否按照表决规则可以关闭，将符合要求的返回
@@ -285,16 +306,12 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
         continue;
       }
 
-      uint _totalVote = t.yesCount.add(t.noCount);
-      // 如果有投票的，那么按照规则计算投票是否通过
-      if (_totalVote > 0) {
-        uint _resultYes = t.yesCount.mul(100).div(_voters.count());
-        uint _resultNo = t.noCount.mul(100).div(_voters.count());
-        // 投票结果符合规则
-        if (_resultYes > _percent || _resultNo > _percent) {
-          ret[len] = t;
-          len = len.add(1);
-        }
+      // 当前投票状态是否可以形成决议
+      uint _baseCount = getLeastVoterCount();
+
+      if (t.yesCount >= _baseCount || t.noCount >= _baseCount) {
+        ret[len] = t;
+        len = len.add(1);
       }
     }
 
@@ -313,10 +330,9 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
   function processPercentExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
 
-    uint _resultYes = t.yesCount.mul(100).div(_voters.count());
-    uint _resultNo = t.noCount.mul(100).div(_voters.count());
+    uint _baseCount = getLeastVoterCount();
 
-    if (_resultYes > _percent && _resultYes > _resultNo) {
+    if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _percent = t.value;
     }
 
@@ -328,10 +344,9 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
   function processVoteExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
 
-    uint _resultYes = t.yesCount.mul(100).div(_voters.count());
-    uint _resultNo = t.noCount.mul(100).div(_voters.count());
+    uint _baseCount = getLeastVoterCount();
 
-    if (_resultYes > _percent && _resultYes > _resultNo) {
+    if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _voters.insert(t.target);
     }
 
@@ -345,10 +360,9 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
     require(_voters.count() > 3, "at least 3 voter");
     Proposal.topic memory t = _proposals.getTopic(topicId);
 
-    uint _resultYes = t.yesCount.mul(100).div(_voters.count());
-    uint _resultNo = t.noCount.mul(100).div(_voters.count());
+    uint _baseCount = getLeastVoterCount();
 
-    if (_resultYes > _percent && _resultYes > _resultNo) {
+    if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _voters.remove(t.target);
     }
 
@@ -379,10 +393,9 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
   function processWithdrawExpire(uint topicId) internal returns (bool) {
     Proposal.topic memory t = _proposals.getTopic(topicId);
 
-    uint _resultYes = t.yesCount.mul(100).div(_voters.count());
-    uint _resultNo = t.noCount.mul(100).div(_voters.count());
+    uint _baseCount = getLeastVoterCount();
 
-    if (_resultYes > _percent && _resultYes > _resultNo) {
+    if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       // 执行转账
       withdraw(t);
     }
@@ -411,17 +424,14 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
       // 投票规则百分比设置
       if (res[i].voteType == TYPE_CONFIG_PERCENT) {
         processPercentExpire(res[i].topicId);
-      }
-      // 提名投票人设置
-      if (res[i].voteType == TYPE_VOTE) {
+      }else if (res[i].voteType == TYPE_VOTE) {
+        // 提名投票人设置
         processVoteExpire(res[i].topicId);
-      }
-      // 罢免投票设置
-      if (res[i].voteType == TYPE_RECALL) {
+      }else if (res[i].voteType == TYPE_RECALL) {
+        // 罢免投票设置
         processRecallExpire(res[i].topicId);
-      }
-      // 提现设置
-      if (res[i].voteType == TYPE_WITHDRAW) {
+      }else if (res[i].voteType == TYPE_WITHDRAW) {
+        // 提现设置
         processWithdrawExpire(res[i].topicId);
       }
     }
@@ -430,7 +440,8 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
 
   // 接受预言机的调用，定时执行决议
   function jccMoacAlarmCallback() public {
-    processExpire(block.timestamp);
+    // 时间戳是毫秒
+    processExpire(block.timestamp.mul(1000));
   }
 
   // 在预言机中设置定时任务
