@@ -79,9 +79,9 @@
 
 ## 合约地址
 
-测试网络: 0xb999d66a18546b2ab989947cc402e2f45ee69384
+测试网络: 0x98a3643e860f7f782194dd3e80408f90d4e423ae
 
-主网: 0x7a73ee7aba73e797a35cc606e19ac6dcd3b794d7
+主网: 0xeac5e8a57eea6c3b20bdbee85b7771d550bf01ff
 
 ## 合约部署后的常用配置指令
 
