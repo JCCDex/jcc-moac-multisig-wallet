@@ -86,10 +86,10 @@ export default {
       return format(this.proposal.timestamp, this.$i18n.locale);
     },
     startTime() {
-      return tinydate("{YYYY}-{MM}-{DD}")(new Date(parseInt(this.proposal.timestamp)));
+      return tinydate("{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}")(new Date(parseInt(this.proposal.timestamp)));
     },
     endTime() {
-      return tinydate("{YYYY}-{MM}-{DD}")(new Date(parseInt(this.proposal.endtime)));
+      return tinydate("{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}")(new Date(parseInt(this.proposal.endtime)));
     },
     voteState() {
       return this.proposal.flag ? this.$t("proposal_cell.voted") : this.$t("proposal_cell.voting");
