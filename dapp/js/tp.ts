@@ -4,6 +4,7 @@ const tpInfo = (() => {
   let address: string = null;
   let node: string = null;
   let isConnectedState: boolean = null;
+  let system: string = null;
 
   const isConnected = (): boolean => {
     if (isConnectedState === null) {
@@ -29,6 +30,24 @@ const tpInfo = (() => {
       }
     }
     return address;
+  };
+
+  const getSystem = async (): Promise<string> => {
+    if (!isConnected()) {
+      return "android";
+    }
+
+    if (system === null) {
+      try {
+        const res = await tp.getAppInfo();
+        if (res && res.result) {
+          system = res.data.system;
+        }
+      } catch (error) {
+        system = null;
+      }
+    }
+    return system;
   };
 
   const getNode = async (): Promise<string> => {
@@ -60,6 +79,7 @@ const tpInfo = (() => {
     destroy,
     getAddress,
     getNode,
+    getSystem,
     isConnected
   };
 })();

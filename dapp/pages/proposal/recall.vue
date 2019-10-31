@@ -71,6 +71,9 @@ export default {
   beforeDestroy() {
     this.bs.destroy();
   },
+  updated() {
+    this.bs && this.bs.refresh();
+  },
   methods: {
     init() {
       this.bs = new BScroll(this.$refs.scroll, {
