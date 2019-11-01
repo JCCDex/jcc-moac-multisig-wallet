@@ -8,13 +8,13 @@
     </div>
 
     <div flex="main:center cross:center">
-      <button class="multisig-wallet-button" style="width: 1.4rem;border-radius: 0.4rem;background-color: #476EEA;height:0.7rem;line-height:0.7rem" flex="main:center cross:center" @click="vote(true)">
+      <button class="multisig-wallet-button" :disabled="disable" style="width: 1.4rem;border-radius: 0.4rem;background-color: #476EEA;height:0.7rem;line-height:0.7rem" flex="main:center cross:center" @click="vote(true)">
         <svg class="multisig-wallet-icon multisig-wallet-icon-smaller" aria-hidden="true" style="margin-right: 0.05rem;">
           <use xlink:href="#icon-agree" />
         </svg>
         {{ $t("approval") }}
       </button>
-      <button class="multisig-wallet-button" style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem" flex="main:center cross:center" @click="vote(false)">
+      <button class="multisig-wallet-button" :disabled="disable" style="margin-left:0.3rem;width: 1.4rem;border-radius: 0.4rem;background-color: #F87272;height:0.7rem;line-height:0.7rem" flex="main:center cross:center" @click="vote(false)">
         <svg class="multisig-wallet-icon multisig-wallet-icon-smaller" aria-hidden="true" style="margin-right: 0.05rem;margin-top:0.04rem;">
           <use xlink:href="#icon-against" />
         </svg>
@@ -29,14 +29,26 @@ import bus from "@/js/bus";
 export default {
   data() {
     return {
-      selected: true
+      selected: false,
+      disable: true
     };
+  },
+  created() {
+    bus.$on("selectedProposal", this.selectedProposal);
+  },
+  beforeDestroy() {
+    bus.$off("selectedProposal", this.selectedProposal);
   },
   methods: {
     selectAll() {
       let selected = !this.selected;
       this.selected = selected;
       bus.$emit("selectAll", selected);
+      this.disable = !this.selected;
+    },
+    selectedProposal(isAllSelected, hasSelected) {
+      this.selected = isAllSelected;
+      this.disable = !hasSelected;
     },
     vote(confirm) {
       bus.$emit("voteProposal", confirm);

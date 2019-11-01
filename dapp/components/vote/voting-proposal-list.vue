@@ -15,7 +15,7 @@
         </div>
       </div>
       <div style="background-color: #fff">
-        <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal="item" :is-voter="isVoter" />
+        <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal="item" :is-voter="isVoter" @selectedProposal="selectedProposal" />
       </div>
       <div v-if="showEmpty" style="background-color:  #f2f4fb">
         <empty-content />
@@ -164,7 +164,7 @@ export default {
           proposal.voting = true;
           // set default select state
           if (!proposal.hadVoted) {
-            proposal.selected = true;
+            proposal.selected = false;
           }
         }
         return proposals;
@@ -179,6 +179,11 @@ export default {
           proposal.selected = flag;
         }
       }
+    },
+    selectedProposal() {
+      const hasSelected = this.proposals.find(proposal => proposal.selected);
+      const hasUnselected = this.proposals.find(proposal => !proposal.selected);
+      bus.$emit("selectedProposal", !hasUnselected, Boolean(hasSelected));
     },
     showVoteAction(confirm) {
       const selectedProposals = this.proposals.filter(proposal => proposal.selected && !proposal.hadVoted);

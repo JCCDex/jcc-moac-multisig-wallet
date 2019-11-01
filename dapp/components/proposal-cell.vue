@@ -1,7 +1,7 @@
 <template>
   <div class="multisig-wallet-proposal-cell-container" flex="main:justify cross:center">
     <div flex="cross:center" style="width:calc(100% - 0.4rem)">
-      <svg v-if="isVoting && isVoter && !proposal.hadVoted" class="multisig-wallet-icon" style="margin-right:0.19rem;" aria-hidden="true" @click="proposal.selected = !proposal.selected">
+      <svg v-if="isVoting && isVoter && !proposal.hadVoted" class="multisig-wallet-icon" style="margin-right:0.19rem;" aria-hidden="true" @click="selected">
         <use :xlink:href="icon" />
       </svg>
       <div style="text-align: left;" :style="{ 'max-width': !isVoting || !isVoter || proposal.hadVoted ? '100%' : 'calc(100% - 0.6rem)' }" @click="goto('/proposal/detail')">
@@ -47,6 +47,10 @@ export default {
   methods: {
     goto() {
       this.$router.push("/proposal/" + this.proposal.topicId);
+    },
+    selected() {
+      this.proposal.selected = !this.proposal.selected;
+      this.$emit("selectedProposal");
     }
   }
 };
