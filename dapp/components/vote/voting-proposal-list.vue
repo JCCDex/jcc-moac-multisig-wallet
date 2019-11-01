@@ -167,6 +167,15 @@ export default {
             proposal.selected = false;
           }
         }
+        proposals.sort((prev, next) => {
+          if (!prev.hadVoted && next.hadVoted) {
+            return -1;
+          }
+          if (prev.hadVoted && !next.hadVoted) {
+            return 1;
+          }
+          return 0;
+        });
         return proposals;
       } catch (error) {
         console.log("reqeust voting proposal error: ", error);
