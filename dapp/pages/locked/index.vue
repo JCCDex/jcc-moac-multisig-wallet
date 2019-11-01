@@ -157,6 +157,7 @@ export default {
           }
           if (transaction.isSuccessful(res)) {
             Toast.success(this.$t("message.submit_succeed"));
+            this.$router.push("/home");
           } else {
             Toast.fail(this.$t("message.submit_failed"));
           }
