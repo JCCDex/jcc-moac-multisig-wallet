@@ -88,6 +88,9 @@ export default {
       if (type === this.type) {
         return;
       }
+      if (type === "VotedProposalList") {
+        bus.$emit("selectedProposal", false, true);
+      }
       this.type = type;
       bus.$emit("changeProposalType", type);
     },
