@@ -88,10 +88,9 @@ export default {
   },
   computed: {
     lockEnable() {
-      const value = parseFloat(this.amount);
       const minGas = 0.01;
-      const bn = new BigNumber(value);
-      return this.agree && isValidNumber(value) && bn.modulo(10) === 0 && bn.isGreaterThanOrEqualTo(10) && bn.plus(minGas).isLessThan(this.balance);
+      const bn = new BigNumber(this.amount);
+      return this.agree && isValidNumber(parseFloat(this.amount)) && bn.modulo(10).toNumber() === 0 && bn.isGreaterThanOrEqualTo(10) && bn.plus(minGas).isLessThan(this.balance);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";
