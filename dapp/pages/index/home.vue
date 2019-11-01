@@ -81,6 +81,9 @@ export default {
       this.address = address || "";
     });
   },
+  updated() {
+    this.bs && this.bs.refresh();
+  },
   beforeDestroy() {
     this.bs.destroy();
   },
