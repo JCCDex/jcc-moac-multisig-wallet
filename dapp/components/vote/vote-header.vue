@@ -1,7 +1,7 @@
 <template>
   <div style="padding:0.26rem 0 0.1rem 0;">
     <div v-if="isVoter" flex="main:justify cross:center" style="padding:0 0.5rem;">
-      <button class="multisig-wallet-button multisig-wallet-recall-button" style="width: 3rem;" flex="main:center cross:center" @click="goto('/proposal/recall')">
+      <button class="multisig-wallet-button multisig-wallet-recall-button" style="width: auto;padding: 0 0.2rem" flex="main:center cross:center" @click="goto('/proposal/recall')">
         <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-recall-voter" />
@@ -10,7 +10,7 @@
         {{ $t("recall_voter") }}
       </button>
 
-      <button class="multisig-wallet-button multisig-wallet-vote-button" style="width: 3rem;min-width: 300px;" flex="main:center cross:center" @click="goto('/proposal/modifyPercent')">
+      <button class="multisig-wallet-button multisig-wallet-vote-button" style="width: auto;padding: 0 0.2rem" flex="main:center cross:center" @click="goto('/proposal/modifyPercent')">
         <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.13rem;">
           <svg class="multisig-wallet-icon" aria-hidden="true">
             <use xlink:href="#icon-vote-percent" />

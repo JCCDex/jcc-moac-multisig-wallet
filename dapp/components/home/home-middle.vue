@@ -1,6 +1,6 @@
 <template>
   <div flex="main:justify cross:center" style="padding:0.26rem 0.5rem;">
-    <button class="multisig-wallet-button multisig-wallet-lock-button" style="width: 2.6rem;" flex="main:center cross:center" @click="goto('/locked')">
+    <button class="multisig-wallet-button multisig-wallet-lock-button" style="width: auto;padding: 0 0.2rem" flex="main:center cross:center" @click="goto('/locked')">
       <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.3rem;">
         <svg class="multisig-wallet-icon" aria-hidden="true">
           <use xlink:href="#icon-locked" />
@@ -9,7 +9,7 @@
       {{ $t("to_lock") }}
     </button>
 
-    <button class="multisig-wallet-button multisig-wallet-withdraw-button" style="width: 2.6rem;" flex="main:center cross:center" @click="goto('/withdraw')">
+    <button class="multisig-wallet-button multisig-wallet-withdraw-button" style="width: auto;padding: 0 0.2rem" flex="main:center cross:center" @click="goto('/withdraw')">
       <div class="multisig-wallet-icon-circle" flex="main:center cross:center" style="margin-right: 0.3rem;">
         <svg class="multisig-wallet-icon" aria-hidden="true">
           <use xlink:href="#icon-withdraw" />
