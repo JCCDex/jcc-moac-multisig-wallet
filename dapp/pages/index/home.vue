@@ -25,6 +25,7 @@ import tpInfo from "@/js/tp";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
 import scrollMixin from "@/mixins/scroll";
+import votingCache from "@/js/votingProposalCache";
 
 export default {
   name: "Home",
@@ -50,28 +51,15 @@ export default {
       const address = await tpInfo.getAddress();
       const node = await tpInfo.getNode();
       const instance = multisigContractInstance.init(node);
-      let proposalIds;
       if (isVoter) {
         // request all voting proposal count
         voteAmount = await instance.getVotingCount();
-        proposalIds = await instance.getAllVotingTopicIds();
       } else {
         // request my voting proposal count
         voteAmount = await instance.getMyVotingCount(address);
-        proposalIds = await instance.getAllMyVotingTopicIds(address);
       }
       lockAmount = await instance.getBalance(address);
-
-      const props = [];
-      if (proposalIds.length > 10) {
-        // show max length is 10
-        proposalIds = proposalIds.slice(0, 10);
-      }
-      for (const id of proposalIds) {
-        props.push(instance.getTopic(id));
-      }
-      const proposals = await Promise.all(props);
-      return { lockAmount, voteAmount, proposals };
+      return { lockAmount, voteAmount };
     } catch (error) {
       console.log("init home data error: ", error);
     }
@@ -81,9 +69,21 @@ export default {
       this.address = address || "";
     });
   },
+  created() {
+    this.initMessages();
+  },
   methods: {
     goto(route) {
       this.$router.push(route);
+    },
+    async initMessages() {
+      try {
+        const proposals = await votingCache.get();
+        this.proposals = proposals.slice(0, 10);
+      } catch (error) {
+        console.log(error);
+        this.proposals = [];
+      }
     }
   }
 };

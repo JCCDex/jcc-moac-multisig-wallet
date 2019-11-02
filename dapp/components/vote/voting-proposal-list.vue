@@ -31,6 +31,8 @@ import accountInfo from "@/js/account";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 import scrollMixin from "@/mixins/scroll";
+import votingCache from "@/js/votingProposalCache";
+import cloneDeep from "clone-deep";
 
 export default {
   components: {
@@ -67,7 +69,7 @@ export default {
     }
   },
   created() {
-    this.pullingDownHandler();
+    this.pullingDownHandler(true);
     bus.$on("selectAll", this.selectAll);
     bus.$on("voteProposal", this.showVoteAction);
   },
@@ -78,12 +80,9 @@ export default {
   activated() {
     this.$refs.scroll && this.$refs.scroll.refresh();
   },
-  mounted() {
-    this.pullingDownHandler();
-  },
   methods: {
-    async pullingDownHandler() {
-      let proposals = await this.requestVotingProposals();
+    async pullingDownHandler(cache = false) {
+      let proposals = await this.requestVotingProposals(cache);
       if (proposals) {
         this.proposals = proposals;
       }
@@ -92,30 +91,35 @@ export default {
       } else {
         this.showEmpty = false;
       }
+      bus.$emit("selectedProposal", false, false);
+
       setTimeout(() => {
         this.$refs.scroll.forceUpdate(true);
       }, 2000);
     },
-    async requestVotingProposals() {
+    async requestVotingProposals(cache) {
       try {
         const node = await tpInfo.getNode();
         const instance = multisigContractInstance.init(node);
-        let proposalIds;
-        if (this.isVoter) {
-          proposalIds = await instance.getAllVotingTopicIds();
+        let caches;
+        if (votingCache.hasCache()) {
+          caches = await votingCache.get(true);
         } else {
-          proposalIds = await instance.getAllMyVotingTopicIds(this.address);
+          caches = [];
         }
-        const props = [];
-        for (const id of proposalIds) {
-          props.push(instance.getTopic(id));
-        }
-        const proposals = await Promise.all(props);
+        const proposals = await votingCache.get(cache);
 
         for (const proposal of proposals) {
           if (proposal.yesCount !== "0" || proposal.noCount !== "0") {
-            const voteDetails = await instance.getVoteDetailsByTopic(proposal.topicId);
-            proposal.hadVoted = Boolean(voteDetails.find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
+            const cacheProposal = caches.find(cache => cache.topicId === proposal.topicId);
+
+            if (cacheProposal && cacheProposal.hadVoted) {
+              proposal.hadVoted = true;
+            } else {
+              console.log("request vote detail: " + proposal.topicId);
+              const voteDetails = await instance.getVoteDetailsByTopic(proposal.topicId);
+              proposal.hadVoted = Boolean(voteDetails.find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
+            }
           } else {
             proposal.hadVoted = false;
           }
@@ -126,7 +130,11 @@ export default {
             proposal.selected = false;
           }
         }
-        proposals.sort((prev, next) => {
+        votingCache.update(proposals);
+
+        const copy = cloneDeep(proposals);
+
+        copy.sort((prev, next) => {
           if (!prev.hadVoted && next.hadVoted) {
             return -1;
           }
@@ -135,7 +143,7 @@ export default {
           }
           return 0;
         });
-        return proposals;
+        return copy;
       } catch (error) {
         console.log("reqeust voting proposal error: ", error);
         return null;

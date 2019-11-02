@@ -19,11 +19,9 @@
 
 <script>
 import MessageCell from "@/components/message/message-cell";
-import tpInfo from "@/js/tp";
-import multisigContractInstance from "@/js/contract";
 import emptyContent from "@/components/empty";
-import accountInfo from "@/js/account";
 import scrollMixin from "@/mixins/scroll";
+import votingCache from "@/js/votingProposalCache";
 
 export default {
   name: "Messages",
@@ -46,62 +44,26 @@ export default {
       };
     }
   },
-  async asyncData() {
-    try {
-      const node = await tpInfo.getNode();
-      const instance = multisigContractInstance.init(node);
-      const isVoter = await accountInfo.isVoter();
-
-      let proposalIds;
-      if (isVoter) {
-        proposalIds = await instance.getAllVotingTopicIds();
-      } else {
-        const address = await tpInfo.getAddress();
-        proposalIds = await instance.getAllMyVotingTopicIds(address);
-      }
-
-      const props = [];
-      for (const id of proposalIds) {
-        props.push(instance.getTopic(id));
-      }
-      const proposals = await Promise.all(props);
-      return { messages: proposals };
-    } catch (error) {
-      console.log("init messages data error: ", error);
-    }
-  },
   deactivated() {
     this.$destroy();
   },
+  created() {
+    this.initMessages();
+  },
   methods: {
     async pullingDownHandler() {
-      await this.requestData();
+      await this.initMessages();
       setTimeout(() => {
         this.$refs.scroll.forceUpdate(true);
       }, 2000);
     },
-    async requestData() {
+    async initMessages() {
       try {
-        const node = await tpInfo.getNode();
-        const instance = multisigContractInstance.init(node);
-        const isVoter = await accountInfo.isVoter();
-
-        let proposalIds;
-        if (isVoter) {
-          proposalIds = await instance.getAllVotingTopicIds();
-        } else {
-          const address = await tpInfo.getAddress();
-          proposalIds = await instance.getAllMyVotingTopicIds(address);
-        }
-
-        const props = [];
-        for (const id of proposalIds) {
-          props.push(instance.getTopic(id));
-        }
-        const proposals = await Promise.all(props);
+        const proposals = await votingCache.get();
         this.messages = proposals;
       } catch (error) {
-        console.log("init messages data error: ", error);
+        console.log(error);
+        this.messages = [];
       }
     }
   }
