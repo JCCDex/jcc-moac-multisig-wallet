@@ -89,6 +89,9 @@ export default {
     bus.$off("selectAll", this.selectAll);
     bus.$off("voteProposal", this.showVoteAction);
   },
+  activated() {
+    this.bscroll && this.bscroll.refresh();
+  },
   mounted() {
     this.initBscroll();
   },

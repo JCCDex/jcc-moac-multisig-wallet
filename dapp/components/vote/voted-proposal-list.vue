@@ -82,6 +82,9 @@ export default {
     this.initBscroll();
     this.pullingDownHandler();
   },
+  activated() {
+    this.bscroll && this.bscroll.refresh();
+  },
   methods: {
     initBscroll() {
       this.bscroll = new BScroll(this.$refs.scroll, {

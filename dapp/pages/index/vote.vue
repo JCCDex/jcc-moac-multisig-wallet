@@ -5,7 +5,9 @@
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column;">
             <vote-header :is-voter="isVoter" />
-            <component :is="componentId" :is-voter="isVoter" :address="address" />
+            <keep-alive>
+              <component :is="componentId" :is-voter="isVoter" :address="address" />
+            </keep-alive>
             <vote-bottom v-show="isVoter && componentId === 'VotingProposalList'" />
           </div>
         </div>
