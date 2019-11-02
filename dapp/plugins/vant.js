@@ -7,6 +7,7 @@ import "vant/lib/toast/style";
 import "vant/lib/action-sheet/style";
 
 import "vant/lib/field/style";
+import "cube-ui/lib/scroll/style.css";
 
 Vue.use(ActionSheet)
   .use(Toast)

@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import voteInfo from "@/js/vote";
 import { isValidNumber } from "@/js/util";
@@ -76,22 +75,10 @@ export default {
       return { percent: "0%" };
     }
   },
-  mounted() {
-    this.init();
-  },
   deactivated() {
     this.$destroy();
   },
-  beforeDestroy() {
-    this.bs.destroy();
-  },
   methods: {
-    init() {
-      this.bs = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true
-      });
-    },
     async confirmModify() {
       this.show = false;
 

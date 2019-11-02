@@ -6,16 +6,18 @@
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <div ref="scroll" class="scroll-wrapper" style="margin-top:0.1rem; height: calc(100% - 0.1rem);">
               <div class="multisig-wallet-message-detail-container">
-                <p class="multisig-wallet-large-font-size" style="color: #0B1F5D">
-                  {{ proposalType }}
-                </p>
-                <p class="multisig-wallet-small-font-size" style="color: #9EA4C4">
-                  {{ submitTime }}
-                </p>
-                <p>
-                  {{ this.$t("message_detail.apply_wallet", { address: proposal.sponsor }) }}
-                </p>
-                <p>{{ messageContent }}</p>
+                <Scroll>
+                  <p class="multisig-wallet-large-font-size" style="color: #0B1F5D">
+                    {{ proposalType }}
+                  </p>
+                  <p class="multisig-wallet-small-font-size" style="color: #9EA4C4">
+                    {{ submitTime }}
+                  </p>
+                  <p>
+                    {{ this.$t("message_detail.apply_wallet", { address: proposal.sponsor }) }}
+                  </p>
+                  <p>{{ messageContent }}</p>
+                </Scroll>
               </div>
             </div>
           </div>
@@ -25,17 +27,17 @@
   </div>
 </template>
 <script>
-import BScroll from "@better-scroll/core";
 import proposalMixin from "@/mixins/proposal";
 import multisigContractInstance from "@/js/contract";
 import tpInfo from "@/js/tp";
 import { TYPE_CONFIG_COUNT, TYPE_CONFIG_PERCENT, TYPE_WITHDRAW, TYPE_VOTE, TYPE_RECALL } from "@/js/constant";
 import BigNumber from "bignumber.js";
 import tinydate from "tinydate";
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   name: "MessageDetail",
-  mixins: [proposalMixin],
+  mixins: [proposalMixin, scrollMixin],
   data() {
     return {
       proposal: {}
@@ -86,25 +88,10 @@ export default {
       console.log("request topic detail error: ", error);
     }
   },
-  mounted() {
-    this.init();
-  },
   deactivated() {
     this.$destroy();
   },
-  updated() {
-    this.bs && this.bs.refresh();
-  },
-  beforeDestroy() {
-    this.bs.destroy();
-  },
   methods: {
-    init() {
-      this.bs = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true
-      });
-    },
     formatTime(timestamp) {
       return tinydate("{YYYY}-{MM}-{DD} {HH}:{mm}")(new Date(parseInt(timestamp)));
     }
@@ -117,7 +104,7 @@ export default {
   padding: 0.23rem;
   color: #6b6e73;
 
-  > p {
+  p {
     text-align: left;
     word-break: break-all;
 

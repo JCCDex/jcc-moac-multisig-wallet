@@ -1,5 +1,5 @@
 <template>
-  <div ref="scroll" class="scroll-wrapper">
+  <Scroll ref="scroll" class="scroll-wrapper">
     <div class="scroll-content">
       <home-header :lock-amount="lockAmount" :address="address" :vote-amount="voteAmount" />
       <home-middle />
@@ -14,17 +14,17 @@
         </div>
       </home-message>
     </div>
-  </div>
+  </Scroll>
 </template>
 
 <script>
-import BScroll from "@better-scroll/core";
 import HomeHeader from "@/components/home/home-header";
 import HomeMiddle from "@/components/home/home-middle";
 import HomeMessage from "@/components/home/home-message";
 import tpInfo from "@/js/tp";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   name: "Home",
@@ -33,6 +33,7 @@ export default {
     HomeMiddle,
     HomeMessage
   },
+  mixins: [scrollMixin],
   data() {
     return {
       bs: null,
@@ -76,24 +77,11 @@ export default {
     }
   },
   mounted() {
-    this.init();
     tpInfo.getAddress().then(address => {
       this.address = address || "";
     });
   },
-  updated() {
-    this.bs && this.bs.refresh();
-  },
-  beforeDestroy() {
-    this.bs.destroy();
-  },
   methods: {
-    init() {
-      this.bs = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true
-      });
-    },
     goto(route) {
       this.$router.push(route);
     }

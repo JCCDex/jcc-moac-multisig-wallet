@@ -5,8 +5,8 @@
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('lock_declare')" />
-            <div ref="scroll" flex class="scroll-wrapper" style="height: calc(100% - 0.8rem);background-color: #fff;">
-              <div flex="dir:top cross: center">
+            <div flex class="scroll-wrapper" style="height: calc(100% - 0.8rem);background-color: #fff;">
+              <scroll ref="scroll" flex="dir:top cross: center">
                 <div class="multisig-wallet-lock-tip-container">
                   <p v-for="(tip, index) in $t('locked_tips')" :key="index">
                     {{ tip }}
@@ -31,13 +31,13 @@
                     <span>{{ $t("locked_amount_tip") }}</span>
                   </div>
 
-                  <div v-show="showElement" flex-box="1" flex="cross:bottom">
+                  <div v-show="showElement" flex-box="1" flex="cross:bottom" style="margin-top: 0.5rem;">
                     <button :disabled="!lockEnable" class="multisig-wallet-button multisig-wallet-lock-button" style="width: 100%;" @click="show = true">
                       {{ $t("lock") }}
                     </button>
                   </div>
                 </div>
-              </div>
+              </scroll>
             </div>
           </div>
         </div>
@@ -62,7 +62,6 @@
 </template>
 <script>
 import BigNumber from "bignumber.js";
-import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import { isValidNumber } from "@/js/util";
 import tpInfo from "@/js/tp";
@@ -71,13 +70,14 @@ import { Toast } from "vant";
 import * as transaction from "@/js/transaction";
 import scrollIntoView from "@/mixins/scrollIntoView";
 import keyEvent from "@/mixins/keyEvent";
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   name: "Lock",
   components: {
     WalletHeader
   },
-  mixins: [scrollIntoView, keyEvent],
+  mixins: [scrollIntoView, keyEvent, scrollMixin],
   data() {
     return {
       balance: "",
@@ -107,22 +107,10 @@ export default {
       return { balance: "0" };
     }
   },
-  mounted() {
-    this.init();
-  },
   deactivated() {
     this.$destroy();
   },
-  beforeDestroy() {
-    this.bs.destroy();
-  },
   methods: {
-    init() {
-      this.bs = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true
-      });
-    },
     acceptAgreement() {
       this.agree = !this.agree;
     },

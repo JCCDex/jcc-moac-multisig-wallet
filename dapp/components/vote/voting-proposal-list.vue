@@ -1,26 +1,13 @@
 <template>
-  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 4.5rem);">
-    <div class="scroll-content" style="min-height: calc(100vh - 4.45rem);position: relative;">
-      <div class="pulldown-wrapper multisig-wallet-small-font-size">
-        <div v-show="beforePullDown">
-          <span>{{ $t("pull_down_refresh") }}</span>
-        </div>
-        <div v-show="!beforePullDown">
-          <div v-show="isPullingDown">
-            <span>{{ $t("loading") }}</span>
-          </div>
-          <div v-show="!isPullingDown">
-            <span>{{ $t("pull_down_refresh_success") }}</span>
-          </div>
-        </div>
-      </div>
+  <div class="scroll-wrapper" style="height: calc(100vh - 4.5rem);">
+    <scroll ref="scroll" :options="options" class="scroll-content" style="min-height: calc(100vh - 4.45rem);position: relative;" @pulling-down="pullingDownHandler">
       <div style="background-color: #fff">
         <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal="item" :is-voter="isVoter" @selectedProposal="selectedProposal" />
       </div>
       <div v-if="showEmpty" style="background-color:  #f2f4fb">
         <empty-content />
       </div>
-    </div>
+    </scroll>
 
     <van-action-sheet v-model="show" :title="$t('vote_action.title')" get-container="body">
       <p style="margin:0.44rem 0 0.95rem 0;">
@@ -35,9 +22,6 @@
 </template>
 
 <script>
-import BScroll from "@better-scroll/core";
-import PullDown from "@better-scroll/pull-down";
-import debounce from "lodash/debounce";
 import ProposalCell from "@/components/proposal-cell";
 import multisigContractInstance from "@/js/contract";
 import tpInfo from "@/js/tp";
@@ -46,14 +30,14 @@ import bus from "@/js/bus";
 import accountInfo from "@/js/account";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
-
-BScroll.use(PullDown);
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   components: {
     ProposalCell,
     emptyContent
   },
+  mixins: [scrollMixin],
   props: {
     isVoter: {
       type: Boolean
@@ -65,16 +49,22 @@ export default {
   },
   data() {
     return {
-      beforePullDown: true,
-      isPullingDown: false,
       showEmpty: false,
       voteType: "",
       show: false,
       selectedCount: 0,
       confirm: null,
-      proposals: [],
-      bscroll: null
+      proposals: []
     };
+  },
+  computed: {
+    options() {
+      return {
+        pullDownRefresh: {
+          txt: this.$t("pull_down_refresh_success")
+        }
+      };
+    }
   },
   created() {
     this.pullingDownHandler();
@@ -82,35 +72,17 @@ export default {
     bus.$on("voteProposal", this.showVoteAction);
   },
   beforeDestroy() {
-    if (this.bscroll) {
-      this.bscroll.destroy();
-      this.bscroll = null;
-    }
     bus.$off("selectAll", this.selectAll);
     bus.$off("voteProposal", this.showVoteAction);
   },
   activated() {
-    this.bscroll && this.bscroll.refresh();
+    this.$refs.scroll && this.$refs.scroll.refresh();
   },
   mounted() {
-    this.initBscroll();
+    this.pullingDownHandler();
   },
   methods: {
-    initBscroll() {
-      this.bscroll = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true,
-        bounceTime: 800,
-        pullDownRefresh: {
-          threshold: 70,
-          stop: 56
-        }
-      });
-      this.bscroll.on("pullingDown", debounce(this.pullingDownHandler, 500));
-    },
     async pullingDownHandler() {
-      this.beforePullDown = false;
-      this.isPullingDown = true;
       let proposals = await this.requestVotingProposals();
       if (proposals) {
         this.proposals = proposals;
@@ -120,25 +92,9 @@ export default {
       } else {
         this.showEmpty = false;
       }
-
-      this.finishPullDown();
-    },
-    async finishPullDown() {
-      await new Promise(resolve => {
-        setTimeout(() => {
-          this.isPullingDown = false;
-          if (this.bscroll) {
-            this.bscroll.finishPullDown();
-          }
-          resolve();
-        }, 1000);
-      });
       setTimeout(() => {
-        this.beforePullDown = true;
-        if (this.bscroll) {
-          this.bscroll.refresh();
-        }
-      }, 800);
+        this.$refs.scroll.forceUpdate(true);
+      }, 2000);
     },
     async requestVotingProposals() {
       try {

@@ -9,11 +9,11 @@
               {{ $t("click_to_recall") }}
             </div>
             <div ref="scroll" class="scroll-wrapper" style="background-color: #fff;height: calc(100% - 1.66rem);">
-              <div flex="dir:top cross: center" class="multisig-wallet-recall-container" style="min-height: calc(100% + 0.01rem)">
+              <Scroll flex="dir:top cross: center" class="multisig-wallet-recall-container" style="min-height: calc(100% + 0.01rem)">
                 <div v-for="(voter, key) of voters" :key="key" flex="main:justify cross:center" class="multisig-wallet-voter-cell-container" @click="showAction(voter)">
                   <voter-cell :voter="voter" :index="key" />
                 </div>
-              </div>
+              </Scroll>
             </div>
           </div>
         </div>
@@ -31,7 +31,6 @@
   </div>
 </template>
 <script>
-import BScroll from "@better-scroll/core";
 import WalletHeader from "@/components/header";
 import VoterCell from "@/components/voter-cell";
 import multisigContractInstance from "@/js/contract";
@@ -39,6 +38,7 @@ import accountInfo from "@/js/account";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 import tpInfo from "@/js/tp";
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   name: "Recall",
@@ -46,6 +46,7 @@ export default {
     WalletHeader,
     VoterCell
   },
+  mixins: [scrollMixin],
   data() {
     return {
       show: false,
@@ -62,25 +63,10 @@ export default {
       console.log("request voters error: ", error);
     }
   },
-  mounted() {
-    this.init();
-  },
   deactivated() {
     this.$destroy();
   },
-  beforeDestroy() {
-    this.bs.destroy();
-  },
-  updated() {
-    this.bs && this.bs.refresh();
-  },
   methods: {
-    init() {
-      this.bs = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true
-      });
-    },
     showAction(voter) {
       this.selectedVoter = voter;
       this.show = true;

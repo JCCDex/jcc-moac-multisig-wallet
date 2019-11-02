@@ -51,3 +51,20 @@
     line-height: 0.4rem;
   }
 }
+
+
+.cube-pulldown-wrapper {
+  height: 0.8rem !important;
+}
+
+.before-trigger {
+
+  canvas {
+    width: 0.5rem !important;
+    height: 0.8rem !important;
+  }
+}
+
+.cube-loading {
+  @include px2px("font-size", 14);
+}

@@ -1,57 +1,30 @@
 <template>
-  <div ref="scroll" class="scroll-wrapper" style="height: calc(100vh - 3.3rem);">
-    <div class="scroll-content" style="min-height: calc(100vh - 3.25rem);position: relative;">
-      <div class="pulldown-wrapper multisig-wallet-small-font-size">
-        <div v-show="beforePullDown">
-          <span>{{ $t("pull_down_refresh") }}</span>
-        </div>
-        <div v-show="!beforePullDown">
-          <div v-show="isPullingDown">
-            <span>{{ $t("loading") }}</span>
-          </div>
-          <div v-show="!isPullingDown">
-            <span>{{ $t("pull_down_refresh_success") }}</span>
-          </div>
-        </div>
-      </div>
+  <div class="scroll-wrapper" style="height: calc(100vh - 3.3rem);">
+    <scroll ref="scroll" style="height: calc(100vh - 3.25rem);position: relative;" :options="options" @pulling-down="pullingDownHandler" @pulling-up="pullingUpHandler">
       <div style="background-color: #fff">
         <proposal-cell v-for="(item, index) in proposals" :key="index" :proposal="item" :is-voter="isVoter" />
       </div>
       <div v-if="proposals.length === 0 && showEmpty" style="background-color:  #f2f4fb">
         <empty-content />
       </div>
-
-      <div v-if="!beforePullUp" class="pullup-wrapper multisig-wallet-small-font-size">
-        <div v-if="!isPullUpLoad" class="before-trigger">
-          <span>{{ $t("pull_up_more") }}</span>
-        </div>
-        <div v-else class="after-trigger">
-          <span>{{ $t("loading") }}</span>
-        </div>
-      </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
-import BScroll from "@better-scroll/core";
-import PullDown from "@better-scroll/pull-down";
-import Pullup from "@better-scroll/pull-up";
-import debounce from "lodash/debounce";
 import ProposalCell from "@/components/proposal-cell";
-import multisigContractInstance from "@/js/contract";
 import emptyContent from "@/components/empty";
+import multisigContractInstance from "@/js/contract";
 import voteInfo from "@/js/vote";
 import tpInfo from "@/js/tp";
-
-BScroll.use(PullDown);
-BScroll.use(Pullup);
+import scrollMixin from "@/mixins/scroll";
 
 export default {
   components: {
     ProposalCell,
     emptyContent
   },
+  mixins: [scrollMixin],
   props: {
     isVoter: {
       type: Boolean
@@ -63,49 +36,30 @@ export default {
   },
   data() {
     return {
-      beforePullUp: true,
-      isPullUpLoad: false,
-      beforePullDown: true,
-      isPullingDown: false,
       showEmpty: false,
-      proposals: [],
-      bscroll: null
+      proposals: []
     };
   },
-  beforeDestroy() {
-    if (this.bscroll) {
-      this.bscroll.destroy();
-      this.bscroll = null;
-    }
-  },
-  mounted() {
-    this.initBscroll();
-    this.pullingDownHandler();
-  },
-  activated() {
-    this.bscroll && this.bscroll.refresh();
-  },
-  methods: {
-    initBscroll() {
-      this.bscroll = new BScroll(this.$refs.scroll, {
-        scrollY: true,
-        click: true,
-        bounceTime: 800,
+  computed: {
+    options() {
+      return {
         pullDownRefresh: {
-          threshold: 70,
-          stop: 56
+          txt: this.$t("pull_down_refresh_success")
         },
         pullUpLoad: {
           threshold: 500
         }
-      });
-
-      this.bscroll.on("pullingDown", debounce(this.pullingDownHandler, 500));
-      this.bscroll.on("pullingUp", debounce(this.pullingUpHandler, 500));
-    },
+      };
+    }
+  },
+  mounted() {
+    this.pullingDownHandler();
+  },
+  activated() {
+    this.$refs.scroll && this.$refs.scroll.refresh();
+  },
+  methods: {
     async pullingDownHandler() {
-      this.beforePullDown = false;
-      this.isPullingDown = true;
       const votedCount = await voteInfo.getVotedCount(this.isVoter);
       const { start, end } = this.getStartEnd(0, votedCount);
       let proposals = await this.requestVotedProposals(start, end);
@@ -117,63 +71,30 @@ export default {
       } else {
         this.showEmpty = false;
       }
-      this.finishPullDown();
+      setTimeout(() => {
+        this.$refs.scroll.forceUpdate(true);
+      }, 2000);
     },
     async pullingUpHandler() {
       const votedCount = await voteInfo.getVotedCount(this.isVoter);
       console.log("current voted proposals count: ", this.proposals.length);
       console.log("all voted proposals count: ", votedCount);
       if (votedCount === 0) {
+        this.$refs.scroll.forceUpdate();
         return;
       }
       if (votedCount <= this.proposals.length) {
+        this.$refs.scroll.forceUpdate();
         return;
       }
       const { start, end } = this.getStartEnd(this.proposals.length, votedCount);
-      this.beforePullUp = false;
-      this.isPullUpLoad = true;
       const proposals = await this.requestVotedProposals(start, end);
       if (proposals) {
         this.proposals = [...this.proposals, ...proposals];
+        setTimeout(() => {
+          this.$refs.scroll.forceUpdate(true, false);
+        }, 1000);
       }
-      await this.finishPullUp();
-    },
-    async finishPullUp() {
-      await new Promise(resolve => {
-        setTimeout(() => {
-          this.isPullUpLoad = false;
-          if (this.bscroll) {
-            this.bscroll.finishPullUp();
-          }
-          resolve();
-        }, 500);
-      });
-      setTimeout(() => {
-        this.beforePullUp = true;
-        if (this.bscroll) {
-          this.bscroll.refresh();
-        }
-      }, 500);
-    },
-    async finishPullDown() {
-      await new Promise(resolve => {
-        setTimeout(() => {
-          this.isPullingDown = false;
-          if (this.bscroll) {
-            this.bscroll.finishPullDown();
-          }
-          resolve();
-        }, 1200);
-      });
-      setTimeout(() => {
-        this.beforePullDown = true;
-        if (this.bscroll) {
-          this.bscroll.refresh();
-          this.bscroll.openPullUp({
-            threshold: 500
-          });
-        }
-      }, 800);
     },
     getStartEnd(start, votedCount) {
       let end = start + 9;
@@ -199,7 +120,6 @@ export default {
           props.push(instance.getTopic(id));
         }
         const responses = await Promise.all(props);
-        console.log(JSON.stringify(responses, null, 2));
         const proposals = responses.filter(response => response.sponsor !== "0x0000000000000000000000000000000000000000");
         return proposals;
       } catch (error) {

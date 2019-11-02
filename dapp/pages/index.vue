@@ -56,12 +56,6 @@ export default {
       return this.$route.path;
     }
   },
-  beforeRouteLeave(to, from, next) {
-    if (from.path === "/home") {
-      this.$destroy();
-    }
-    next();
-  },
   methods: {
     goto(cell) {
       this.$router.push(cell.to);
