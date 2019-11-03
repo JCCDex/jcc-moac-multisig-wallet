@@ -117,7 +117,7 @@ export default {
         }
       } catch (error) {
         console.log("create recall proposal error: ", error);
-        Toast.fail(this.$t("message.submit_failed"));
+        Toast.fail(error.message);
       }
     }
   }

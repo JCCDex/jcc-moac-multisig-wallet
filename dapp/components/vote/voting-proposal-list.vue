@@ -235,7 +235,7 @@ export default {
         }
       } catch (error) {
         console.log("vote error: ", error);
-        Toast.fail(this.$t("message.submit_failed"));
+        Toast.fail(error.message);
       }
     }
   }

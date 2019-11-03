@@ -142,7 +142,7 @@ export default {
         }
       } catch (error) {
         console.log("create voter proposal error: ", error);
-        Toast.fail(this.$t("message.apply_failed"));
+        Toast.fail(error.message);
       }
     }
   }

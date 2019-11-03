@@ -176,7 +176,7 @@ export default {
         }, 30000);
       } catch (error) {
         console.log("deposit error: ", error);
-        Toast.fail(this.$t("message.submit_failed"));
+        Toast.fail(error.message);
       }
     }
   }
