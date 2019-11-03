@@ -44,42 +44,40 @@ export default {
       proposals: []
     };
   },
-  async asyncData() {
-    try {
-      let lockAmount, voteAmount;
-      const isVoter = await accountInfo.isVoter();
-      const address = await tpInfo.getAddress();
-      const node = await tpInfo.getNode();
-      const instance = multisigContractInstance.init(node);
-      if (isVoter) {
-        // request all voting proposal count
-        voteAmount = await instance.getVotingCount();
-      } else {
-        // request my voting proposal count
-        voteAmount = await instance.getMyVotingCount(address);
-      }
-      lockAmount = await instance.getBalance(address);
-      return { lockAmount, voteAmount };
-    } catch (error) {
-      console.log("init home data error: ", error);
-    }
-  },
-  mounted() {
-    tpInfo.getAddress().then(address => {
-      this.address = address || "";
-    });
-  },
-  created() {
-    this.initMessages();
+  activated() {
+    this.initData();
   },
   methods: {
     goto(route) {
       this.$router.push(route);
     },
-    async initMessages() {
+    async initData() {
+      try {
+        const address = await tpInfo.getAddress();
+        this.address = address || "";
+        const isVoter = await accountInfo.isVoter();
+        const node = await tpInfo.getNode();
+        const instance = multisigContractInstance.init(node);
+        const lockAmount = await instance.getBalance(address);
+        let voteAmount;
+        if (isVoter) {
+          // request all voting proposal count
+          voteAmount = await instance.getVotingCount();
+        } else {
+          // request my voting proposal count
+          voteAmount = await instance.getMyVotingCount(address);
+        }
+        this.voteAmount = voteAmount;
+        this.lockAmount = lockAmount;
+      } catch (error) {
+        console.log(error);
+      }
+
       try {
         const proposals = await votingCache.get();
-        this.proposals = proposals.slice(0, 10);
+        if (proposals) {
+          this.proposals = proposals.slice(0, 10);
+        }
       } catch (error) {
         console.log(error);
         this.proposals = [];

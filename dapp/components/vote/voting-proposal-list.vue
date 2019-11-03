@@ -108,6 +108,9 @@ export default {
           caches = [];
         }
         const proposals = await votingCache.get(cache);
+        if (!proposals) {
+          return proposals;
+        }
 
         for (const proposal of proposals) {
           if (proposal.yesCount !== "0" || proposal.noCount !== "0") {

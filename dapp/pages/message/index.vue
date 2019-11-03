@@ -60,7 +60,9 @@ export default {
     async initMessages() {
       try {
         const proposals = await votingCache.get();
-        this.messages = proposals;
+        if (proposals) {
+          this.messages = proposals;
+        }
       } catch (error) {
         console.log(error);
         this.messages = [];
