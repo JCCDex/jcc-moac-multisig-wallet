@@ -13,6 +13,7 @@
   },
   "apply_voter": "申请投票人",
   "approval": "赞成",
+  "batch_vote_limit": "投票数量不能超过10个",
   "click_to_recall": "点击选择要罢免的投票人：",
   "company": "安徽井畅数字技术有限公司",
   "copyright": "开发版权",

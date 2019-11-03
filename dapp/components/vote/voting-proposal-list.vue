@@ -184,6 +184,10 @@ export default {
       if (selectedProposals.length === 0) {
         return;
       }
+      if (selectedProposals > 10) {
+        Toast.fail(this.$t("batch_vote_limit"));
+        return;
+      }
 
       // clear cache to request latest state
       accountInfo.destroy("isVoter");
