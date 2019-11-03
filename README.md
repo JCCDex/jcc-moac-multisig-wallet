@@ -79,7 +79,7 @@
 
 ## 合约地址
 
-测试网络: 0x98a3643e860f7f782194dd3e80408f90d4e423ae
+测试网络: 0x959fe8e1b07ce9b376f8ab76de6bdfae78c25e3a
 
 主网: 0xeac5e8a57eea6c3b20bdbee85b7771d550bf01ff
 

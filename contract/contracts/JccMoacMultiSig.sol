@@ -405,36 +405,57 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
     return true;
   }
 
+  function process(Proposal.topic t) internal {
+    // 投票规则百分比设置
+    if (t.voteType == TYPE_CONFIG_PERCENT) {
+      processPercentExpire(t.topicId);
+    }else if (t.voteType == TYPE_VOTE) {
+      // 提名投票人设置
+      processVoteExpire(t.topicId);
+    }else if (t.voteType == TYPE_RECALL) {
+      // 罢免投票设置
+      processRecallExpire(t.topicId);
+    }else if (t.voteType == TYPE_WITHDRAW) {
+      // 提现设置
+      processWithdrawExpire(t.topicId);
+    }
+  }
+
   function processExpire(uint endtime) public returns (bool) {
     require(!_onlyonce, "admin does not configure yet");
-    uint i = 0;
-    uint len = 0;
-    Proposal.topic[] memory res;
-    (res, len) = haveExpire(endtime);
-
-    if (len == 0) {
+    // 扫描所有待决提案，检查是否过期，是否按照表决规则可以关闭，将符合要求的返回
+    require(_voters.count() >= 3, "must have voter");
+    uint[] memory _voting = _proposals.getAllVotingTopicIds();
+    if (_voting.length == 0) {
       return false;
     }
 
-    // 限定每次处理10个，因为可能会有很多提案，导致gas超过打包的要求
-    // 清理时投票统计依赖投票时统计不再复核，一个是投票时限制用户反复投票确保统计简单正确
-    // 其次是关闭投票时，降低gas开销，如果投票人很多的话，gas可能太多，导致无法关闭
-    len = (len > 10) ? 10 : len;
-    for (i = 0; i < len; i++) {
-      // 投票规则百分比设置
-      if (res[i].voteType == TYPE_CONFIG_PERCENT) {
-        processPercentExpire(res[i].topicId);
-      }else if (res[i].voteType == TYPE_VOTE) {
-        // 提名投票人设置
-        processVoteExpire(res[i].topicId);
-      }else if (res[i].voteType == TYPE_RECALL) {
-        // 罢免投票设置
-        processRecallExpire(res[i].topicId);
-      }else if (res[i].voteType == TYPE_WITHDRAW) {
-        // 提现设置
-        processWithdrawExpire(res[i].topicId);
+    uint len = 0;
+    for (uint i = 0; i < _voting.length; i++) {
+      // 限定每次处理10个，因为可能会有很多提案，导致gas超过打包的要求
+      // 清理时投票统计依赖投票时统计不再复核，一个是投票时限制用户反复投票确保统计简单正确
+      // 其次是关闭投票时，降低gas开销，如果投票人很多的话，gas可能太多，导致无法关闭
+      if (len > 10) {
+        break;
+      }
+      Proposal.topic memory t = _proposals.getTopic(_voting[i]);
+
+      // 提案已经超时
+      if (t.endtime <= endtime && block.timestamp >= endtime.div(1000)) {
+        process(t);
+        len = len.add(1);
+        continue;
+      }
+
+      // 当前投票状态是否可以形成决议
+      uint _baseCount = getLeastVoterCount();
+
+      if (t.yesCount >= _baseCount || t.noCount >= _baseCount) {
+        process(t);
+        len = len.add(1);
       }
     }
+
     return true;
   }
 
