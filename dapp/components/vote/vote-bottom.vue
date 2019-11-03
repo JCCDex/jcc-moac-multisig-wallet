@@ -30,7 +30,8 @@ export default {
   data() {
     return {
       selected: false,
-      disable: true
+      disable: true,
+      hasVoting: true
     };
   },
   created() {
@@ -41,14 +42,18 @@ export default {
   },
   methods: {
     selectAll() {
+      if (!this.hasVoting) {
+        return;
+      }
       let selected = !this.selected;
       this.selected = selected;
       bus.$emit("selectAll", selected);
       this.disable = !this.selected;
     },
-    selectedProposal(isAllSelected, hasSelected) {
+    selectedProposal(isAllSelected, hasSelected, hasVoting) {
       this.selected = isAllSelected;
       this.disable = !hasSelected;
+      this.hasVoting = hasVoting;
     },
     vote(confirm) {
       bus.$emit("voteProposal", confirm);

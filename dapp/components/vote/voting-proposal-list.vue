@@ -91,7 +91,8 @@ export default {
       } else {
         this.showEmpty = false;
       }
-      bus.$emit("selectedProposal", false, false);
+      const hasVoting = proposals.some(proposals => !proposals.hadVoted);
+      bus.$emit("selectedProposal", false, false, hasVoting);
 
       setTimeout(() => {
         this.$refs.scroll.forceUpdate(true);
