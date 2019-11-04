@@ -161,9 +161,10 @@ export default {
       }
     },
     selectedProposal() {
-      const hasSelected = this.proposals.find(proposal => proposal.selected);
-      const hasUnselected = this.proposals.find(proposal => !proposal.selected);
-      bus.$emit("selectedProposal", !hasUnselected, Boolean(hasSelected));
+      const votingProposals = this.proposals.filter(proposal => !proposal.hadVoted);
+      const allSelected = votingProposals.every(proposal => proposal.selected);
+      const hasSelected = votingProposals.some(proposal => proposal.selected);
+      bus.$emit("selectedProposal", allSelected, hasSelected, votingProposals.length > 0);
     },
     showVoteAction(confirm) {
       const selectedProposals = this.proposals.filter(proposal => proposal.selected && !proposal.hadVoted);
