@@ -51,7 +51,7 @@
     "could_not_withdraw": "管理员设置当前暂时不能提现",
     "is_not_voter": "不是投票人，无权提交该提案",
     "is_voter": "当前已经是投票人，无需再次申请",
-    "loading": "提交中...",
+    "loading": "交易状态确认中...",
     "not_need_create_percent_proposal": "投票比例未改变，无须提交提案",
     "request_voting_withdraw_failed": "获取正在投票提现提案错误，请稍后重试",
     "has_voting_withdraw": "当前已有一个正在投票的提现提案",

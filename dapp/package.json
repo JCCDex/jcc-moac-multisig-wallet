@@ -26,7 +26,6 @@
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.1.5",
     "bignumber.js": "^9.0.0",
-    "clone-deep": "^4.0.1",
     "cube-ui": "^1.12.32",
     "ethers": "^4.0.37",
     "flex.css": "^1.1.7",

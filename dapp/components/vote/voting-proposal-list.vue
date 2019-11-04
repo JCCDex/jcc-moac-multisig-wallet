@@ -32,7 +32,7 @@ import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 import scrollMixin from "@/mixins/scroll";
 import votingCache from "@/js/votingProposalCache";
-import cloneDeep from "clone-deep";
+import clone from "lodash.clone";
 
 export default {
   components: {
@@ -136,7 +136,7 @@ export default {
         }
         votingCache.update(proposals);
 
-        const copy = cloneDeep(proposals);
+        const copy = clone(proposals, true);
 
         copy.sort((prev, next) => {
           if (!prev.hadVoted && next.hadVoted) {
