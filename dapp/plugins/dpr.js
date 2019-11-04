@@ -32,7 +32,11 @@
       var dpr = window.devicePixelRatio;
       if (dpr >= 3) {
         dpr = 3;
-      } else if (dpr >= 2 && dpr < 3) {
+      } else if (dpr >= 2.75 && dpr < 3) {
+        dpr = 2.75;
+      } else if (dpr >= 2.5 && dpr < 2.75) {
+        dpr = 2.5;
+      } else if (dpr >= 2 && dpr < 2.5) {
         dpr = 2;
       } else {
         dpr = 1;
