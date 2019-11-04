@@ -24,10 +24,17 @@ const votingCache = (() => {
         proposalIds = await instance.getAllMyVotingTopicIds(address);
       }
       const props = [];
+      const votedProposals = [];
       for (const id of proposalIds) {
-        props.push(instance.getTopic(id));
+        const votedProposal = proposals && proposals.find(proposal => proposal.topicId === id && proposal.hadVoted);
+        if (votedProposal) {
+          votedProposals.push(votedProposal);
+        } else {
+          props.push(instance.getTopic(id));
+        }
       }
-      proposals = await Promise.all(props);
+      const votingProposals = await Promise.all(props);
+      proposals = [...votedProposals, ...votingProposals];
     } catch (error) {
       console.log("request proposals error: ", error);
     }
