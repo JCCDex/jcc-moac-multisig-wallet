@@ -24,17 +24,26 @@ const votingCache = (() => {
         proposalIds = await instance.getAllMyVotingTopicIds(address);
       }
       const props = [];
-      const votedProposals = [];
+      const cacheProposals = [];
       for (const id of proposalIds) {
-        const votedProposal = proposals && proposals.find(proposal => proposal.topicId === id && proposal.hadVoted);
-        if (votedProposal) {
-          votedProposals.push(votedProposal);
+        if (isVoter) {
+          const votedProposal = proposals && proposals.find(proposal => proposal.topicId === id && proposal.hadVoted);
+          if (votedProposal) {
+            cacheProposals.push(votedProposal);
+          } else {
+            props.push(instance.getTopic(id));
+          }
         } else {
-          props.push(instance.getTopic(id));
+          const cacheProposal = proposals && proposals.find(proposal => proposal.topicId === id);
+          if (cacheProposal) {
+            cacheProposals.push(cacheProposal);
+          } else {
+            props.push(instance.getTopic(id));
+          }
         }
       }
       const votingProposals = await Promise.all(props);
-      proposals = [...votedProposals, ...votingProposals];
+      proposals = [...cacheProposals, ...votingProposals];
     } catch (error) {
       console.log("request proposals error: ", error);
     }

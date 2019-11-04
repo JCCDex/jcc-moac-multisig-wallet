@@ -113,6 +113,11 @@ export default {
           return proposals;
         }
 
+        const isVoter = await accountInfo.isVoter();
+        if (!isVoter) {
+          return proposals;
+        }
+
         for (const proposal of proposals) {
           if (proposal.yesCount !== "0" || proposal.noCount !== "0") {
             const cacheProposal = caches.find(cache => cache.topicId === proposal.topicId);
