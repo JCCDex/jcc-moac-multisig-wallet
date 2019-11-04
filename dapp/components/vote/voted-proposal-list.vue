@@ -14,10 +14,9 @@
 <script>
 import ProposalCell from "@/components/proposal-cell";
 import emptyContent from "@/components/empty";
-import multisigContractInstance from "@/js/contract";
 import voteInfo from "@/js/vote";
-import tpInfo from "@/js/tp";
 import scrollMixin from "@/mixins/scroll";
+import votedCache from "@/js/votedProposalCache";
 
 export default {
   components: {
@@ -66,6 +65,7 @@ export default {
       if (proposals) {
         this.proposals = proposals;
       }
+      votedCache.update(this.proposals);
       if (this.proposals.length === 0) {
         this.showEmpty = true;
       } else {
@@ -73,7 +73,7 @@ export default {
       }
       setTimeout(() => {
         this.$refs.scroll.forceUpdate(true);
-      }, 2000);
+      }, 1000);
     },
     async pullingUpHandler() {
       const votedCount = await voteInfo.getVotedCount(this.isVoter);
@@ -89,8 +89,11 @@ export default {
       }
       const { start, end } = this.getStartEnd(this.proposals.length, votedCount);
       const proposals = await this.requestVotedProposals(start, end);
+
       if (proposals) {
         this.proposals = [...this.proposals, ...proposals];
+        votedCache.update(this.proposals);
+
         setTimeout(() => {
           this.$refs.scroll.forceUpdate(true, false);
         }, 1000);
@@ -107,19 +110,7 @@ export default {
       console.log("start: ", start);
       console.log("end: ", end);
       try {
-        const node = await tpInfo.getNode();
-        const instance = multisigContractInstance.init(node);
-        let proposalIds;
-        if (this.isVoter) {
-          proposalIds = await instance.getVotedTopicIds(start, end);
-        } else {
-          proposalIds = await instance.getMyVotedTopicIds(this.address, start, end);
-        }
-        const props = [];
-        for (const id of proposalIds) {
-          props.push(instance.getTopic(id));
-        }
-        const responses = await Promise.all(props);
+        const responses = await votedCache.get(start, end);
         const proposals = responses.filter(response => response.sponsor !== "0x0000000000000000000000000000000000000000");
         return proposals;
       } catch (error) {
