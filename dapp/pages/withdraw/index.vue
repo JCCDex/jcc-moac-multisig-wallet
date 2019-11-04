@@ -70,7 +70,6 @@
 <script>
 import BigNumber from "bignumber.js";
 import WalletHeader from "@/components/header";
-import { isValidNumber } from "@/js/util";
 import tpInfo from "@/js/tp";
 import multisigContractInstance from "@/js/contract";
 import { Toast } from "vant";
@@ -96,8 +95,8 @@ export default {
   },
   computed: {
     withdrawEnable() {
-      const value = parseFloat(this.value);
-      return this.agree && isValidNumber(value) && value > 0 && new BigNumber(value).isLessThanOrEqualTo(this.amount);
+      const bn = new BigNumber(this.value);
+      return this.agree && BigNumber.isBigNumber(bn) && bn.gt(0) && bn.isLessThanOrEqualTo(this.amount);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";

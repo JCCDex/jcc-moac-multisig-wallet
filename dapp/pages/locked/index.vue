@@ -63,7 +63,6 @@
 <script>
 import BigNumber from "bignumber.js";
 import WalletHeader from "@/components/header";
-import { isValidNumber } from "@/js/util";
 import tpInfo from "@/js/tp";
 import multisigContractInstance from "@/js/contract";
 import { Toast } from "vant";
@@ -90,7 +89,7 @@ export default {
     lockEnable() {
       const minGas = 0.01;
       const bn = new BigNumber(this.amount);
-      return this.agree && isValidNumber(parseFloat(this.amount)) && bn.modulo(10).toNumber() === 0 && bn.isGreaterThanOrEqualTo(10) && bn.plus(minGas).isLessThan(this.balance);
+      return this.agree && BigNumber.isBigNumber(bn) && bn.modulo(10).toNumber() === 0 && bn.isGreaterThanOrEqualTo(10) && bn.plus(minGas).isLessThan(this.balance);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";

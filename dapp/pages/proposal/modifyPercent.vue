@@ -40,13 +40,13 @@
 <script>
 import WalletHeader from "@/components/header";
 import voteInfo from "@/js/vote";
-import { isValidNumber } from "@/js/util";
 import accountInfo from "@/js/account";
 import multisigContractInstance from "@/js/contract";
 import * as transaction from "@/js/transaction";
 import { Toast } from "vant";
 import tpInfo from "@/js/tp";
 import keyEvent from "@/mixins/keyEvent";
+import BigNumber from "bignumber.js";
 
 export default {
   name: "ModifyPercent",
@@ -63,8 +63,8 @@ export default {
   },
   computed: {
     modifyEnable() {
-      let value = parseFloat(this.value);
-      return isValidNumber(value) && value > 50;
+      const bn = new BigNumber(this.value);
+      return BigNumber.isBigNumber(bn) && bn.gt(50) && bn.isLessThanOrEqualTo(100);
     }
   },
   async asyncData() {
@@ -97,7 +97,7 @@ export default {
           const endtime = timestamp + 3 * 24 * 60 * 60 * 1000;
           const node = await tpInfo.getNode();
           const instance = multisigContractInstance.init(node);
-          const hash = await instance.createPercentProposal(topicId, timestamp, endtime, parseFloat(this.value));
+          const hash = await instance.createPercentProposal(topicId, timestamp, endtime, this.value);
           console.log("create percent proposal hash: ", hash);
 
           Toast.loading({
