@@ -5,9 +5,9 @@
         <div class="multisig-wallet-tabs multisig-wallet-tabs-bottom">
           <div class="multisig-wallet-tabs-content-wrap" style="touch-action: pan-x pan-y; position: relative; left: 0%;flex-direction: column">
             <wallet-header :title="$t('proposal_detail')" />
-            <div ref="scroll" class="scroll-wrapper" style="height: calc(100% - 0.8rem);">
+            <div class="scroll-wrapper" style="height: calc(100% - 0.8rem);">
               <div flex="dir:top cross: center" class="multisig-wallet-proposal-detail-container">
-                <Scroll>
+                <Scroll ref="scroll">
                   <p>{{ $t("proposal.content") + proposalWholeContent }}</p>
                   <p>{{ $t("proposal.type") + proposalType }}</p>
                   <p>{{ $t("proposal.sponsor") + proposal.sponsor }}</p>
@@ -119,6 +119,9 @@ export default {
   },
   mounted() {
     this.currentVoters = this.agreeVoters;
+  },
+  updated() {
+    this.$refs.scroll && this.$refs.scroll.refresh();
   },
   deactivated() {
     this.$destroy();
