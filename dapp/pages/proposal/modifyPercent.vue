@@ -64,7 +64,7 @@ export default {
   computed: {
     modifyEnable() {
       const bn = new BigNumber(this.value);
-      return BigNumber.isBigNumber(bn) && bn.gt(50) && bn.isLessThanOrEqualTo(100);
+      return BigNumber.isBigNumber(bn) && bn.isGreaterThanOrEqualTo(50) && bn.isLessThanOrEqualTo(100);
     }
   },
   async asyncData() {
