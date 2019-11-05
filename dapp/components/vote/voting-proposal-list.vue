@@ -232,6 +232,7 @@ export default {
             }
             if (transaction.isSuccessful(res)) {
               Toast.success(this.$t("message.submit_succeed"));
+              this.pullingDownHandler(false);
             } else {
               Toast.fail(this.$t("message.submit_failed"));
             }
