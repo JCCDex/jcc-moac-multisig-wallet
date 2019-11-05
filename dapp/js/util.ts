@@ -1,14 +1,4 @@
 /**
- * is valid amount or not
- *
- * @param {number} value
- * @returns {boolean}
- */
-const isValidNumber = (value: number): boolean => {
-  return Number.isFinite(value) && !Number.isNaN(value) && value >= 0;
-};
-
-/**
  * is main net or not
  *
  * @returns {boolean}
@@ -27,4 +17,4 @@ const browser = {
   })()
 };
 
-export { isValidNumber, isMainnet, browser };
+export { isMainnet, browser };
