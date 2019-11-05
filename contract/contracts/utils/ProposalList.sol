@@ -205,6 +205,17 @@ library ProposalList {
     return true;
   }
 
+  function processTopic(proposalMap storage self, uint topicId, uint percent, uint voters) internal returns (bool) {
+    if (!exist(self, topicId)) {
+      return false;
+    }
+
+    self._topics[topicId].percent = percent;
+    self._topics[topicId].voters = voters;
+
+    return true;
+  }
+
   function getDetailIdxs(proposalMap storage self, uint topicId) internal view returns (bytes32[]) {
     return self._detailIdx[topicId];
   }

@@ -332,6 +332,7 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
 
     uint _baseCount = getLeastVoterCount();
 
+    _proposals.processTopic(topicId, _percent, _voters.count());
     if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _percent = t.value;
     }
@@ -346,6 +347,7 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
 
     uint _baseCount = getLeastVoterCount();
 
+    _proposals.processTopic(topicId, _percent, _voters.count());
     if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _voters.insert(t.target);
     }
@@ -362,6 +364,7 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
 
     uint _baseCount = getLeastVoterCount();
 
+    _proposals.processTopic(topicId, _percent, _voters.count());
     if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       _voters.remove(t.target);
     }
@@ -395,6 +398,7 @@ contract JccMoacMultiSig is Administrative, IJccMoacAlarmCallback {
 
     uint _baseCount = getLeastVoterCount();
 
+    _proposals.processTopic(topicId, _percent, _voters.count());
     if (t.yesCount >= _baseCount && t.yesCount > t.noCount) {
       // 执行转账
       withdraw(t);

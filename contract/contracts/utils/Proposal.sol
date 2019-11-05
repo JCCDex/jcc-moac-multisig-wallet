@@ -28,6 +28,10 @@ library Proposal {
     uint noCount;
     // 索引下标
     uint idx;
+    // 当时有效投票人数
+    uint voters;
+    // 当时有效百分比
+    uint percent;
     // 提案标的地址
     address target;
     // 发起提案用户

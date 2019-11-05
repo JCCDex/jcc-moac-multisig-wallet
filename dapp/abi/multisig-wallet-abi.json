@@ -566,6 +566,14 @@
           "type": "uint256"
         },
         {
+          "name": "voters",
+          "type": "uint256"
+        },
+        {
+          "name": "percent",
+          "type": "uint256"
+        },
+        {
           "name": "target",
           "type": "address"
         },
@@ -762,6 +770,14 @@
           },
           {
             "name": "idx",
+            "type": "uint256"
+          },
+          {
+            "name": "voters",
+            "type": "uint256"
+          },
+          {
+            "name": "percent",
             "type": "uint256"
           },
           {
