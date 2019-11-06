@@ -17,10 +17,19 @@
                     <span>{{ $t("proposal.state") }}</span>
                     <span style="color: #375CCF">{{ voteState }}</span>
                   </p>
+                  <p v-if="proposal.flag">
+                    {{ $t("proposal.percent") + percent + "%" }}
+                  </p>
+                  <p v-if="proposal.flag">
+                    {{ $t("proposal.result") + voteResult }}
+                  </p>
+                  <p v-if="proposal.flag">
+                    {{ $t("proposal.voters") + votersCount }}
+                  </p>
                   <div style="height: 0.06rem;border-radius:0.06rem;margin-bottom:0.32rem;" flex>
-                    <div style="background-color: #476EEA;height:100%;" :style="{ width: agreePercent }" />
-                    <div style="background-color: #F87272;height:100%;" :style="{ width: againstPercent }" />
-                    <div style="background-color: #94A5D7;height:100%;" :style="{ width: unVotedPercent }" />
+                    <div style="background-color: #476EEA;height:100%;" :style="{ width: (agreePercent * 100).toFixed(2) + '%' }" />
+                    <div style="background-color: #F87272;height:100%;" :style="{ width: (againstPercent * 100).toFixed(2) + '%' }" />
+                    <div style="background-color: #94A5D7;height:100%;" :style="{ width: (unVotedPercent * 100).toFixed(2) + '%' }" />
                   </div>
                   <div flex>
                     <button class="multisig-wallet-button multisig-wallet-small-button" style="position:relative; width:50%; background-color: #476EEA;border-radius:0;" @click="currentVoters = agreeVoters">
@@ -70,6 +79,7 @@ import multisigContractInstance from "@/js/contract";
 import tinydate from "tinydate";
 import tpInfo from "@/js/tp";
 import scrollMixin from "@/mixins/scroll";
+import BigNumber from "bignumber.js";
 
 export default {
   name: "ProposalDetail",
@@ -92,14 +102,39 @@ export default {
     aganistVoters() {
       return this.voteDetails.filter(data => !data.flag);
     },
+    votersCount() {
+      if (this.proposal.flag) {
+        return parseInt(this.proposal.voters);
+      }
+      return this.allVoters.length;
+    },
     agreePercent() {
-      return ((this.agreeVoters.length / this.allVoters.length) * 100).toFixed(2) + "%";
+      return this.agreeVoters.length / this.votersCount;
     },
     againstPercent() {
-      return ((this.aganistVoters.length / this.allVoters.length) * 100).toFixed(2) + "%";
+      return this.aganistVoters.length / this.votersCount;
     },
     unVotedPercent() {
-      return ((1 - this.agreeVoters.length / this.allVoters.length - this.aganistVoters.length / this.allVoters.length) * 100).toFixed(2) + "%";
+      return 1 - this.agreePercent - this.againstPercent;
+    },
+    percent() {
+      if (this.proposal.flag) {
+        return this.proposal.percent;
+      }
+      return 0;
+    },
+    voteResult() {
+      if (!this.proposal.flag) {
+        return "";
+      }
+
+      if (new BigNumber(this.againstPercent).multipliedBy(100).isGreaterThanOrEqualTo(this.percent)) {
+        return this.$t("proposal_cell.reject");
+      }
+      if (new BigNumber(this.agreePercent).multipliedBy(100).isGreaterThanOrEqualTo(this.percent)) {
+        return this.$t("proposal_cell.pass");
+      }
+      return this.$t("proposal_cell.timeout");
     }
   },
   async asyncData({ params }) {

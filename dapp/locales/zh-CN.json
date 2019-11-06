@@ -84,7 +84,10 @@
     "sponsor": "发起人：",
     "start": "发起时间：",
     "state": "投票状态：",
-    "type": "议题类型："
+    "type": "议题类型：",
+    "result": "投票结果：",
+    "voters": "投票人总数：",
+    "percent": "投票通过百分比："
   },
   "proposal_cell": {
     "apply_voter_content": "{account}申请成为投票人",
@@ -96,7 +99,10 @@
     "voted": "投票结束",
     "voting": "投票中",
     "withdraw_content": "{account}申请提现{amount}{token}",
-    "withdraw_title": "提现请求"
+    "withdraw_title": "提现请求",
+    "pass": "通过",
+    "reject": "反对",
+    "timeout": "超过截止期限，未通过"
   },
   "proposal_detail": "提案明细",
   "pull_down_refresh": "下拉刷新",
