@@ -364,7 +364,9 @@ export class MultisigContract extends SmartContract {
       idx: decodeData.idx.toString(10),
       target: decodeData.target.toString(10),
       sponsor: decodeData.sponsor.toString(10),
-      flag: decodeData.flag
+      flag: decodeData.flag,
+      voters: decodeData.voters.toString(10),
+      percent: decodeData.percent.toString(10)
     };
     return data;
   }

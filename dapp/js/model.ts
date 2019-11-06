@@ -11,4 +11,6 @@ declare interface ITopic {
   target: string;
   sponsor: string;
   flag: boolean;
+  voters: string;
+  percent: string;
 }
