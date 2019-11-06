@@ -108,21 +108,18 @@ export default {
           });
           // confirm status by hash
           setTimeout(async () => {
-            let res = null;
-            while (res === null) {
-              try {
-                res = await transaction.requestReceipt(hash);
-                console.log("res: ", res);
-              } catch (error) {
-                console.log("request receipt error: ", error);
+            const res = await transaction.requestReceipt(hash);
+
+            if (res) {
+              if (transaction.isSuccessful(res)) {
+                Toast.success(this.$t("message.submit_succeed"));
+              } else {
+                Toast.fail(this.$t("message.submit_failed"));
               }
-            }
-            if (transaction.isSuccessful(res)) {
-              Toast.success(this.$t("message.submit_succeed"));
             } else {
-              Toast.fail(this.$t("message.submit_failed"));
+              Toast.fail(this.$t("message.request_receipt_failed"));
             }
-          }, 30000);
+          }, 20000);
         } else {
           Toast.fail(this.$t("message.is_not_voter"));
         }

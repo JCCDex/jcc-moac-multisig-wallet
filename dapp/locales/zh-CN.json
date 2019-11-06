@@ -56,7 +56,8 @@
     "request_voting_withdraw_failed": "获取正在投票提现提案错误，请稍后重试",
     "has_voting_withdraw": "当前已有一个正在投票的提现提案",
     "submit_failed": "提交失败",
-    "submit_succeed": "提交成功"
+    "submit_succeed": "提交成功",
+    "request_receipt_failed": "请去区块浏览器确认交易是否成功"
   },
   "message_detail": {
     "apply_wallet": "申请钱包：{address}",

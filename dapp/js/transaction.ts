@@ -12,19 +12,34 @@ import tpInfo from "./tp";
  * @returns {Promise<any>}
  */
 const requestReceipt = async (hash: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    // limiting frequency because transaction needs some time to be confirmed
-    setTimeout(async () => {
-      try {
-        const node = await tpInfo.getNode();
-        const instance = multisigContractInstance.init(node);
-        const res = await instance.moac.getTransactionReceipt(hash);
-        return resolve(res);
-      } catch (error) {
-        return reject(error);
-      }
-    }, 2000);
-  });
+  let res = null;
+  let count = 0;
+  const node = await tpInfo.getNode();
+  const instance = multisigContractInstance.init(node);
+  while (res === null) {
+    if (count === 10) {
+      break;
+    }
+    try {
+      res = await new Promise((resolve, reject) => {
+        // limiting frequency because transaction needs some time to be confirmed
+        setTimeout(async () => {
+          try {
+            const res = await instance.moac.getTransactionReceipt(hash);
+            return resolve(res);
+          } catch (error) {
+            return reject(error);
+          }
+        }, 3000);
+      });
+      console.log("res: ", res);
+    } catch (error) {
+      console.log("request receipt error: ", error);
+    }
+    count = count + 1;
+  }
+  console.log("count: ", count);
+  return res;
 };
 
 /**
