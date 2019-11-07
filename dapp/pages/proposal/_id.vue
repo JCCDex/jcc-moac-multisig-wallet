@@ -23,7 +23,7 @@
                   <p v-if="proposal.flag">
                     {{ $t("proposal.result") + voteResult }}
                   </p>
-                  <p v-if="proposal.flag">
+                  <p>
                     {{ $t("proposal.voters") + votersCount }}
                   </p>
                   <div style="height: 0.06rem;border-radius:0.06rem;margin-bottom:0.32rem;" flex>
