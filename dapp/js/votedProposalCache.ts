@@ -6,7 +6,7 @@ const votedCache = (() => {
   let proposals = null;
 
   const get = async (start, end) => {
-    let votedProposals;
+    let votedProposals = null;
     try {
       const isVoter = await accountInfo.isVoter();
       const address = await tpInfo.getAddress();
