@@ -585,7 +585,7 @@ describe("test contract.ts", () => {
       sandbox.restore();
     });
 
-    test("if request success", async () => {
+    test("if request success if system is android", async () => {
       const stub = sandbox.stub(tpInfo, "getAddress");
       stub.resolves(config.testAddress);
       const stub1 = sandbox.stub(instance.moac, "getOptions");
@@ -601,6 +601,8 @@ describe("test contract.ts", () => {
         result: true,
         data: "test"
       })
+      const stub4 = sandbox.stub(tpInfo, "getSystem");
+      stub4.resolves("android");
       const hash = await instance.sendTransactionByTp(config.testContract, "1", "0x00");
       expect(hash).toBe(config.testHash);
       expect(stub1.calledOnceWithExactly({}, config.testAddress));
@@ -615,6 +617,43 @@ describe("test contract.ts", () => {
         shardingFlag: '0x0',
         systemContract: '0x0',
         value: '0xde0b6b3a7640000',
+        via: '0x',
+        to: '0x8eca41a83ea0efbd41401ed850774974bda6b697'
+      })).toBe(true);
+    })
+
+    test("if request success if system is ios", async () => {
+      const stub = sandbox.stub(tpInfo, "getAddress");
+      stub.resolves(config.testAddress);
+      const stub1 = sandbox.stub(instance.moac, "getOptions");
+      stub1.resolves({
+        nonce: "0",
+        gasLimit: "1000000",
+        gasPrice: "2000000000000000"
+      })
+      const stub2 = sandbox.stub(Moac.prototype, "sendRawSignedTransaction");
+      stub2.resolves(config.testHash);
+      const stub3 = sandbox.stub(tp, "signMoacTransaction");
+      stub3.resolves({
+        result: true,
+        data: "test"
+      })
+      const stub4 = sandbox.stub(tpInfo, "getSystem");
+      stub4.resolves("ios");
+      const hash = await instance.sendTransactionByTp(config.testContract, "1", "0x00");
+      expect(hash).toBe(config.testHash);
+      expect(stub1.calledOnceWithExactly({}, config.testAddress));
+      expect(stub2.calledOnceWithExactly("test")).toBe(true);
+      expect(stub3.calledOnceWithExactly({
+        chainId: '0x65',
+        data: '0x00',
+        from: '0x5edccedfe9952f5b828937b325bd1f132aa09f60',
+        gasLimit: '1000000',
+        gasPrice: '2000000000000000',
+        nonce: '0x0',
+        shardingFlag: '0x0',
+        systemContract: '0x0',
+        value: '1000000000000000000',
         via: '0x',
         to: '0x8eca41a83ea0efbd41401ed850774974bda6b697'
       })).toBe(true);

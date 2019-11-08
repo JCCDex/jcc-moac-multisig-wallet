@@ -108,4 +108,52 @@ describe("test tp.ts", () => {
       expect(stub.calledTwice).toBe(true);
     })
   })
+
+
+  describe("test getSystem", () => {
+
+    afterEach(() => {
+      sandbox.restore();
+      tpInfo.destroy();
+    });
+
+    test("getSystem should be a function", () => {
+      expect(typeof tpInfo.getSystem).toBe("function")
+    })
+
+    test("return android when tokenpocket isn't connected", async () => {
+      const spy = sandbox.spy(tp, "getAppInfo");
+      const system = await tpInfo.getSystem();
+      expect(system).toBe("android");
+      expect(spy.called).toBe(false);
+    })
+
+    test("getAppInfo should be called and only be called once if get success when tokenpocket is connected", async () => {
+      const stub = sandbox.stub(tp, "getAppInfo");
+      stub.resolves({ result: true, data: { system: "ios" } });
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
+      let system = await tpInfo.getSystem();
+      expect(system).toBe("ios");
+      expect(stub.called).toBe(true);
+      system = await tpInfo.getSystem();
+      expect(system).toBe("ios");
+      expect(stub.calledOnce).toBe(true);
+    })
+
+    test("return null if get fail when tokenpocket is connected", async () => {
+      const stub = sandbox.stub(tp, "getAppInfo");
+      stub.onCall(0).rejects();
+      stub.onCall(1).resolves({});
+      const stub1 = sandbox.stub(tp, "isConnected");
+      stub1.returns(true);
+      let system = await tpInfo.getSystem();
+      expect(system).toBe(null);
+      expect(stub.calledOnce).toBe(true);
+      tpInfo.destroy();
+      system = await tpInfo.getSystem();
+      expect(system).toBe(null);
+      expect(stub.calledTwice).toBe(true);
+    })
+  })
 })

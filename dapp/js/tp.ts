@@ -73,6 +73,7 @@ const tpInfo = (() => {
     address = null;
     node = null;
     isConnectedState = null;
+    system = null;
   };
 
   return {

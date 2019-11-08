@@ -24,8 +24,6 @@ describe("test transaction.ts", () => {
     })
 
     test("if request fail more than tenth", async () => {
-      jest.setTimeout(35000);
-
       const stub = sandbox.stub(tpInfo, "getNode");
       stub.resolves(config.testNode);
       const stub1 = sandbox.stub(Moac.prototype, "getTransactionReceipt");

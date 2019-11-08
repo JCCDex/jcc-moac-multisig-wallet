@@ -23,14 +23,17 @@ const requestReceipt = async (hash: string): Promise<any> => {
     try {
       res = await new Promise((resolve, reject) => {
         // limiting frequency because transaction needs some time to be confirmed
-        setTimeout(async () => {
-          try {
-            const res = await instance.moac.getTransactionReceipt(hash);
-            return resolve(res);
-          } catch (error) {
-            return reject(error);
-          }
-        }, 3000);
+        setTimeout(
+          async () => {
+            try {
+              const res = await instance.moac.getTransactionReceipt(hash);
+              return resolve(res);
+            } catch (error) {
+              return reject(error);
+            }
+          },
+          /* istanbul ignore next */ process.env.NODE_ENV === "test" ? 0 : 3000
+        );
       });
       console.log("res: ", res);
     } catch (error) {
