@@ -78,6 +78,7 @@ export class MultisigContract extends SmartContract {
    * reqeust state of stopping deposit
    *
    * if true, could not deposit
+   *
    * if false, could not withdraw
    *
    * @returns {Promise<boolean>}
@@ -424,19 +425,31 @@ export class MultisigContract extends SmartContract {
   //   return decodeData[0];
   // }
 
-  // /**
-  //  * request vote by topic id
-  //  *
-  //  * @param {number} topicId
-  //  * @returns {Promise<string>}
-  //  * @memberof MultisigContract
-  //  */
-  // public async getVoteDetail(topicId: number): Promise<string> {
-  //   const abiItem = abi.find(item => item.name == "getVoteDetail");
-  //   const output = await super.callABI("getVoteDetail", topicId);
-  //   const decodeData = abiCoder.decode(abiItem.outputs, output);
-  //   return decodeData[0];
-  // }
+  /**
+   * request vote detail by topic id and given address
+   *
+   * if value of voter is "0x0000000000000000000000000000000000000000", means the given address doesn't vote this topic
+   *
+   * if the value of flag is true means agree this topic, otherwise reject
+   *
+   * @param {string} address
+   * @param {number} topicId
+   * @returns {Promise<IVote>}
+   * @memberof MultisigContract
+   */
+  public async getVoteDetail(address: string, topicId: number): Promise<IVote> {
+    const abiItem = abi.find(item => item.name == "getVoteDetail");
+    const output = await super.callABI("getVoteDetail", topicId, { from: address });
+    const decodeData = abiCoder.decode(abiItem.outputs, output)[0];
+    const data = {
+      topicId: decodeData.topicId.toString(10),
+      flag: decodeData.flag,
+      timestamp: decodeData.timestamp.toString(10),
+      idx: decodeData.idx.toString(10),
+      voter: decodeData.voter
+    };
+    return data;
+  }
 
   /**
    * request vote details by topic id

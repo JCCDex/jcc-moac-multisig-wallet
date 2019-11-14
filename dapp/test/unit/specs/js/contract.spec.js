@@ -509,6 +509,32 @@ describe("test contract.ts", () => {
     })
   })
 
+  describe("test getVoteDetail", () => {
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    test("if request success", async () => {
+      const stub = sandbox.stub(instance.moac.getChain3().mc, "call");
+      stub.yields(null, "0x0000000000000000000000000000000000000000000000000000016e64c4340a0000000000000000000000000000000000000000000000000000016e64d2c61a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000060e78bd0f249125d5c266b5e3ca8ff73da0e7ef60000000000000000000000000000000000000000000000000000000000000000")
+      const spy = sandbox.spy(SmartContract.prototype, "callABI");
+      const voteDetail = await instance.getVoteDetail(config.testAddress, 1570519453119);
+
+      const params = spy.args[0];
+      expect(params[0]).toBe("getVoteDetail");
+      expect(params[1]).toBe(1570519453119);
+      expect(params[2].from).toBe(config.testAddress);
+      expect(voteDetail).toEqual({
+        flag: false,
+        idx: "1",
+        timestamp: "1573649565210",
+        topicId: "1573648610314",
+        voter: "0x60E78bD0f249125d5c266B5e3ca8ff73da0e7Ef6"
+      });
+    })
+  })
+
   describe("test getVoteDetailsByTopic", () => {
 
     afterEach(() => {

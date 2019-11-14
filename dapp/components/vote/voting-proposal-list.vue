@@ -114,6 +114,7 @@ export default {
         }
 
         const isVoter = await accountInfo.isVoter();
+
         if (!isVoter) {
           return proposals;
         }
@@ -126,8 +127,8 @@ export default {
               proposal.hadVoted = true;
             } else {
               console.log("request vote detail: " + proposal.topicId);
-              const voteDetails = await instance.getVoteDetailsByTopic(proposal.topicId);
-              proposal.hadVoted = Boolean(voteDetails.find(detail => detail.voter.toLowerCase() === this.address.toLowerCase()));
+              const voteDetail = await instance.getVoteDetail(this.address, proposal.topicId);
+              proposal.hadVoted = Boolean(voteDetail.voter && voteDetail.voter.toLowerCase() === this.address.toLowerCase());
             }
           } else {
             proposal.hadVoted = false;

@@ -14,3 +14,11 @@ declare interface ITopic {
   voters: string;
   percent: string;
 }
+
+declare interface IVote {
+  topicId: string;
+  timestamp: string;
+  idx: string;
+  flag: boolean;
+  voter: string;
+}
