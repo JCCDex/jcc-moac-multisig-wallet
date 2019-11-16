@@ -81,7 +81,7 @@
 
 测试网络: 0x959fe8e1b07ce9b376f8ab76de6bdfae78c25e3a
 
-主网: 0xeac5e8a57eea6c3b20bdbee85b7771d550bf01ff
+主网: 0x23d5505451833d70d74d47834ed415329c8a0e96
 
 ## 合约部署后的常用配置指令
 
@@ -103,4 +103,11 @@ jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约�
 
 # 允许充值锁仓
 ./src/jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "setStopDeposit" --parameters false --gas_limit 23000
+
+# 当前投票人列表
+jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "getVoters"
+
+# 发起投票百分比提案
+jcc_moac_tool --abi JccMoacMultiSig.json --contractAddr "多签名钱包合约地址" --method "createPercentProposal" --parameters '提案编号,时间戳,截止时间,百分比' --gas_limit 300000 --keystore keystore文件 --password 口令
+
 ```
