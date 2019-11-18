@@ -27,7 +27,7 @@
                     </span>
                   </van-field>
                   <div flex="main:justify cross:center" style="margin-top: 0.24rem;">
-                    <span>{{ $t("max_locked", { amount: parseFloat(balance).toFixed(2), token: $t("moac") }) }}</span>
+                    <span>{{ $t("max_locked", { amount: parseFloat(balance).toFixed(6), token: $t("moac") }) }}</span>
                     <span>{{ $t("locked_amount_tip") }}</span>
                   </div>
 
@@ -89,7 +89,7 @@ export default {
     lockEnable() {
       const minGas = 0.01;
       const bn = new BigNumber(this.amount);
-      return this.agree && BigNumber.isBigNumber(bn) && bn.modulo(10).toNumber() === 0 && bn.isGreaterThanOrEqualTo(10) && bn.plus(minGas).isLessThan(this.balance);
+      return this.agree && BigNumber.isBigNumber(bn) && bn.modulo(1000).toNumber() === 0 && bn.isGreaterThanOrEqualTo(1000) && bn.plus(minGas).isLessThan(this.balance);
     },
     icon() {
       return this.agree ? "#icon-selected" : "#icon-unselected";
