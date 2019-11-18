@@ -1,7 +1,7 @@
 {
   "name": "jcc-moac-multisig-wallet",
   "version": "1.0.0",
-  "description": "MOAC多签名钱包",
+  "description": "MOAC锁仓DAPP",
   "author": "JCCDex",
   "private": true,
   "scripts": {

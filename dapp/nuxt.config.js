@@ -7,7 +7,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: "MOAC多签名钱包",
+    title: "MOAC锁仓DAPP",
     meta: [
       { charset: "utf-8" },
       {

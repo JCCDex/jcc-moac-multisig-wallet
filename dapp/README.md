@@ -1,6 +1,8 @@
+<!-- markdownlint-disable MD014 -->
+
 # dapp
 
-> MOAC多签名钱包DAPP
+> MOAC锁仓DAPP
 
 ## Build Setup
 
