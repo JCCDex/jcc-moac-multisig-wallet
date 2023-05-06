@@ -60,7 +60,7 @@
     "eslint-plugin-vue": "^5.2.3",
     "husky": "^3.0.5",
     "jest": "^24.1.0",
-    "nightwatch": "^1.2.2",
+    "nightwatch": "^1.7.13",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
     "sass-loader": "^8.0.0",
