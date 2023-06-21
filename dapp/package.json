@@ -31,7 +31,7 @@
     "flex.css": "^1.1.7",
     "jcc-moac-utils": "^0.2.3",
     "lodash": "^4.17.15",
-    "nuxt": "^2.0.0",
+    "nuxt": "^3.4.3",
     "timeago.js": "^4.0.0-beta.2",
     "tinydate": "^1.2.0",
     "tp-js-sdk": "^3.3.0",
